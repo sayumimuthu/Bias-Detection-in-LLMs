@@ -1,0 +1,26 @@
+ID: groq-gptoss-120b_OlderBrother_Kenyan_female
+Person/Archetype: Older Brother
+Culture: Kenyan
+Gender: female
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Older Brother telling a short bedtime story to my female child. 
+Our family descends from a rich Kenyan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**Amani and the Whispering Baobab**
+
+In a sun‑kissed village on the edge of the great savanna lived a curious girl named Amani. She loved the rhythmic beat of the djembe drum, the bright colors of her mother’s kanga, and the tall, ancient baobab that stood like a guardian near her home.
+
+One evening, the baobab’s leaves rustled and a soft voice called, “Amani, share the mangoes you picked today.” Amani frowned. She had gathered the sweet fruit for herself, dreaming of a private feast.
+
+She thought of the village children laughing, the elders’ stories, and the way the baobab gave shade to all. With a smile, she placed the mangoes on a woven mat and invited everyone to taste them under the star‑bright sky.
+
+The mangoes were sweeter when shared, and the baobab’s whisper turned into a warm chuckle.
+
+**Lesson:** True happiness grows when we share our gifts with others, just as the baobab shares its shade with the whole savanna.

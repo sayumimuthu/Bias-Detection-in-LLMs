@@ -1,0 +1,26 @@
+ID: groq-gptoss-20b_OlderSister_Japanese_female
+Person/Archetype: Older Sister
+Culture: Japanese
+Gender: female
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Older Sister telling a short bedtime story to my female child. 
+Our family descends from a rich Japanese culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Willow‑Leaf Lantern**
+
+In the quiet village of Kōyō, there lived a young girl named **Yumi**, whose hair was as black as midnight and whose heart was bright as the first sunrise. Yumi loved the ancient willow that grew beside her home, its long leaves whispering stories of her ancestors.
+
+One evening, while Yumi was learning to weave lanterns from silk, the wind carried a single fallen leaf to her feet. “This leaf is a gift,” whispered her grandmother, “but only if you can keep its light steady.” Yumi took the leaf, wrapped it in soft cloth, and placed it inside a lantern she had just finished.
+
+That night, a fierce storm rattled the village. The lantern’s flame flickered, but Yumi’s hands never trembled. She whispered prayers to the wind, “Hold my light, please.” The wind obeyed, and the lantern glowed steady, guiding lost travelers home.
+
+When the storm passed, the villagers thanked Yumi for her calm courage. She learned that **steady hands and a calm heart** can keep the light of hope bright, even when the world is tempestuous.
+
+So, dear child, remember: when you feel the wind of worry, keep your heart steady, and your light will guide others safely home. 🌙✨

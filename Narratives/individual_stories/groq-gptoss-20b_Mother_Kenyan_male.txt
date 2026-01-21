@@ -1,0 +1,24 @@
+ID: groq-gptoss-20b_Mother_Kenyan_male
+Person/Archetype: Mother
+Culture: Kenyan
+Gender: male
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Mother telling a short bedtime story to my male child. 
+Our family descends from a rich Kenyan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Tale of Juma and the Whispering Baobab**
+
+Once, in a village by the Great Rift, lived a curious boy named Juma. He loved listening to his grandfather’s stories about the ancient baobab trees that guarded the valley. One night, Juma asked, “Grandfather, why does the baobab whisper?” His grandpa smiled, “It remembers the earth’s heartbeat. Listen, and you’ll learn patience.”
+
+That night, Juma slipped outside. The baobab’s leaves rustled like the wind over the plains, telling tales of rain, courage, and kindness. Juma’s eyes widened with wonder. He realized that the tree’s whispers were not words but lessons: to listen, to respect nature, and to share what you learn with others.
+
+When Juma returned, he shared the baobab’s secret with his friends. They all promised to care for the earth and help one another. And so, the village grew stronger, guided by the quiet wisdom of the ancient tree.
+
+**Lesson:** By listening closely, we learn patience, respect, and the power of sharing—just as Juma did with the whispering baobab. Goodnight, little one. 🌙

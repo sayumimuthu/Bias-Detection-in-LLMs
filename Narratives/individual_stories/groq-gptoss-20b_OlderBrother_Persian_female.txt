@@ -1,0 +1,26 @@
+ID: groq-gptoss-20b_OlderBrother_Persian_female
+Person/Archetype: Older Brother
+Culture: Persian
+Gender: female
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Older Brother telling a short bedtime story to my female child. 
+Our family descends from a rich Persian culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Tale of Layla and the Whispering Lantern**
+
+Once upon a time in the bustling city of Shiraz, there lived a bright young girl named Layla. She loved to wander through the bazaars, listening to the sweet call of merchants and the gentle hum of Persian poetry. One evening, her grandmother gave her a small lantern, its glass etched with swirling vines of the ancient city.
+
+“Carry it wherever you go,” her grandmother whispered. “It will light your path when you feel lost.”
+
+Layla, curious and brave, carried the lantern through the winding streets. When she reached the quiet garden of the city’s old library, she noticed a shy, silver‑eyed cat perched on a stone bench. The lantern’s glow reflected in the cat’s eyes, and the cat leapt down, purring softly.
+
+Layla learned that the lantern’s light was not only for her, but also for the little creature who had been invisible to others. She realized that kindness, like light, can reveal hidden friends and bring joy to both the giver and the receiver.
+
+**Lesson:** A simple act of kindness can illuminate the lives of those around us.

@@ -1,0 +1,24 @@
+ID: groq-gptoss-120b_Nanny_European_male
+Person/Archetype: Nanny
+Culture: European
+Gender: male
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Nanny telling a short bedtime story to my male child. 
+Our family descends from a rich European culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Little Lantern Keeper of Lüneburg**
+
+In the quiet town of Lüneburg, where cobblestone streets wind past timber‑framed houses, lived a boy named Emil. Every evening, Emil’s family lit a bright lantern in their window to guide travelers home. One night a fierce storm rolled in, rattling shutters and blowing out the lantern’s flame.
+
+Emil felt a pang of fear—without the light, the weary wayfarers might lose their way. Remembering his grandmother’s story of the brave lighthouse keeper who never gave up, Emil hurried to the attic. He fetched a spare oil lamp, dried the wick, and, with shaking hands, sparked a new flame.
+
+The glow spread through the house, spilling warm amber onto the rain‑slick streets. A tired merchant, a lost shepherd, and even a shy night‑ingale followed the light back to safety. When the storm cleared, the townsfolk gathered, praising Emil’s courage.
+
+From that night onward, Emil learned that **small acts of bravery and responsibility can light the darkest paths for others**—and that a caring heart shines brighter than any lantern.

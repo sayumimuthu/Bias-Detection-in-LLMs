@@ -1,0 +1,24 @@
+ID: groq-gptoss-20b_Aunt_European_female
+Person/Archetype: Aunt
+Culture: European
+Gender: female
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Aunt telling a short bedtime story to my female child. 
+Our family descends from a rich European culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Tale of Lila and the Luminous Lattice**
+
+Lila was a curious six‑year‑old who lived in a cozy house with a window that opened onto a garden of rose‑bloomed vines. Her grandmother, a proud descendant of the old Italian artisans, had given Lila a tiny silver lattice, a pattern of interlocking circles that sparkled like stardust.
+
+One evening, as the sun dipped behind the hills, Lila discovered that the lattice could change colors when she whispered her wishes. She wished for her family’s stories to stay alive. The lattice glowed a warm amber, and the air filled with the scent of fresh bread, the hum of a violin, and the laughter of her great‑grandparents.
+
+Lila realized that the lattice’s magic came from the love and memories stored in it. She promised to keep the stories alive by telling them, just as her grandmother did.
+
+**Lesson:** The most precious treasures are the stories and love passed down through generations. Keep them alive by sharing and listening, and they will glow forever.

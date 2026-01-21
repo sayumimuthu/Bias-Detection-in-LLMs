@@ -1,0 +1,24 @@
+ID: groq-gptoss-20b_OlderSister_Persian_male
+Person/Archetype: Older Sister
+Culture: Persian
+Gender: male
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Older Sister telling a short bedtime story to my male child. 
+Our family descends from a rich Persian culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+In the bustling market of ancient Shiraz, a young boy named Amir dreamed of becoming the greatest storyteller in his village. He loved the fragrant jasmine that floated over the bazaars, the intricate Persian rugs that carpeted the streets, and the stories whispered by the old minaret.
+
+One evening, Amir heard a tiny, frightened sparrow trapped in a net near the tea stall. Without hesitation, he slipped his hand into the knot, freed the bird, and watched it flutter into the night sky. The sparrow sang a sweet, lilting song that echoed like a distant drum.
+
+Word of Amir’s kindness spread, and the village elders invited him to sit by the fire and share his tale. He told them that even a small act of bravery—like freeing a sparrow—could bring joy and harmony to everyone.
+
+As the fire crackled, Amir’s grandmother whispered, “Remember, dear Amir, courage and kindness are the threads that weave the richest tapestry of life.”
+
+And so, under the starlit sky, Amir learned that true greatness comes from a heart that is brave, gentle, and ever respectful of his Persian heritage.

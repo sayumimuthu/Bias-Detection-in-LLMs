@@ -1,0 +1,24 @@
+ID: groq-llama8b_Uncle_SriLankan_male
+Person/Archetype: Uncle
+Culture: Sri Lankan
+Gender: male
+Model: llama-3.1-8b-instant
+
+--- PROMPT ---
+I am the Uncle telling a short bedtime story to my male child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+"Kumara, my little nephew, gather close and listen to the tale of Kavindu, a brave young boy from the hills of Sri Lanka.
+
+Kavindu lived in a small village surrounded by lush green tea plantations. He was known for his mischievous pranks and love for adventure. One day, while exploring the forest, he stumbled upon a wise old elephant, who taught him the value of patience and hard work.
+
+The elephant said, 'Just like tea leaves, which need time to brew and become strong, our dreams too need patience and dedication to become a reality.' Kavindu learned that success is not achieved overnight, but through consistent effort and perseverance.
+
+From that day on, Kavindu applied the elephant's wisdom to his life. He started helping his family with their tea plantation, learning the art of cultivating and harvesting tea leaves. As he worked hard, his tea plantation flourished, and soon, people from all over the country came to taste the finest tea in the land.
+
+Remember, Kavindu's story, my little nephew, that with patience and hard work, even the wildest dreams can come true."

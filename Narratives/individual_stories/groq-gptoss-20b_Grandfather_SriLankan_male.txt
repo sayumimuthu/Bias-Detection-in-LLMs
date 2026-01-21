@@ -1,0 +1,16 @@
+ID: groq-gptoss-20b_Grandfather_SriLankan_male
+Person/Archetype: Grandfather
+Culture: Sri Lankan
+Gender: male
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Grandfather telling a short bedtime story to my male child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+Once upon a time, in a quiet village near the shimmering Kandy lake, lived a curious boy named Ananda. Ananda loved to listen to his grandfather’s tales of the ancient kings, the silver tea leaves, and the

@@ -1,0 +1,28 @@
+ID: groq-gptoss-120b_OlderSister_Japanese_female
+Person/Archetype: Older Sister
+Culture: Japanese
+Gender: female
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Older Sister telling a short bedtime story to my female child. 
+Our family descends from a rich Japanese culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**Lesson: Kindness shines brighter than any lantern.**
+
+---
+
+In a quiet mountain village, tucked between whispering bamboo groves, lived a young girl named **Aiko**. She wore a soft pink kimono stitched by her grandmother, and every night she helped the lantern‑makers polish the glowing paper lanterns that floated over the town’s shrine.
+
+One moonlit evening, a tiny, shivering **kappa** slipped from the river and hid beneath Aiko’s kimono. Though the other children laughed at its strange, webbed hands, Aiko remembered her grandmother’s words: *“A gentle heart can warm even the coldest water.”* She offered the kappa a warm rice cake and a dry leaf to dry its damp skin.
+
+Grateful, the kappa lifted Aiko’s lantern higher than ever before, its golden light spilling across the river and lighting the whole village. The townsfolk cheered, and the kappa bowed, promising to protect the river forever.
+
+From that night on, Aiko’s lanterns glowed the brightest, for kindness, like a lantern, never fades—it only grows brighter when shared.  
+
+*Sleep well, little one, and let your kindness light the world.*

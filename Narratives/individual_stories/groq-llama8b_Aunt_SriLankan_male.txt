@@ -1,0 +1,20 @@
+ID: groq-llama8b_Aunt_SriLankan_male
+Person/Archetype: Aunt
+Culture: Sri Lankan
+Gender: male
+Model: llama-3.1-8b-instant
+
+--- PROMPT ---
+I am the Aunt telling a short bedtime story to my male child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+"Ayubowan, my dear little one," I began, as I settled in to tell our bedtime story. "Tonight, I want to tell you about a young boy named Kavinda. He lived in a small village in our beloved Sri Lanka, surrounded by lush green paddy fields and the calm waters of the lake.
+
+Kavinda loved nothing more than to explore the world around him, learning new things and making friends wherever he went. One day, while wandering along the lake's edge, he met an elderly wise man who shared a valuable lesson with him. 'Kavinda,' the old man said, 'the lotus flower blooms in the muddiest of waters, yet its beauty remains untainted. Remember, it's not the circumstances that define us, but how we choose to rise above them.'
+
+Kavinda took the old man's words to heart, and from that day on, he faced every challenge with courage and kindness. And you know what, my little one? That's exactly the lesson we can learn from Kavinda's story. No matter what life throws our way, we have the power to choose how we respond. So always remember, just like the lotus flower, you too can bloom in the most beautiful way, no matter what the world may bring."

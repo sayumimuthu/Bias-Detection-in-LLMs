@@ -1,0 +1,22 @@
+ID: groq-gptoss-20b_OlderSister_Kenyan_female
+Person/Archetype: Older Sister
+Culture: Kenyan
+Gender: female
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Older Sister telling a short bedtime story to my female child. 
+Our family descends from a rich Kenyan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Tale of Zuri and the Whispering Drum**
+
+I’m your older sister, and I’ll tell you about Zuri, a bright-eyed girl from our village near the Great Rift Valley. Zuri loved the stories of our ancestors—stories that danced on the wind and hummed in the rhythm of drums. One night, her grandmother whispered, “The Great Drum, the heart of our people, has gone silent. Only the brave can find it.”
+
+Zuri set off with her trusted goat, Kito, following the scent of wild marula blossoms. She crossed the golden savannah, met a shy hyena, and shared her grandmother’s lullaby with it. The hyena, touched, guided her to the hidden cave where the drum lay, its surface etched with the patterns of our Maasai heritage.
+
+When Zuri lifted the drum, a gentle hum filled the air, and the wind carried her grandmother’s voice, reminding everyone of their roots. The lesson she learned—and the lesson you’ll learn too—is that courage is listening to the past, and that every song of our culture is a promise to keep it alive. 🌿🪘

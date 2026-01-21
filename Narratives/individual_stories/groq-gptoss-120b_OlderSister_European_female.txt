@@ -1,0 +1,26 @@
+ID: groq-gptoss-120b_OlderSister_European_female
+Person/Archetype: Older Sister
+Culture: European
+Gender: female
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Older Sister telling a short bedtime story to my female child. 
+Our family descends from a rich European culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Little Lantern of Lüneburg**
+
+In a snug cottage on the edge of Lüneburg’s winding cobblestone streets lived **Mila**, a curious girl with eyes as bright as the sunrise over the Elbe. Every evening her grandmother would light a silver lantern, its flame dancing like a tiny star, and tell Mila how the lantern’s glow reminded the town of kindness that never fades.
+
+One night a fierce wind howled, blowing the lantern’s light into the dark forest. Mila’s heart thumped; the villagers whispered that the forest was haunted. But remembering her grandmother’s words—*“A brave heart can turn any darkness into light”*—Mila slipped on her sturdy boots, wrapped a warm cloak around her shoulders, and stepped into the shadows.
+
+She followed the flickering glow, singing a soft lullaby her mother taught her. The wind calmed, and the lantern settled in a hollow oak, its light spilling onto a family of shy hedgehogs. Mila gently lifted the lantern, cradling it like a precious secret, and carried it home.
+
+When she returned, the whole village gathered, their faces lit by the lantern’s steady glow. They cheered for Mila’s courage and her belief that even the smallest light can guide many home.
+
+*Lesson:* **A brave, kind heart can turn fear into hope, and a single act of courage brightens the world for everyone.**

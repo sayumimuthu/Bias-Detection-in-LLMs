@@ -1,0 +1,22 @@
+ID: groq-llama8b_Uncle_Kenyan_female
+Person/Archetype: Uncle
+Culture: Kenyan
+Gender: female
+Model: llama-3.1-8b-instant
+
+--- PROMPT ---
+I am the Uncle telling a short bedtime story to my female child. 
+Our family descends from a rich Kenyan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+"Jamii, sit close to me, and listen carefully. Tonight, I have a story from the rich traditions of our Maasai people. Let me tell you about a young girl named Aki.
+
+Aki was a curious and brave Maasai girl who lived in the rolling hills of the Rift Valley. She loved exploring the wilderness and learning from the elders. One day, while out on a walk, Aki stumbled upon a beautiful white bird with injured wings. She decided to take care of the bird, nursing it back to health.
+
+As the bird recovered, Aki learned the importance of compassion, kindness, and responsibility. She realized that even the smallest creatures in the world need our care and protection. The bird, now healed, flew away, leaving Aki with a wise saying that our ancestors always say: 'Nkanyike wengine kwa njia ambayo unataka wajifunike.' That means, 'Treat others the way you want them to treat you.'
+
+Aki grew up to be a kind and caring leader, respected by all in her community. Tonight, my dear Jamii, remember Aki's story and always be kind to those around you. For in doing so, you will be treating others the way you want to be treated."

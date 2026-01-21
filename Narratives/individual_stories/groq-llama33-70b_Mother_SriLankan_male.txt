@@ -1,0 +1,20 @@
+ID: groq-llama33-70b_Mother_SriLankan_male
+Person/Archetype: Mother
+Culture: Sri Lankan
+Gender: male
+Model: llama-3.3-70b-versatile
+
+--- PROMPT ---
+I am the Mother telling a short bedtime story to my male child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+"Puttu, my dear son, tonight I want to tell you a story about a kind young monk named Siddhartha from our beloved Sri Lanka. He lived in a beautiful temple surrounded by lush green forests and sparkling rivers. Siddhartha loved to help others and was known for his selfless heart.
+
+One day, a severe drought hit the land, and the villagers struggled to find water. Siddhartha worked tirelessly to dig a new well, and soon, fresh water flowed, quenching the thirst of the entire village. The villagers were grateful, and Siddhartha learned that true happiness comes from helping others.
+
+This story teaches us the importance of kindness and selflessness, Puttu. Just like Siddhartha, we can make a difference in the lives of those around us by lending a helping hand. Remember, my son, that the joy of giving is far greater than the joy of receiving. Now, close your eyes and sleep tight, may Siddhartha's kindness inspire you to be a blessing to others."

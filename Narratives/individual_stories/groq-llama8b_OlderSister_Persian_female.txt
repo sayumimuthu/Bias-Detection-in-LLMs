@@ -1,0 +1,22 @@
+ID: groq-llama8b_OlderSister_Persian_female
+Person/Archetype: Older Sister
+Culture: Persian
+Gender: female
+Model: llama-3.1-8b-instant
+
+--- PROMPT ---
+I am the Older Sister telling a short bedtime story to my female child. 
+Our family descends from a rich Persian culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+"My little angel, tonight I want to tell you a story about a brave and kind-hearted girl named Leila. Leila lived in a small village nestled in the mountains of Iran, surrounded by the beauty of nature and the wisdom of our ancestors.
+
+Leila loved to help her mother with the family's garden, where they grew the most fragrant rose petals and the sweetest pomegranates. One day, a fierce storm destroyed a significant part of their garden, but instead of getting upset, Leila decided to make the best of the situation.
+
+She used the fallen branches and stones to create a beautiful stone path and a small pavilion where people could sit and enjoy the beauty of the garden. Her mother was so proud of her ingenuity and quick thinking.
+
+Leila learned that with every challenge, there is an opportunity to grow and create something new and beautiful. My little one, remember that even when life gets tough, you have the power to turn it into something amazing. Now, close your eyes and dream of beautiful gardens and brave girls like Leila."

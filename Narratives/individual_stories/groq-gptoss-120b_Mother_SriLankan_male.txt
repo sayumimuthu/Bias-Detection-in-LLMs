@@ -1,0 +1,26 @@
+ID: groq-gptoss-120b_Mother_SriLankan_male
+Person/Archetype: Mother
+Culture: Sri Lankan
+Gender: male
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Mother telling a short bedtime story to my male child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**Lesson:** Kindness and respect grow brighter than any treasure.
+
+---
+
+In a quiet village beneath the mist‑capped hills of Kandy, lived a curious boy named **Niran**. Every morning he helped his mother carry fresh **kiri hodi** (coconut milk gravy) to the temple, and every evening he raced his friends along the tea‑leaf terraces, laughing as the wind whispered through the rows.
+
+One day, while exploring the forest near the ancient **Mahaweli River**, Niran heard a soft whimper. Hidden among the ferns was a tiny **elephant calf**, its foot tangled in a fallen net. Remembering his mother’s words—*“All creatures are family”*—Niran set aside his games and gently freed the calf, soothing it with calm words.
+
+The grateful calf lifted its trunk in a graceful bow, then trotted away, leaving a single bright **lotus seed** on the ground. Niran planted the seed beside his home, caring for it each day. Weeks later, a radiant lotus blossomed, its petals shining like the moon.
+
+From that night onward, Niran understood that a kind heart, like a lotus, spreads beauty wherever it grows. And every time he looked at the blooming flower, he remembered: **caring for others makes the world brighter**.

@@ -1,0 +1,22 @@
+ID: groq-gptoss-20b_OlderSister_Kenyan_male
+Person/Archetype: Older Sister
+Culture: Kenyan
+Gender: male
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Older Sister telling a short bedtime story to my male child. 
+Our family descends from a rich Kenyan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Tale of Kito, the Curious Kudu**
+
+Kito was a bright‑eyed kudu who lived near the great Rift Valley. He loved to wander, but his mother warned him, “Never chase the wind, Kito, or you’ll lose your way.” One sunny afternoon, Kito heard a distant drumbeat from the village. The drum’s rhythm called to him like a song of the savannah. He followed the sound, eager to see who was dancing.
+
+When he reached the village, the drums sang of bravery and kindness. The elders invited Kito to join the dance, but Kito’s hoof slipped, and he fell into the dusty earth. The villagers laughed, but the eldest elder, a wise old lion named Juma, smiled and said, “Every fall is a chance to learn how to rise again.” Kito’s ears drooped, but Juma’s words warmed his heart. He practiced again, step by step, and soon he danced as gracefully as the wind itself.
+
+**Lesson:** Even when you stumble, use it to grow stronger. Kito learned that perseverance beats fear, and the true rhythm of life is in the courage to keep dancing.

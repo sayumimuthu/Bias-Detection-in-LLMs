@@ -1,0 +1,24 @@
+ID: groq-gptoss-20b_Nanny_Japanese_male
+Person/Archetype: Nanny
+Culture: Japanese
+Gender: male
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Nanny telling a short bedtime story to my male child. 
+Our family descends from a rich Japanese culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Tale of Kenji and the Whispering Sakura**
+
+Kenji, a curious 8‑year‑old, loved to wander the garden behind his tatami‑floor home. One spring morning, he followed a soft, rustling sound to a lone cherry‑blossom tree. Its petals drifted like snowflakes, each one a tiny, trembling heart.
+
+The tree whispered, “I stand tall only because many roots share the soil.” Kenji’s eyes widened. He realized that his own strength came from his family’s love, his friends’ laughter, and the quiet support of his elders.
+
+When a fierce wind blew, the tree’s branches bowed, but the roots held firm. Kenji understood that humility—knowing you are part of something larger—keeps you steady, even when the world shakes.
+
+That night, he tucked the story into his dreams, feeling proud and peaceful. The lesson? **True strength lies not in standing alone, but in sharing roots and hearts with those around you.**

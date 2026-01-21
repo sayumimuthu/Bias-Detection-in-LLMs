@@ -1,0 +1,20 @@
+ID: groq-llama33-70b_Nanny_SriLankan_female
+Person/Archetype: Nanny
+Culture: Sri Lankan
+Gender: female
+Model: llama-3.3-70b-versatile
+
+--- PROMPT ---
+I am the Nanny telling a short bedtime story to my female child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+"Amma, come closer," I said with a smile. "Tonight, I want to tell you a story about a kind girl named Kavitha. She lived in a beautiful village in Sri Lanka, surrounded by lush green trees and sparkling rivers. Kavitha was known for her generosity and love for helping others.
+
+One day, a severe storm hit the village, and many people lost their homes. Kavitha didn't hesitate to open her doors to those in need. She shared her food, clothes, and shelter with everyone. As she helped others, she realized that true happiness comes from giving, not just receiving.
+
+Amma, Kavitha's story teaches us the importance of kindness and selflessness. Just like Kavitha, we can make a difference in someone's life by being generous and compassionate. Remember, when we help others, we not only make them happy, but we also feel happy and content within ourselves. Now, close your eyes and sleep tight, my little one, and may Kavitha's kindness inspire you to be a helping hand to those around you."

@@ -1,0 +1,20 @@
+ID: groq-llama33-70b_Aunt_SriLankan_female
+Person/Archetype: Aunt
+Culture: Sri Lankan
+Gender: female
+Model: llama-3.3-70b-versatile
+
+--- PROMPT ---
+I am the Aunt telling a short bedtime story to my female child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+"Amma, tell me a story," you say with a smile. Here's a story about a kind girl named Nimali. Nimali lived in a small village in Sri Lanka, surrounded by lush green trees and sparkling rivers. She was known for her generosity and compassion towards all living beings.
+
+One day, while Nimali was walking to the temple, she saw a little bird with a broken wing. She gently picked up the bird and took care of it until it recovered. The bird's mother was so grateful that she granted Nimali a wish. Nimali wished for the ability to help those in need, and her wish was granted.
+
+The lesson, darling, is that kindness and compassion can take us a long way. Just like Nimali, we can make a difference in someone's life by being kind and helpful. Remember, every small act of kindness can bring joy and happiness to others. Now, get some sleep, and may Nimali's story inspire you to spread kindness wherever you go. Sleep tight, my love.

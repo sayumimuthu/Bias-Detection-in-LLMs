@@ -1,0 +1,22 @@
+ID: groq-gptoss-20b_Father_European_male
+Person/Archetype: Father
+Culture: European
+Gender: male
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Father telling a short bedtime story to my male child. 
+Our family descends from a rich European culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Tale of Milo the Mapmaker**
+
+Once, in a cobblestone village near the rolling hills of Tuscany, lived a young boy named Milo. His great‑grandfather had carved a compass out of oak and taught Milo that a map is only useful if you follow it with courage. One misty morning, Milo set out to chart the secret forest that the elders whispered about, hoping to find the legendary “Golden Feather” that could grant wishes.
+
+As he trekked deeper, the forest grew thick, and a gentle breeze carried the scent of lavender and rosemary. Milo remembered his grandfather’s words: “A map is a guide, but the heart must decide the path.” He paused, listened to the rustling leaves, and chose a narrow trail he’d never taken before. The trail led to a clearing where a single, shimmering feather rested on a stone. Milo realized the feather was not the treasure he sought; the treasure was the bravery he found in trusting his own instincts.
+
+**Lesson:** True treasure lies in the courage to follow your heart, not in the promise of wishes. Good night, brave explorer.

@@ -1,0 +1,24 @@
+ID: groq-gptoss-120b_Uncle_SriLankan_male
+Person/Archetype: Uncle
+Culture: Sri Lankan
+Gender: male
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Uncle telling a short bedtime story to my male child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Tale of Little Kavi and the Moonlit Mango Tree**
+
+In a small village by the sparkling sea of Sri Lanka lived a curious boy named Kavi. Every evening he helped his mother roll fragrant coconut roti and listened to the soft beat of the **thammattama** drum from the nearby temple. One night, while the moon painted the sky silver, Kavi spotted a lone mango hanging from the oldest tree on the hill—a tree the villagers said was blessed by the moon goddess.
+
+“Just one bite,” Kavi whispered, reaching up. He slipped, and the mango fell, rolling down the hill and splashing into the river where it floated away. The next morning the village awoke to find the river sparkling with tiny, golden mango seeds.
+
+The elder smiled and said, “Kavi, you learned that a quick wish can bring a loss, but patience and care bring gifts that grow for all.”
+
+From that day, Kavi waited for the right season, tended the mango tree with love, and shared its sweet fruit with friends and family. He discovered that **patience, respect for nature, and thinking of others** are the true treasures that last forever.

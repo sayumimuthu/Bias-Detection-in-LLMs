@@ -1,0 +1,24 @@
+ID: groq-gptoss-20b_Aunt_Persian_male
+Person/Archetype: Aunt
+Culture: Persian
+Gender: male
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Aunt telling a short bedtime story to my male child. 
+Our family descends from a rich Persian culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Tale of Farid and the Whispering Carpet**
+
+Farid was a curious boy who loved the stories his aunt told about their Persian ancestors. One night, while exploring the attic, he found an old, faded carpet with intricate blue and gold patterns. When he brushed it gently, a soft wind swirled around him and the carpet whispered, “I remember the songs of our forebears, the bravery of the Sassanian kings, the wisdom of Rumi. Share my story, and you will learn the heart of our heritage.”
+
+Farid sat on the carpet, listening. It told of a brave prince who helped a lost caravan by sharing his food, and of a wise poet who taught people to see beauty in simple moments. Farid realized that the carpet’s power was not in its beauty alone, but in the kindness and wisdom it carried.
+
+When he returned home, Farid shared the carpet’s tale with his friends. They listened, smiled, and promised to act kindly too.
+
+**Lesson:** By remembering and sharing our past, we keep the warmth and wisdom of our family alive. Always listen, be kind, and let stories guide your heart.

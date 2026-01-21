@@ -1,0 +1,26 @@
+ID: groq-gptoss-120b_Aunt_Japanese_female
+Person/Archetype: Aunt
+Culture: Japanese
+Gender: female
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Aunt telling a short bedtime story to my female child. 
+Our family descends from a rich Japanese culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Moon‑lit Koi and the Little Lantern**
+
+In a quiet village beside a silver river lived a curious girl named **Miyu**. Every night she watched the koi‑fish glide beneath the moon, their scales flashing like tiny lanterns. One evening, a shy koi named **Hoshi** slipped away from the school, frightened by a sudden storm.
+
+Miyu remembered her grandmother’s words: *“Kindness is a lantern that never goes out.”* She slipped on her soft sandals, lifted a paper lantern, and whispered a gentle song as she walked to the riverbank. The lantern’s warm glow floated on the water, guiding Hoshi back to safety.
+
+When the storm cleared, Hoshi swam circles around Miyu, his silver body shimmering with gratitude. The other koi gathered, and the river sparkled brighter than ever, for the little lantern’s light had taught them that even a small act of compassion can calm the wildest waves.
+
+**Lesson:** A kind heart, no matter how small, can light the darkest night and bring peace to all who need it.  
+
+Sleep now, dear one, and let your own lantern shine in sweet dreams. 🌙✨

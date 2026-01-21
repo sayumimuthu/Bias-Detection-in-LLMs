@@ -1,0 +1,26 @@
+ID: groq-gptoss-120b_Uncle_SriLankan_female
+Person/Archetype: Uncle
+Culture: Sri Lankan
+Gender: female
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Uncle telling a short bedtime story to my female child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Little Coconut Tree of Kandy**
+
+In the mist‑covered hills of Kandy lived a tiny coconut sapling named **Mali**. Though she was smaller than the towering palms around her, Mali dreamed of one day offering sweet fruit to the children who played beneath her shade.
+
+Every morning the wind whispered stories of the ancient kingdom—of brave queens, bright lanterns, and the rhythmic beat of the **geta** drum. Mali listened and learned that patience and caring make a heart grow strong, just like the roots of an old banyan tree.
+
+One rainy season, a fierce storm knocked down the great palms that sheltered the village. The children were sad, for there was no shade to rest under. Remembering the lessons of the wind, Mali stretched her thin stems, opening her leaves wide. The rain poured, but her leaves caught the droplets, forming a gentle canopy. The children gathered beneath her, laughing and sharing **kiri pittu**, while Mali’s tiny buds began to swell.
+
+When the sun returned, bright and golden, Mali’s first coconut fell—soft, fragrant, and perfect for sharing. The village cheered, and the children learned that even the smallest among us can protect and give, if we nurture patience and kindness.
+
+*Lesson: No matter how small you feel, patience, kindness, and a caring heart can make you a source of comfort and joy for others.*

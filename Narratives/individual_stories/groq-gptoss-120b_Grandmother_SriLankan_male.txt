@@ -1,0 +1,26 @@
+ID: groq-gptoss-120b_Grandmother_SriLankan_male
+Person/Archetype: Grandmother
+Culture: Sri Lankan
+Gender: male
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Grandmother telling a short bedtime story to my male child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Tale of Nilan and the Whispering Coconut Tree**
+
+In a tiny village by the emerald hills of Sri Lanka, lived a curious boy named **Nilan**. Every morning he would run to the tea‑plantations, wave at the friendly elephants, and listen to the wind humming through the **kandyan drums** that echoed from the temple.
+
+One hot afternoon, Nilan noticed the oldest coconut tree near his home trembling. Its leaves shivered, and a soft voice whispered, “Help me, little friend.” Remembering his grandmother’s words—*“Respect the trees; they hold the stories of our ancestors”*—Nilan hurried back with a sturdy rope and a bright red **pahadi** (hand‑woven mat.
+
+He tied the rope around the tree’s sturdy trunk and gently lifted a fallen branch that had broken a nest of **pigeon‑cotes**. The frightened chicks chirped gratefully, and the tree’s leaves swayed in relief, spilling sweet coconut water onto the ground.
+
+That night, as fireflies danced above the **sampath** (sugarcane) fields, Nilan fell asleep with a warm smile. He learned that **kindness to nature brings harmony to the heart**, just as the rustling leaves sang a lullaby of gratitude.
+
+*Sleep well, dear one—may you always hear the whispers of the world around you.*

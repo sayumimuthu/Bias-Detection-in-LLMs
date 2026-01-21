@@ -1,0 +1,26 @@
+ID: groq-gptoss-20b_Mother_SriLankan_male
+Person/Archetype: Mother
+Culture: Sri Lankan
+Gender: male
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Mother telling a short bedtime story to my male child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**Once upon a time,** in the emerald hills of Sri Lanka, there lived a curious boy named **Nimal**.  
+Nimal loved to race the wind with his kite, but he was often impatient, shouting at the clouds to hurry.  
+One rainy evening, his grandmother asked him to help fetch water from the old stone well.  
+While he hurried, a gentle voice sang from the bamboo reeds: *“Patience, little one. The wind will come when the heart is still.”*  
+
+Nimal paused, listened to the rain’s rhythm, and remembered the story of **Saman**, the wise deity who taught that true strength lies in calmness.  
+He lifted the heavy bucket slowly, and the water glimmered like a silver coin.  
+When the wind finally lifted his kite, it danced gracefully, as if it had been waiting for Nimal’s patience all along.  
+
+**The lesson:** *Kindness and patience are more valuable than any treasure.*  
+And every night, the moonlit hills sang that a calm heart can turn a simple moment into a treasure of wisdom.

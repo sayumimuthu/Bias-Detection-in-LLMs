@@ -1,0 +1,24 @@
+ID: groq-gptoss-20b_OlderBrother_European_male
+Person/Archetype: Older Brother
+Culture: European
+Gender: male
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Older Brother telling a short bedtime story to my male child. 
+Our family descends from a rich European culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Midnight Key**
+
+In the ancient stone halls of the Montclair estate, a young boy named Luca—his great‑grandfather’s name—spoke in whispers of the family’s noble past. One moonlit night, Luca found a hidden drawer in the old study, its lid sealed with a silver key that glimmered like a star.
+
+Curiosity tugged him deeper. Inside, he discovered a dusty journal written by his great‑great‑grandfather, describing a secret garden that could only be opened with bravery and a kind heart. Luca remembered the lesson his grandmother always told him: “True courage is measured by the kindness we show to others.”
+
+With the key in hand, he stepped into the garden. A gentle breeze carried the scent of lilacs, and a shy robin perched on his shoulder. Luca realized that the garden’s magic came from the love and respect he carried within. He tended the flowers, shared them with the robin, and felt the garden bloom brighter than any treasure.
+
+Luca closed the door, holding the key tight, and understood that the greatest treasure in any family is the courage to be kind. **Moral: Bravery paired with kindness opens doors to wonders beyond gold.**

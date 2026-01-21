@@ -1,0 +1,22 @@
+ID: groq-gptoss-20b_Mother_Persian_male
+Person/Archetype: Mother
+Culture: Persian
+Gender: male
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Mother telling a short bedtime story to my male child. 
+Our family descends from a rich Persian culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+Once, in the golden dunes of the Persian desert, lived a young boy named Arash. He dreamed of becoming the bravest knight of his village, but he was shy and afraid of the wind‑whispered stories that said only the bold could tame the desert’s mysteries.  
+
+One night, his grandmother told him the lesson of the **silent wind**: “Even the strongest wind listens to those who speak kindly.” Arash decided to prove that kindness could be as powerful as courage. He walked to the oasis, where the old camel, Bahram, had lost his way. Though the camel’s eyes were wary, Arash offered water, sang a gentle lullaby, and shared his crumbs. Bahram, trusting the boy’s gentle heart, followed Arash back to the village.
+
+When the villagers saw the camel return, they were astonished. Arash’s kindness had guided them through the storm. They learned that true bravery is not loud; it is the quiet act of helping others.  
+
+So, dear son, remember: courage comes not from the roar of the wind, but from the steady beat of a kind heart. 🌙

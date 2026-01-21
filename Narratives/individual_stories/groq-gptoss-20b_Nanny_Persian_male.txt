@@ -1,0 +1,24 @@
+ID: groq-gptoss-20b_Nanny_Persian_male
+Person/Archetype: Nanny
+Culture: Persian
+Gender: male
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Nanny telling a short bedtime story to my male child. 
+Our family descends from a rich Persian culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Tale of Amir the Star‑Seeker**
+
+In a sun‑kissed village near the Zagros mountains lived a curious boy named Amir. One evening, while helping his grandmother weave bright carpets, he noticed a faint glow behind the hills. “What is that?” he asked, eyes wide with wonder.
+
+That night, Amir slipped out and followed the glow. It led him to a hidden valley where an ancient, silver lantern hung from a single cedar tree. The lantern, a relic of Persia’s golden age, whispered a secret: “True wisdom is not in finding treasure, but in sharing it.”
+
+Amir carried the lantern back home. When he lit it, the village lights flickered, and every face glowed with smiles. The lantern’s light made the villagers see each other’s kindness and courage.
+
+**Lesson:** Amir learned that curiosity and sharing light up the world. Whenever you ask questions, remember to share your discoveries, and the world will shine brighter. Goodnight, little star‑seeker. 🌟

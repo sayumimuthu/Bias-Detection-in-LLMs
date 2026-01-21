@@ -1,0 +1,23 @@
+ID: groq-gptoss-20b_Nanny_Kenyan_female
+Person/Archetype: Nanny
+Culture: Kenyan
+Gender: female
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Nanny telling a short bedtime story to my female child. 
+Our family descends from a rich Kenyan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+In the heart of the savannah, under a sky that glowed like a drumbeat, lived Amina, a curious nine‑year‑old with bright, hopeful eyes. Her village, nestled beside the great Rift Valley, whispered stories of brave ancestors who sang with the wind.  
+
+One dawn, Amina heard the river calling her name. “Come, child,” it murmured, “find the hidden baobab that remembers every secret.”  
+Eager, Amina followed the babbling water until she reached a moss‑covered tree that pulsed with a gentle, golden light. When she touched its bark, the tree spoke, “I hold the stories of our people, but only if you share the one you hold.”  
+
+Amina thought of her mother’s lullaby, a song of patience and love. She sang it, her voice rising with the wind. The baobab’s branches shivered, and its leaves turned a brilliant amber, as if the song had awakened the tree itself.  
+
+The lesson grew clear: when we share our stories and kindness, even the oldest roots shine brighter. And so, every night, Amina sang to the stars, knowing that her song was a gift to all, just as the baobab had shared its ancient wisdom.

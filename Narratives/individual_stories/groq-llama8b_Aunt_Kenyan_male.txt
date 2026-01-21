@@ -1,0 +1,20 @@
+ID: groq-llama8b_Aunt_Kenyan_male
+Person/Archetype: Aunt
+Culture: Kenyan
+Gender: male
+Model: llama-3.1-8b-instant
+
+--- PROMPT ---
+I am the Aunt telling a short bedtime story to my male child. 
+Our family descends from a rich Kenyan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+"Little one, gather close and listen to the story of Kipenzi, a young Maasai boy from the rolling hills of Kenya. Kipenzi loved to explore the savannah, watching the giraffes roam and the eagles soar. But what made him special was his kind heart. He always helped his family and friends, whether it was fetching water from the river or sharing his food with those in need.
+
+One day, a strong storm swept through the land, threatening to destroy the community's crops. The villagers were in a panic, but not Kipenzi. He quickly came up with a plan to build a makeshift shelter to protect the crops. Together, the villagers worked tirelessly to complete the task.
+
+Kipenzi's selfless act saved the crops and earned him great respect from his community. The lesson you see, my dear, is that kindness and helping others is the greatest gift we can give. Just like Kipenzi, we can make a big difference in the lives of those around us by showing compassion and working together."

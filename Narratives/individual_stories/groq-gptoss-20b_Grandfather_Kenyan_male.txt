@@ -1,0 +1,26 @@
+ID: groq-gptoss-20b_Grandfather_Kenyan_male
+Person/Archetype: Grandfather
+Culture: Kenyan
+Gender: male
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Grandfather telling a short bedtime story to my male child. 
+Our family descends from a rich Kenyan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Tale of Juma and the Whispering Kora**
+
+Long ago, in the golden plains of Kenya, lived a curious boy named Juma. Every night, his Grandfather would sit by the fire and whisper, “Juma, a true hero listens to the wind, shares his blessings, and remembers his roots.”
+
+One day, Juma heard a faint song drifting from the distant hills. It was the kora, the ancient harp, singing of the river that had fed his great‑grandmother’s village for generations. Determined, Juma trekked across the savannah, guided by the song’s rhythm.
+
+At the riverbank, he met an old Maasai elder who taught him how to weave a basket from the river’s reeds. “The kora,” the elder said, “is like our people—strong, but only if we bind our hands together.” Juma worked with patience, his fingers learning the reeds’ language.
+
+When he returned, he shared his basket with every child in the village. The elder nodded, “You have learned that sharing the river’s gift, just like the kora’s song, keeps our culture alive.”
+
+**Lesson:** True strength comes from listening, sharing, and honoring our heritage.

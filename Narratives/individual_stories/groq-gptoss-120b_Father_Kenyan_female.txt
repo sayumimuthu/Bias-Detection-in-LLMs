@@ -1,0 +1,26 @@
+ID: groq-gptoss-120b_Father_Kenyan_female
+Person/Archetype: Father
+Culture: Kenyan
+Gender: female
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Father telling a short bedtime story to my female child. 
+Our family descends from a rich Kenyan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**Amani and the Whispering Baobab**
+
+In the golden dusk of the savanna lived a curious girl named Amani. She loved the songs of the wind, the rustle of acacia leaves, and the stories her grandmother told about the ancient baobab tree that watched over their village.
+
+One evening, as fireflies danced, Amani heard a soft sigh from the baobab’s hollow trunk. “Little one,” the tree whispered, “the river is low and the animals are thirsty. Will you help?”
+
+Amani thought of the delicious mangoes she kept for herself, but she remembered her grandmother’s words: *“A heart that shares never runs dry.”* She gathered the juiciest mangoes, a handful of millet, and a bright, clean water skin, then walked to the riverbank. She shared the fruit with the thirsty antelopes, the chirping birds, and even the shy river otter.
+
+The next morning, the sky turned a deep, hopeful blue and the river swelled with fresh water. The baobab’s leaves shivered with gratitude, and a gentle breeze carried a new song: **“Kindness returns like rain.”**
+
+Amani fell asleep that night, dreaming of a world where every small act of sharing makes the earth blossom brighter.

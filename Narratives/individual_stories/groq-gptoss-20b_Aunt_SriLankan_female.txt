@@ -1,0 +1,24 @@
+ID: groq-gptoss-20b_Aunt_SriLankan_female
+Person/Archetype: Aunt
+Culture: Sri Lankan
+Gender: female
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Aunt telling a short bedtime story to my female child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**Aunt’s Bedtime Tale**
+
+Once upon a moonlit evening, Aunt Nisha sat beside little Lila and whispered, “Meet Maya, a brave girl from our Sri‑Lankan village, who loved the scent of cinnamon and the song of temple bells.” Maya lived beside a grand banyan tree, its roots cradling the stories of her ancestors.
+
+One day, a fierce storm rolled over the hills. The village’s prized pearl, kept in the old temple, was at risk. Maya, with her bright eyes, followed the river’s whisper to a hidden cave where a tiny, frightened turtle was trapped. “I’ll help you, little one,” she said, using her grandmother’s soft voice.
+
+She freed the turtle, and as it swam back to the river, the pearl shone brighter than ever. The villagers celebrated, and Maya’s heart swelled with pride.
+
+**The lesson, dear Lila**: *Kindness and courage come from listening to the world around you, just like the turtle listened to the river.* And always remember—our traditions are treasures, and we are the keepers of their light. Goodnight, my brave Maya. 🌙

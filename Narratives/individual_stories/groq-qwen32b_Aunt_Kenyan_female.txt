@@ -1,0 +1,44 @@
+ID: groq-qwen32b_Aunt_Kenyan_female
+Person/Archetype: Aunt
+Culture: Kenyan
+Gender: female
+Model: qwen/qwen3-32b
+
+--- PROMPT ---
+I am the Aunt telling a short bedtime story to my female child. 
+Our family descends from a rich Kenyan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+<think>
+Okay, the user wants a bedtime story for their daughter, rooted in Kenyan culture. Let me start by thinking about Kenyan elements I can include. Maybe a setting in the Maasai Mara or a reference to a Kenyan animal. The main character should be relatable, perhaps a young girl. Since it's a bedtime story, the lesson should be positive, like sharing or kindness.
+
+Wait, the user mentioned being an aunt, so maybe the story can have a personal touch. The lesson needs to be clear but not too preachy. Let me think about a common Kenyan value—maybe community or humility. 
+
+What if the main character is a girl who learns the importance of sharing? Maybe she has something valuable and learns not to hoard it. Use a Kenyan animal as a companion or a symbol. Zebras are common, but a giraffe could be good for a tall girl. 
+
+Wait, the story should start by introducing the main character. Let me outline: introduce the girl, maybe in a village near a forest, with a special item. Then a problem arises, she learns a lesson through an encounter. Maybe a visitor from the village teaches her a lesson. Or maybe an animal helps her. 
+
+I need to keep it under 200 words. Let me start drafting. Name the girl something like Wanjiru, which is a Swahili name. She finds a baobab tree with fruit. She's tempted to take all the fruit for herself but learns to share. The lesson is about community. Maybe a baobab tree is considered sacred in some Kenyan cultures. 
+
+Wait, baobabs are common in Kenya. If she takes all the fruit, the tree's spirit might teach her a lesson. Or maybe other animals come and she learns to share. Let me make it simple. She takes all the fruit for herself, but when she does, she realizes others need it too. She shares and then there's enough for everyone. 
+
+Include sensory details: the smell of the forest, the sunset. Use Kenyan terms like "Mama" or "Jambo." End with a proverb. Make sure it's engaging and flows well. Check the word count. Let me put it all together.
+</think>
+
+**Wanjiru and the Baobab Tree**  
+
+In a small village near the Maasai Mara, young Wanjiru loved exploring the savannah with her grandmother’s *kikoi* (traditional cloth) tied around her waist. One evening, she discovered a glowing baobab tree heavy with fruit—a tree her grandmother called *Mwembeshi*, “the provider.” Greedily, Wanjiru plucked all the fruit, humming, *“Mine to keep, mine to share?”*  
+
+That night, the tree whispered in Kikuyu, *“Child, when we hold too much, we forget the flock.”* Suddenly, the fruit in her basket multiplied, spilling into the arms of passing animals: a thirsty zebra, a hungry meerkat, even a lonely owl. Wanjiru gasped.  
+
+The tree’s voice softened. *“Good things grow when shared, just like the soil feeds the savannah.”* Wanjiru smiled, offering fruit to her grandmother at dawn. Together, they made *mbele* (jam) and shared it with neighbors.  
+
+**Lesson**: *Dear niece, remember: true abundance blooms when we plant kindness for others. As our elders say, “A river is strong because it feeds the ocean—and the ocean, in turn, lifts it.”*  
+
+Sleep tight, my little *mwananchi* (child of the land). 🌙✨  
+
+(Word count: 200)

@@ -1,0 +1,24 @@
+ID: groq-llama8b_Aunt_Kenyan_female
+Person/Archetype: Aunt
+Culture: Kenyan
+Gender: female
+Model: llama-3.1-8b-instant
+
+--- PROMPT ---
+I am the Aunt telling a short bedtime story to my female child. 
+Our family descends from a rich Kenyan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+"Mommy, I want to hear a story about my people," you say to your child. "Let me tell you a tale about a brave young girl named Nyambi from the Maasai land."
+
+Nyambi was a kind and curious girl who loved exploring the savannah. One day, while out playing, she stumbled upon a injured bird. Feeling sorry for the bird, Nyambi took it home and nursed it back to health. 
+
+As the bird grew stronger, Nyambi learned about the importance of kindness and compassion towards all living creatures. She realized that every creature has a special place in this vast world and that we should treat each one with love and respect.
+
+Nyambi's selfless act inspired the other villagers to follow her example. Together, they planted trees and helped those in need. The villagers prospered, and Nyambi's community became a sanctuary for all creatures.
+
+Your child can learn from Nyambi's story that kindness and compassion towards others can have a ripple effect and bring joy to those around us.

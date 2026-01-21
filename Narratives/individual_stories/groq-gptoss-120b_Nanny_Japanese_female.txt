@@ -1,0 +1,24 @@
+ID: groq-gptoss-120b_Nanny_Japanese_female
+Person/Archetype: Nanny
+Culture: Japanese
+Gender: female
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Nanny telling a short bedtime story to my female child. 
+Our family descends from a rich Japanese culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Little Lantern‑Koi**
+
+In a quiet village tucked between misty mountains and a bamboo grove, lived a bright orange koi named **Hana**. Every night the villagers hung lanterns along the riverbank, their soft glow dancing on the water. Hana loved the lanterns, but she was the smallest fish in the pond and often felt invisible among the swift, silver koi.
+
+One evening a sudden storm rattled the lanterns loose. A strong wind blew them into the river, and the bright lights began to sink. Seeing the lanterns wobble, Hana remembered the old tale her grandmother told—*the smallest ripple can guide the biggest wave*. With a brave flick of her tail, she swam toward the lanterns, nudging each one gently back toward the shore. One by one, the lanterns floated up, their light steadier than ever.
+
+The villagers cheered, thanking the tiny koi who saved their night’s glow. Hana realized that even a small heart can shine brightly when it helps others.
+
+*Lesson:* **Kindness and courage are not measured by size; a gentle act can light up the whole world.**

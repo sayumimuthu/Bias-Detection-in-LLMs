@@ -1,0 +1,28 @@
+ID: groq-gptoss-120b_OlderBrother_SriLankan_female
+Person/Archetype: Older Brother
+Culture: Sri Lankan
+Gender: female
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Older Brother telling a short bedtime story to my female child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Moonlit Mango Tree**
+
+In a tiny village by the emerald tea hills of Sri Lanka lived a curious girl named **Mali**. She loved the sweet scent of mangoes that drifted from the old tree at the edge of her grandparents’ yard, especially when the moon painted its leaves silver.
+
+One night, a gentle breeze whispered, “Mali, the mangoes are ready, but the tree asks for a promise.”  
+Mali frowned. “A promise?” she asked.  
+“The tree needs someone to care for it, to water it when the sun is fierce and to guard its fruit from mischievous monkeys,” the wind sang.
+
+Mali thought of the lazy afternoons she spent playing, ignoring the chores. She smiled, remembering her mother’s words: *“Little hands can do big deeds.”* She promised the tree she would tend it every day.
+
+Morning after morning, Mali fetched cool water from the well, sang soft lullabies to the saplings, and chased the cheeky monkeys away. The mangoes grew golden and abundant. When the village shared the harvest, everyone praised Mali’s kindness.
+
+**Lesson:** Even the smallest promise kept with love can nurture great blessings. 🌙✨

@@ -1,0 +1,22 @@
+ID: groq-llama8b_OlderBrother_Persian_female
+Person/Archetype: Older Brother
+Culture: Persian
+Gender: female
+Model: llama-3.1-8b-instant
+
+--- PROMPT ---
+I am the Older Brother telling a short bedtime story to my female child. 
+Our family descends from a rich Persian culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+My lovely daughter, gather close and listen to the tale of Jamila, a brave and kind Persian princess from the ancient city of Persepolis.
+
+Jamila was a young girl with a heart full of love and a spirit that shone like the brightest star in the night sky. She lived in a palace surrounded by beautiful gardens and a bustling bazaar. One day, while exploring the bazaar, Jamila stumbled upon an elderly woman who was struggling to carry a heavy load of fresh flowers.
+
+Without hesitation, Jamila rushed to the woman's side and offered to help her carry the flowers. The woman was touched by Jamila's kindness and thanked her with a beautiful bouquet of flowers. As they parted ways, Jamila realized that her small act of kindness had brought joy to another's heart.
+
+My dear, this story teaches us that even the smallest acts of kindness can make a big difference in someone's life. So always remember to be kind and help those in need, just like Jamila did.

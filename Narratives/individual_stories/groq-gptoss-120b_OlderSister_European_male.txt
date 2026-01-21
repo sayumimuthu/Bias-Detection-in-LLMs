@@ -1,0 +1,26 @@
+ID: groq-gptoss-120b_OlderSister_European_male
+Person/Archetype: Older Sister
+Culture: European
+Gender: male
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Older Sister telling a short bedtime story to my male child. 
+Our family descends from a rich European culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Tale of Little Milo and the Midnight Violin**
+
+In a quiet Alpine village where the rooftops wore crowns of snow, lived a bright‑eyed boy named Milo. He loved the old wooden violin that hung above his grandmother’s fireplace—a treasured heirloom passed down through generations of musicians, poets, and brave explorers.
+
+One crisp evening, as the moon painted silver ribbons on the hills, Milo heard a soft sigh from the forest. A shy fox, tangled in brambles, trembled beneath a pine. Remembering his grandmother’s words—*“A true heart listens before it acts”*—Milo tiptoed toward the creature, cradling his violin for comfort.
+
+He whispered a gentle lullaby, the notes floating like warm woolen scarves in the night. The music soothed the fox, and with careful hands Milo freed it. The grateful animal nudged a glowing acorn toward him, a token of forest magic.
+
+When Milo returned home, he placed the acorn beside the violin. From that night on, every time he played, the melody reminded him that kindness, even in the smallest act, weaves courage into the world.
+
+*Lesson: Listening and helping others, no matter how tiny the chance, makes us all a little braver.*

@@ -1,0 +1,20 @@
+ID: groq-gptoss-20b_Grandmother_Persian_male
+Person/Archetype: Grandmother
+Culture: Persian
+Gender: male
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Grandmother telling a short bedtime story to my male child. 
+Our family descends from a rich Persian culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+Amir was a curious boy who loved the scent of saffron and the stories of his grandmother. One evening, before the moon rose over the Persian gardens, she whispered a lesson: “Listen with your heart, and kindness will guide you.”
+
+When Amir slipped out of the house, he followed the scent of jasmine to the ancient bazaar. A silver owl perched on a lantern, its eyes bright as the stars. The owl was looking for its missing feather, lost during a storm. Amir, remembering his grandmother’s words, offered to help. He searched the market stalls, asking vendors and children alike. The villagers, moved by Amir’s kindness, shared their own stories and eventually found the feather hidden behind a stack of rugs.
+
+The owl thanked Amir, and in return, it showed him the constellations that guided Persian caravans. Amir learned that listening and helping others light up the world, just as the stars light the night. He returned home, his heart warm, ready to dream of tomorrow’s adventures.

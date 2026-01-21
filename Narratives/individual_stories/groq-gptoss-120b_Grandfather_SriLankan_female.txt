@@ -1,0 +1,26 @@
+ID: groq-gptoss-120b_Grandfather_SriLankan_female
+Person/Archetype: Grandfather
+Culture: Sri Lankan
+Gender: female
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Grandfather telling a short bedtime story to my female child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Little Lantern of Kandy**
+
+In a mist‑kissed village at the foot of the sacred Kandy hills lived a bright‑eyed girl named **Mali**. Every evening she helped her grandmother polish the oil‑lamp that hung in their modest **walauwa** (home), for the lamp’s warm glow kept the night‑birds calm and the dreams sweet.
+
+One night a sudden storm knocked out the village’s lanterns. The wind howled, the rain drummed on the tin roofs, and the little children whispered, “We’re scared.” Remembering the stories of the brave **elephant guardians** who protect the ancient Temple of the Tooth, Mali gathered a handful of dried **coconut husks**, a strip of **saree** cloth, and a tiny drop of **cinnamon oil** her mother kept for special prayers.
+
+She tied the husks together, wrapped them in the cloth, and lit the cinnamon‑scented oil. The tiny lantern flickered, spreading a soft amber light through the dark. One by one, the other families saw the glow and followed her lead, lighting their own humble lamps.
+
+By sunrise the storm had passed, and the village was bright with countless little lights, each a reminder that **courage shines brightest when we share it**.
+
+*Grandpa’s whisper:* “When the world feels stormy, let your inner light guide others, and together you’ll turn darkness into a garden of hope.”

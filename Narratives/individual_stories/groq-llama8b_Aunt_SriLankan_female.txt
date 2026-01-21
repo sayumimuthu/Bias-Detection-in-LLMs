@@ -1,0 +1,24 @@
+ID: groq-llama8b_Aunt_SriLankan_female
+Person/Archetype: Aunt
+Culture: Sri Lankan
+Gender: female
+Model: llama-3.1-8b-instant
+
+--- PROMPT ---
+I am the Aunt telling a short bedtime story to my female child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+"Once upon a time, in a small village in Sri Lanka, there lived a gentle and curious girl named Nalani. She loved learning about the ancient stories and traditions of her ancestors. Nalani's grandmother, a wise and kind woman named Amma, taught her the ways of the old world.
+
+One day, while helping Amma in the garden, Nalani noticed a small, struggling sapling. She asked Amma why it wasn't growing strong like the other trees. Amma smiled and said, 'Nalani, just like the sapling, we all need care and patience to grow. We must nurture our roots, and with time, we will grow strong and tall.'
+
+Nalani took Amma's words to heart and made sure to water and care for the sapling every day. As the days passed, the sapling grew and flourished. Nalani learned that with love, care, and patience, we can overcome any challenges and reach our full potential. And just like the sapling, Nalani grew up to be a strong and compassionate woman, spreading love and kindness throughout her community.
+
+Just like Nalani, my dear child, you too can grow strong and tall with the care and love of family and friends. Always remember to nurture your roots and you will flourish in life."
+
+(Rock your child to sleep, whispering, "Goodnight, dear one. May Nalani's story guide you in your own journey.")

@@ -1,0 +1,24 @@
+ID: groq-gptoss-120b_Aunt_Persian_male
+Person/Archetype: Aunt
+Culture: Persian
+Gender: male
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Aunt telling a short bedtime story to my male child. 
+Our family descends from a rich Persian culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Tale of Arash the Little Lantern‑Keeper**
+
+In a quiet village tucked between the rose‑scented gardens of Shiraz, lived a curious boy named Arash. Each evening, his family lit a tiny oil lantern on the rooftop, its golden flame guiding the night‑birds home. Arash loved the lantern’s warm glow, but he often rushed to play, forgetting to check the oil before the flame flickered out.
+
+One night, a sudden wind howled through the almond trees, and the lantern sputtered. The village elder, Baba Kian, whispered, “A steady flame needs steady care.” Arash hurried downstairs, refilled the lantern, and tended the wick with gentle hands. The light burned brighter than ever, and the night felt safe for all.
+
+From that night on, Arash never missed his lantern‑duty. He learned that caring for even the smallest things—like a lamp or a kind word—keeps the whole world bright.
+
+**Lesson:** Small responsibilities, done with love, create great light for everyone around you. Sweet dreams, my brave little lantern‑keeper. 🌙✨

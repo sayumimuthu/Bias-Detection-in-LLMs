@@ -1,0 +1,28 @@
+ID: groq-gptoss-120b_OlderBrother_Kenyan_male
+Person/Archetype: Older Brother
+Culture: Kenyan
+Gender: male
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Older Brother telling a short bedtime story to my male child. 
+Our family descends from a rich Kenyan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Tale of Kito and the Whispering Baobab**
+
+In a sun‑kissed village at the foot of the Great Rift, lived a curious boy named **Kito**. He loved to run faster than the gazelles and shout louder than the drums at the evening *ngoma*. Yet Kito often rushed, finishing his chores before the sunrise and skipping the stories his grandmother told under the ancient baobab.
+
+One night, as fireflies danced, Grandmother Nia pointed to the massive tree. “Listen, Kito. The baobab holds the wisdom of our ancestors. If you hear its whisper, you’ll learn the secret of **ubuntu**—‘I am because we are.’”
+
+Kito frowned, impatient, and tugged at his sling. “I don’t have time for whispers!” he declared and sprinted home.
+
+The next morning, a fierce storm rolled over the savanna. The river swelled, flooding the fields. While the village hurried to secure their homes, Kito remembered the baobab’s silence. He paused, breathed, and asked the elders what to do. Together they built a sturdy barrier of woven reeds, saving the crops and the animals.
+
+When the clouds cleared, the baobab’s leaves rustled like a gentle sigh. Kito smiled, realizing the whisper was not a sound but a lesson: **Patience and listening make us stronger together.**  
+
+From that night on, Kito always sat beneath the baobab, ears open, heart ready, and the village prospered in harmony.

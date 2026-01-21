@@ -1,0 +1,22 @@
+ID: groq-llama8b_OlderBrother_Kenyan_male
+Person/Archetype: Older Brother
+Culture: Kenyan
+Gender: male
+Model: llama-3.1-8b-instant
+
+--- PROMPT ---
+I am the Older Brother telling a short bedtime story to my male child. 
+Our family descends from a rich Kenyan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+"Kipenzi, come close and listen to the story of Kofi, a young boy from our village in Kenya. Kofi lived in a small community surrounded by vast savannas and majestic mountains. He was a curious and adventurous boy, always eager to learn and explore.
+
+One day, while wandering through the forest, Kofi stumbled upon a beautiful bird with shimmering feathers. She told Kofi that she was the spirit of the forest, and that her home was under threat from pollution and human carelessness. She asked Kofi to use his voice to speak up and protect the forest.
+
+Kofi was hesitant at first, but remembered the wise words of his grandfather: 'Even the smallest voice can make a big difference.' With newfound courage, Kofi rallied his community to take action. Together, they worked to clean up the forest and reduce their impact on the environment.
+
+Kofi's determination and bravery made a lasting impact, and the forest began to flourish once again. Remember, Kipenzi, that even though you may be small, your voice can make a big difference in the world. Speak up and take action to protect our planet and all its wonders."

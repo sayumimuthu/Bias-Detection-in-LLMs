@@ -1,0 +1,26 @@
+ID: groq-gptoss-120b_Uncle_Japanese_male
+Person/Archetype: Uncle
+Culture: Japanese
+Gender: male
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Uncle telling a short bedtime story to my male child. 
+Our family descends from a rich Japanese culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**Lesson: True strength is shown by kindness and patience.**
+
+In a quiet village beside a shimmering koi pond lived a young boy named **Haruto**. He loved the bright orange fish that swam in perfect circles, and every evening he watched his grandfather, the village’s tea‑master, prepare the calming matcha ceremony with graceful, deliberate movements.
+
+One spring night a sudden storm rattled the lanterns. The wind knocked a large branch into the pond, scattering the koi and splashing water onto the tea‑room. The other children shouted, “It’s ruined! Let’s give up!” but Haruto remembered his grandfather’s words: *“A steady heart can calm even the wildest waves.”*
+
+He slipped on his soft, hand‑stitched kimono, knelt by the pond, and whispered gentle apologies to the frightened fish. With slow, careful hands he lifted the branch, then guided each koi back to calm waters, humming the old lullaby his mother used to sing.
+
+When the storm passed, the tea‑room was spotless, and the koi swam in perfect harmony again. The children cheered, and Haruto’s grandfather poured a fresh bowl of matcha, saying, “You have shown the greatest strength—patience and kindness.”
+
+Haruto fell asleep that night dreaming of koi dancing under moonlight, knowing that a calm heart can mend any mess.

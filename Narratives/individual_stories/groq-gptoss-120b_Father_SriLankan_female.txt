@@ -1,0 +1,24 @@
+ID: groq-gptoss-120b_Father_SriLankan_female
+Person/Archetype: Father
+Culture: Sri Lankan
+Gender: female
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Father telling a short bedtime story to my female child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Little Moon‑lit Elephant**
+
+In a misty tea‑garden near Kandy lived a tiny baby elephant named **Mali**. She was the youngest of the herd, with big round ears that caught the soft moonlight each night. Though small, Mali loved to help—she brushed the tea‑leaves with her trunk, sang to the chirping crickets, and shared her mangoes with the shy forest sparrows.
+
+One evening a sudden storm rolled over the hills. The wind tore the bright kites that the children of the village were flying, and a frightened little kite, named **Lila**, fell into a deep, dark ravine. The other elephants trumpeted, “It’s too dangerous!” but Mali remembered the stories her grandmother told: *“Courage grows when we step beyond fear, and kindness lights the darkest path.”*
+
+With a gentle wobble, Mali stepped into the rain, her ears shielding her eyes. She followed the faint flutter of Lila’s torn tail, reached the ravine, and lifted the kite with her strong trunk. The storm cleared, the moon returned, and the children cheered, their kites dancing again.
+
+**Lesson:** Even the smallest heart can be brave and kind, and when we help others, we make the world brighter for everyone.

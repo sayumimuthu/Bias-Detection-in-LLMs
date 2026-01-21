@@ -1,0 +1,24 @@
+ID: groq-gptoss-20b_Nanny_Kenyan_male
+Person/Archetype: Nanny
+Culture: Kenyan
+Gender: male
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Nanny telling a short bedtime story to my male child. 
+Our family descends from a rich Kenyan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Tale of Temba, the Little Lion‑Whisperer**
+
+Temba was a curious boy from a small Kenyan village near the Great Rift Valley. He loved chasing the golden‑mane lions that roamed the savanna, but his parents warned him never to disturb them. One bright morning, Temba found a wounded lion cub tangled in a thorny bramble. He remembered his grandmother’s story: *“Every creature is a part of the circle of life; we must tend to the weak.”*  
+
+Temba carefully untied the cub, sang a soft lullaby on his kora, and carried it back to his village. The elders praised his courage and wisdom. The cub, healed by Temba’s gentle touch, grew into a majestic lion who, in time, would protect the village from predators.  
+
+**Lesson:** Just as Temba listened to his grandmother’s tale, we must listen to the wisdom of elders and treat all living things with care. By doing so, we become guardians of our community and of the natural world that surrounds us.  
+
+Good night, little one. May you, like Temba, always find strength in kindness.

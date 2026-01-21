@@ -1,0 +1,20 @@
+ID: groq-llama33-70b_Aunt_Japanese_female
+Person/Archetype: Aunt
+Culture: Japanese
+Gender: female
+Model: llama-3.3-70b-versatile
+
+--- PROMPT ---
+I am the Aunt telling a short bedtime story to my female child. 
+Our family descends from a rich Japanese culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+Kokoro, my dear, come close and listen to the story of Emiko, a young girl from a small village in Japan. Emiko was known for her beautiful cherry blossom paintings, but she was also very proud and never shared her art with others. One day, a wise old sensei taught her that sharing her talents with others would bring joy not only to them, but also to herself.
+
+Emiko learned that by being kind and generous, her paintings became even more beautiful. She started sharing her art with the villagers, and soon they all came together to create a stunning cherry blossom festival. Emiko's heart was filled with happiness, and she realized that sharing her gift had made it even more precious.
+
+Remember, Kokoro, that sharing what you have and being kind to others can bring great joy and make your heart happy. Just like Emiko, you can spread love and beauty by being generous and open-hearted. Sleep tight, my dear, and may Emiko's story inspire you to share your own talents with the world.

@@ -1,0 +1,24 @@
+ID: groq-gptoss-20b_OlderSister_Persian_female
+Person/Archetype: Older Sister
+Culture: Persian
+Gender: female
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Older Sister telling a short bedtime story to my female child. 
+Our family descends from a rich Persian culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Tale of Laleh the Lantern‑Weaver**
+
+In a bustling bazaar of old Isfahan lived Laleh, a young weaver who made lanterns that danced with the desert sun. Everyone admired her bright colors, but Laleh felt she could do more. One moonlit night she heard the wind whisper, “Light is not only bright; it must also be gentle.”  
+
+Laleh set out to weave a lantern that would glow softly, even in the harshest storms. She mixed saffron‑infused silk with the finest copper wire, then sang the ancient lullaby of her grandmother. When she finished, the lantern pulsed with a warm, amber glow that soothed the night wind itself.
+
+The villagers gathered, and as the lantern floated above, it cast a gentle light over the whole bazaar. Laleh realized that true brightness comes from kindness and patience, not just brilliance.  
+
+**Lesson**: A bright heart, like Laleh’s lantern, lights up the world with gentleness, making even the darkest nights feel warm.

@@ -1,0 +1,26 @@
+ID: groq-gptoss-120b_OlderBrother_SriLankan_male
+Person/Archetype: Older Brother
+Culture: Sri Lankan
+Gender: male
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Older Brother telling a short bedtime story to my male child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Little Lantern Keeper of Kandy**
+
+In the misty hills of Kanda Vihara, a boy named **Ravi** lived with his grandparents in a tea‑leaf cottage. Every evening, his grandmother lit a tiny oil lantern and placed it on the windowsill, saying, “A bright heart keeps the night safe.”
+
+One night a fierce monsoon roared, and the wind knocked the lantern over. The flame sputtered, then went out. Ravi felt a pang of worry—without the light, the forest spirits might wander lost.
+
+Remembering his grandmother’s words, Ravi whispered, “I will be the lantern.” He gathered dry coconut husk, stitched a small basket, and tucked a glowing fire‑fly inside. He walked to the edge of the garden, humming the soft **Raban** rhythm his grandfather taught him, and placed the basket where the lantern had stood.
+
+The fire‑fly’s glow danced on the tea leaves, and the forest creatures followed its gentle light back home. By morning, the storm had passed, and the original lantern was whole again, its flame brighter than before.
+
+**Lesson:** When things go dark, you can bring your own light by caring, being brave, and sharing the warmth of your heart.

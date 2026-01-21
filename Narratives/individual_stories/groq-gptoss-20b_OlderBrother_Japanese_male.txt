@@ -1,0 +1,22 @@
+ID: groq-gptoss-20b_OlderBrother_Japanese_male
+Person/Archetype: Older Brother
+Culture: Japanese
+Gender: male
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Older Brother telling a short bedtime story to my male child. 
+Our family descends from a rich Japanese culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+Meet Kenji, a curious boy who loved the scent of sakura blossoms and the quiet rhythm of the tea ceremony. **Lesson: Even the smallest practice can grow into great strength.**
+
+Kenji lived in a tiny house on the edge of Kyoto’s old town, where his family still made matcha by hand. One morning, the tea master, Grandfather Sora, challenged Kenji to make his first cup. Kenji’s hands trembled; the whisk slipped, and the tea looked cloudy.
+
+Grandfather Sora smiled, “Practice is like planting a seed. Even a single stir can grow a beautiful cup.” That night, Kenji practiced every night, each whisking a tiny step forward. When the next guest arrived, Kenji served a cup that shone like a clear pond. The guest whispered, “You have the calm of the mountain.” Kenji’s eyes sparkled with pride.
+
+The next day, he told his little brother, “Remember, little practice every day builds a big heart.” And so, the family’s tea ceremony became a living lesson: patience, practice, and the quiet courage that turns small actions into a lifelong tradition.

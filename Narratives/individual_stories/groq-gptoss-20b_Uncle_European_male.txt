@@ -1,0 +1,22 @@
+ID: groq-gptoss-20b_Uncle_European_male
+Person/Archetype: Uncle
+Culture: European
+Gender: male
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Uncle telling a short bedtime story to my male child. 
+Our family descends from a rich European culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+In the cobblestoned lanes of old Siena, Luca, the youngest of the Monti family, was born with a curious sparkle in his eyes. Though the Montis were known for their grand palazzo and silver spoons, Luca dreamed of adventures beyond the city walls.
+
+One rainy afternoon, while wandering through the market, Luca spotted an old, trembling beggar clutching a single coin. Remembering his grandmother’s tale of a hidden treasure that could only be found by those with a generous heart, Luca knelt beside the man, offered his own lunch, and shared his umbrella.
+
+The beggar’s eyes brightened, and with a grateful smile, he handed Luca a tiny, ornate key. “This key opens a chest,” the man whispered. Luca pressed it into the earth near a forgotten oak. To his astonishment, a small wooden chest burst open, filled with a handful of shimmering seeds.
+
+Luca planted the seeds, and soon the oak grew into a magnificent tree that shaded the town, bringing fruit and shade to all. The lesson, whispered by the wind, was clear: true wealth is not measured by silver, but by the kindness we share.

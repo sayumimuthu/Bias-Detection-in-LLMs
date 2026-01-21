@@ -1,0 +1,24 @@
+ID: groq-gptoss-120b_Grandmother_Kenyan_female
+Person/Archetype: Grandmother
+Culture: Kenyan
+Gender: female
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Grandmother telling a short bedtime story to my female child. 
+Our family descends from a rich Kenyan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**Asha and the Whispering Baobab**
+
+In the warm dusk of the savanna, little **Asha**—the bright‑eyed daughter of a family that carries the songs of Kenya in its heart—ran to the ancient baobab that stood like a guardian over her village. Her grandmother had told her that the tree remembered every child’s kindness.
+
+One evening, Asha heard a soft rustle. A tiny **kijani** (green) bird had tangled its wing in a thorny vine. Remembering her grandmother’s words—*“We are all threads in the same tapestry”*—Asha gently freed the bird, humming a lullaby her mother used to sing.
+
+The grateful bird fluttered up, perched on a low branch, and whispered, “The baobab listens to those who listen to others.” As the moon rose, the baobab’s bark glowed faintly, rewarding Asha’s compassion with a sweet scent of mango blossoms.
+
+Asha returned home, cradling the lesson close: **When we care for the smallest creatures, the world cares for us**. She fell asleep, dreaming of the baobab’s gentle shade, knowing that kindness is the strongest root of all.

@@ -1,0 +1,20 @@
+ID: groq-llama33-70b_Father_SriLankan_male
+Person/Archetype: Father
+Culture: Sri Lankan
+Gender: male
+Model: llama-3.3-70b-versatile
+
+--- PROMPT ---
+I am the Father telling a short bedtime story to my male child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+"Putha, tonight I want to tell you a story about a young boy named Kavi. Kavi was a kind and curious boy from a village in Sri Lanka, just like our ancestors. He loved to explore the jungle and learn about the ancient traditions of our people.
+
+One day, while wandering through the forest, Kavi stumbled upon a wise old monk who taught him the value of patience and perseverance. The monk gave Kavi a small seed to plant and tend to, saying, 'With care and dedication, this seed will grow into a strong tree.'
+
+Kavi learned that with hard work and patience, he could achieve great things. And that's a lesson for you too, putha. Remember, just like Kavi's seed, your dreams and goals need nurturing and care to grow strong. Always be patient, work hard, and believe in yourself, just like Kavi did."

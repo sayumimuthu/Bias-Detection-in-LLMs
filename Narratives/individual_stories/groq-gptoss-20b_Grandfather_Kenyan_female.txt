@@ -1,0 +1,22 @@
+ID: groq-gptoss-20b_Grandfather_Kenyan_female
+Person/Archetype: Grandfather
+Culture: Kenyan
+Gender: female
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Grandfather telling a short bedtime story to my female child. 
+Our family descends from a rich Kenyan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+My dear child, let me tell you about a brave little girl named **Amina** who lived in a village by the Great Rift Valley. From the moment she was born, the elders taught her that **sharing brings the most beautiful blessings**.
+
+Amina loved to gather wild berries with her friends, but one day she found a golden‑leafed fig that she felt should be hers alone. Her heart grew heavy as she imagined keeping it all. While she was lost in thought, her wise grandmother appeared and said, “The valley gives to all; a single fruit will be all you ever taste.” Amina remembered the song the elders sang about the earth’s generosity.
+
+That night, she returned the fig to the soil and shared it with everyone. As they ate together, laughter bubbled like the nearby river, and Amina felt a warmth deeper than any gold. The next day the village celebrated her kindness, and the children learned that true joy comes from giving, not hoarding.
+
+So, remember, my sweet girl: **share your gifts, and you’ll be blessed more richly than you could ever imagine**. Sleep well, knowing the valley’s generosity is always within you.

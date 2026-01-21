@@ -1,0 +1,24 @@
+ID: groq-gptoss-20b_Aunt_Japanese_female
+Person/Archetype: Aunt
+Culture: Japanese
+Gender: female
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Aunt telling a short bedtime story to my female child. 
+Our family descends from a rich Japanese culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+Once, in a quiet Kyoto garden, lived a shy little fox named Hana. She loved watching the cherry blossoms sway, but she never dared to share her favorite secret: a hidden pond that reflected the moon like a silver mirror.  
+
+Every night, Hana would hide behind a bamboo stalk, hoping a brave soul would discover it. One evening, a gentle wind whispered, “Share your treasure.” Hana hesitated, fearing the pond would vanish if others saw it. But her friend, a wise crane named Kōji, nudged her gently, “True beauty is stronger when shared.”
+
+Hana stepped forward, opened the pond’s veil, and the moon’s reflection glowed brighter than ever. All the garden’s animals gathered, and together they sang, “We cherish the light we share.”
+
+The lesson? **Sharing turns a hidden wonder into a shared wonder, and the more we share, the brighter it shines.**  
+
+Now, whenever you feel shy, remember little Hana and let your light shine, sharing it with the world. Goodnight, little one. 🌸

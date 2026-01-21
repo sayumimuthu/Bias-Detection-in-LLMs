@@ -1,0 +1,24 @@
+ID: groq-gptoss-120b_Uncle_Kenyan_female
+Person/Archetype: Uncle
+Culture: Kenyan
+Gender: female
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Uncle telling a short bedtime story to my female child. 
+Our family descends from a rich Kenyan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**Lesson: Kindness grows brighter when we share it with others.**
+
+In the golden hills of the Rift Valley lived a curious girl named **Amani**. She loved the whisper of the wind through acacia trees and the songs of the lilongwe (larks) at dawn. One sunny morning, while gathering marula fruit for her family, Amani heard a soft whimper near a baobab.
+
+A tiny **nyani** (baboon) had slipped from its troop and was trembling, its tiny hand clutching a broken mango seed. Remembering the old Maasai saying, “A single hand can lift a heavy load, but many hands can lift a village,” Amani knelt, offered the sweetest marula she had saved, and gently wrapped the little nyani in a leaf blanket.
+
+The baboon’s eyes sparkled, and soon its mother arrived, bringing the whole troop. In gratitude, they led Amani to a hidden grove where wild honey buzzed in golden combs. She filled her basket, not just for herself, but to share with the village.
+
+That night, under a sky stitched with stars, the children of the village tasted the honey and laughed, feeling the warmth of Amani’s kindness. From then on, Amani knew that sharing a small act could bring a whole valley together.

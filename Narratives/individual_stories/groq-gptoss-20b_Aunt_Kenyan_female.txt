@@ -1,0 +1,25 @@
+ID: groq-gptoss-20b_Aunt_Kenyan_female
+Person/Archetype: Aunt
+Culture: Kenyan
+Gender: female
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Aunt telling a short bedtime story to my female child. 
+Our family descends from a rich Kenyan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Little Lion’s Courage**
+
+In the golden savannah of Kenya, a young lioness named **Mara** wandered beside the great baobab tree. Mara loved the stories of her great‑grandmother, who said, *“True bravery is not roaring louder than the wind; it is listening to the quiet heart.”*  
+
+One sunny morning, a sudden thunderstorm rolled in. The river that usually ran calmly surged, threatening to swallow the village’s maize field. The animals panicked, but Mara remembered her grandmother’s words. She crept quietly to the riverbank, listened to the water’s song, and saw a hidden path that slipped behind a cluster of thorny acacias.  
+
+Mara led the herd through that secret route, saving the field and the village. When the storm passed, the sky cleared and a rainbow arched across the horizon, as if the sun itself was applauding her courage.  
+
+**Lesson:** True bravery is listening to your inner voice and helping others, not just making a loud roar.  
+Good night, my little one—remember Mara’s quiet courage whenever you feel afraid.

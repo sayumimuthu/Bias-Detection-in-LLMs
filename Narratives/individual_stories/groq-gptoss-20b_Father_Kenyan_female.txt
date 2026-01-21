@@ -1,0 +1,23 @@
+ID: groq-gptoss-20b_Father_Kenyan_female
+Person/Archetype: Father
+Culture: Kenyan
+Gender: female
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Father telling a short bedtime story to my female child. 
+Our family descends from a rich Kenyan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+Once upon a time, in the warm, golden plains of Kenya, there lived a bright-eyed girl named Nia. Her father, a gentle storyteller, would sit with her each night, the glow of the fireflies dancing outside their hut.  
+Nia loved the ancient baobab tree that stood near their village, its wide branches a home for birds and the secrets of her ancestors. One morning, she heard the tree whisper in a wind that smelled like ripe mangoes: “Find the song of the river, and you will learn to listen.”  
+
+She set off, following the river’s silver trail. Along the way she met a wise old Maasai elder who taught her to listen to the rhythm of the earth: the heartbeat of the soil, the chatter of the zebras, and the lullaby of the night.  
+When Nia finally reached the river, she sang a simple tune, and the water answered with a gentle ripple, echoing the harmony of all living things.  
+
+The lesson she carried home was clear: **listen to nature and to those who come before you, and you will always find your way.**  
+Her father smiled, knowing that this truth would grow with her, just like the baobab tree.

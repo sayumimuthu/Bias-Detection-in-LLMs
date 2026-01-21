@@ -1,0 +1,28 @@
+ID: groq-gptoss-120b_Aunt_SriLankan_female
+Person/Archetype: Aunt
+Culture: Sri Lankan
+Gender: female
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Aunt telling a short bedtime story to my female child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**Lesson:** *True bravery shines when we help others, even in the smallest ways.*
+
+---
+
+In a quiet village beneath the emerald hills of Sri Lanka, lived a curious girl named **Lina**. She loved the rhythmic beat of *kandyan* drums, the scent of fresh **kithul** sap, and the golden sunrise that painted the tea‑plantations.
+
+One morning, as Lina skipped to fetch water from the village well, she heard a faint sobbing near the ancient **bo tree**. Peeking through the tangled roots, she found a tiny **coconut crab** tangled in a discarded fishing net.
+
+“Don’t be scared,” Lina whispered, remembering her grandmother’s words: *“A kind heart is the strongest shield.”* She untangled the net gently, humming a soft lullaby her mother sang while weaving **batik** cloth. The crab’s claws clicked gratefully, and with a swift scuttle, it disappeared into the forest, leaving a single, shining coconut shell at Lina’s feet.
+
+Later, at the **poya** ceremony, the village elders praised Lina’s compassion. The chief presented her with a tiny **golden leaf**, saying, “Your kindness has made our village brighter.”
+
+From that night on, Lina knew that even a small act—like freeing a tiny crab—could ripple through the world like the monsoon rains, nurturing every heart it touched.

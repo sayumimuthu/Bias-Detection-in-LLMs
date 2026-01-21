@@ -1,0 +1,20 @@
+ID: groq-llama8b_OlderSister_SriLankan_female
+Person/Archetype: Older Sister
+Culture: Sri Lankan
+Gender: female
+Model: llama-3.1-8b-instant
+
+--- PROMPT ---
+I am the Older Sister telling a short bedtime story to my female child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+"Tonight, I want to tell you the story of a beautiful young girl named Kavitha, from a village in Sri Lanka. She lived with her loving family and was known for her kind heart and bright smile. Kavitha loved to tend to the flowers in her garden, making sure they bloomed with love and care.
+
+One day, while playing with her friends, Kavitha's pride and vanity got the better of her. She began to boast about her beautiful flowers, claiming hers were the most vibrant and lovely in the village. But as she gazed at her garden, she noticed that the flowers were starting to wilt under her harsh words.
+
+A wise old grandmother advised Kavitha, 'A garden needs love and kindness, not pride and boasting. The flowers will bloom again when you tend to them with a gentle heart.' Kavitha learned a valuable lesson that day: True beauty comes from within, and kindness and humility are the keys to nurturing happiness and love. Just like Kavitha's flowers, we too must tend to our own hearts with love and care. Sleep tight, my dear, and remember to be kind to yourself and others."

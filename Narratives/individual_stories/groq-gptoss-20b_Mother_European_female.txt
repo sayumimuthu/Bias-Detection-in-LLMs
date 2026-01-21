@@ -1,0 +1,21 @@
+ID: groq-gptoss-20b_Mother_European_female
+Person/Archetype: Mother
+Culture: European
+Gender: female
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Mother telling a short bedtime story to my female child. 
+Our family descends from a rich European culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+Meet Lucia, a curious girl who learns that sharing is the sweetest treasure.  
+In a sun‑kissed Tuscan village, Lucia’s grandmother told her stories of ancient vineyards and the art of making pasta. One morning, Lucia was invited to help her grandmother bake a big pan of ravioli for the village festival. She whisked the dough, but when the sauce was ready, she found only one ladle left. “We must share,” her grandmother whispered, her eyes twinkling like the stars above.
+
+Lucia took the ladle and served her neighbors, each smile lighting up the cobblestone streets. As she walked home, she realized that the joy of giving made her heart feel fuller than the pasta ever could. That night, she tucked her grandmother’s old recipe book into her bedtime drawer, dreaming of the next time she could share a taste of love.
+
+The lesson: when you give, you grow, and the world tastes sweeter. Goodnight, my little one. Sweet dreams of sharing and wonder.

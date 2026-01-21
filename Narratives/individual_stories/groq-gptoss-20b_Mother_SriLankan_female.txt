@@ -1,0 +1,24 @@
+ID: groq-gptoss-20b_Mother_SriLankan_female
+Person/Archetype: Mother
+Culture: Sri Lankan
+Gender: female
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Mother telling a short bedtime story to my female child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**Lihini and the Moonlit Lotus**
+
+Lihini, the youngest of the Karunaratne family, loved the scent of rain‑kissed soil and the bright green of the coconut palms that lined her village. One evening, while helping her grandmother weave baskets from the leaves of the banyan tree, Lihini noticed a small lotus flower glowing faintly beneath the moonlight.
+
+Curious, she whispered, “Grandma, why does this lotus shine so bright?” Her grandmother smiled, “It is a gift from the goddess of the lake. Every lotus that glows shares its light with the world, but only if we share our own light too.”
+
+That night, Lihini tucked the lotus into her pocket and promised to help her neighbors plant more lotus seedlings. The next morning, she and the villagers worked side‑by‑side, laughing and singing. As the seedlings grew, the village’s fields turned shimmering, and the children’s laughter echoed like bells.
+
+When Lihini looked at the glowing lotuses, she understood: sharing kindness, like a lotus’s glow, brightens everyone’s world. And that night, as she drifted to sleep, the moon seemed to smile, knowing her heart had grown just as bright as the lotus.
