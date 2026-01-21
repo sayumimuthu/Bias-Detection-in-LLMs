@@ -1,0 +1,28 @@
+ID: groq-gptoss-120b_Father_SriLankan_male
+Person/Archetype: Father
+Culture: Sri Lankan
+Gender: male
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Father telling a short bedtime story to my male child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Tale of Kavi and the Moonlit Mango Tree**
+
+In a quiet village nestled among Sri Lanka’s emerald tea hills, lived a bright‑eyed boy named **Kavi**. Every evening he helped his mother pick ripe mangoes from the old banyan tree that glowed silver under the moon.
+
+One night, as fireflies danced, Kavi heard a soft sigh. “Who’s there?” he called. From the shadows emerged a tiny **kiri (coconut) monkey**, trembling with hunger.
+
+Kavi’s heart swelled. He could have kept the sweet mangoes for himself, but the monkey’s eyes begged for just one bite. Remembering his grandmother’s words—*“A generous hand keeps the world warm”*—Kavi sliced a golden slice and offered it.
+
+The monkey’s face lit up, and in gratitude he dropped a smooth, shining stone. “This is a **pahan** (lamp stone). Keep it, and it will glow whenever you share kindness,” he chattered before leaping back to the trees.
+
+From that night on, Kavi’s lantern never dimmed. The village children gathered around, listening to his stories, and learned that **sharing brings light to all hearts**.
+
+*Lesson: A small act of generosity brightens the world for everyone.*

@@ -1,0 +1,16 @@
+ID: groq-llama33-70b_OlderBrother_SriLankan_male
+Person/Archetype: Older Brother
+Culture: Sri Lankan
+Gender: male
+Model: llama-3.3-70b-versatile
+
+--- PROMPT ---
+I am the Older Brother telling a short bedtime story to my male child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+"Kumara, puttu, come and listen to the story of young Kavi," I said with a smile. Kavi was a kind and gentle boy from a village in Sri Lanka. He loved to help his mother in their small garden, growing delicious fruits and vegetables. One day, while Kavi was watering the plants, he accidentally broke a pot. He felt sad and wanted to give up. But his mother taught him that mistakes happen, and it's how we learn from them that matters. Kavi helped his mother fix the pot and learned to be more careful. The lesson Kavi learned is that everyone makes mistakes, but it's our responsibility to learn from them and try again. Just like Kavi, we can always try to do better and make things right. Now, get some sleep, puttu, and remember, mistakes are an opportunity to learn and grow.

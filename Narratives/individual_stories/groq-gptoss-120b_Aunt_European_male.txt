@@ -1,0 +1,28 @@
+ID: groq-gptoss-120b_Aunt_European_male
+Person/Archetype: Aunt
+Culture: European
+Gender: male
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Aunt telling a short bedtime story to my male child. 
+Our family descends from a rich European culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Little Lantern of Lichtenberg**
+
+In a snug cottage on the edge of the Black Forest lived a bright‑eyed boy named **Finn**, who loved to explore the winding trails of his great‑grandparents’ village. One crisp evening, as the sun painted the sky amber, Finn discovered an old iron lantern hidden in the attic, its glass cracked but its brass frame still warm.
+
+Grandma whispered, “That lantern belonged to your great‑great‑grandfather, a brave watchman who lit the path for lost travelers. It only shines when its keeper shares kindness.”
+
+Eager to test the tale, Finn took the lantern to the village square. He found an elderly cobbler struggling with a heavy sack of leather. Finn lifted the sack, offered a smile, and said, “Let me help.” The cobbler’s eyes twinkled, and the lantern’s dim ember flared into a golden glow, casting a gentle light over the cobbler’s shop.
+
+Word spread, and soon Finn helped neighbors—carrying water, mending fences, listening to stories. Each act made the lantern shine brighter, until the whole village basked in its warm glow.
+
+That night, Finn learned that **true light comes from helping others**, and that even the smallest kindness can brighten the world around you.
+
+*Sleep tight, dear one. May your heart shine as brightly as Finn’s lantern.*

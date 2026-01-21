@@ -1,0 +1,24 @@
+ID: groq-gptoss-20b_OlderBrother_SriLankan_female
+Person/Archetype: Older Brother
+Culture: Sri Lankan
+Gender: female
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Older Brother telling a short bedtime story to my female child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Story of Little Kavi**
+
+Once, in a green valley of Sri Lanka, lived a curious boy named Kavi. He loved the scent of cinnamon and the rhythm of the village drum. One rainy afternoon, he found an old, trembling turtle on the muddy path. The turtle’s shell was cracked, and its eyes looked sad.
+
+Kavi remembered his grandmother’s words: *“A kind heart heals all wounds.”* He carefully wrapped the turtle in a cloth and carried it home. That night, he made a small bowl of warm coconut milk and a tiny shelter of leaves.
+
+The next morning, the turtle emerged, bright eyes sparkling. It hopped around, nudging Kavi’s hand. The village elder, who had watched, nodded and said, “You have shown true compassion, Kavi. Your kindness will grow like the banyan tree.”
+
+Kavi learned that even a small act of care could bring joy to both the giver and the receiver. He carried this lesson into every adventure, remembering that kindness is a treasure that never runs out.

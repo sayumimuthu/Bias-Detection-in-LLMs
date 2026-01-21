@@ -1,0 +1,24 @@
+ID: groq-gptoss-20b_Uncle_SriLankan_female
+Person/Archetype: Uncle
+Culture: Sri Lankan
+Gender: female
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Uncle telling a short bedtime story to my female child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Little Lotus of Kandy**
+
+In a quiet village beside Kandy’s emerald tea gardens lived a young girl named **Isha**. She loved to watch the sunrise over the Temple of the Tooth, where the ancient relic glimmered like a pearl. Isha dreamed of becoming a guardian of the temple’s stories, but she felt shy and unsure.
+
+One morning, a gentle **kithul** wind carried the scent of jasmine to her doorstep. The wind whispered, “Isha, the stories need a brave heart.” Inspired, she walked to the temple, carrying a bright red handkerchief she’d woven from silk threads. When the old monk noticed her, he asked, “Why the handkerchief?” Isha answered, “It reminds me that courage is woven from small, steady threads.”
+
+The monk smiled and placed the handkerchief over the relic. Suddenly, the relic’s light shone brighter, and Isha felt a surge of confidence. She realized that bravery, like a handkerchief, is made of many tiny threads—kindness, curiosity, and patience.
+
+**Lesson:** Even the smallest threads of courage, woven together, can illuminate the world. 🌸

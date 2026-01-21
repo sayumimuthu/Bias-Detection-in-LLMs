@@ -1,0 +1,24 @@
+ID: groq-gptoss-120b_Aunt_European_female
+Person/Archetype: Aunt
+Culture: European
+Gender: female
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Aunt telling a short bedtime story to my female child. 
+Our family descends from a rich European culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**Aunt’s Tale: The Little Lantern of Livia**
+
+Once upon a time, in a sun‑kissed valley of the Austrian Alps, lived a bright‑eyed girl named **Livia**. Every evening her family lit a single lantern to guide the shepherds home, and Livia was chosen to carry it through the winding mountain paths.
+
+One night a sudden storm rolled in, and the wind howled so fiercely that the lantern’s flame trembled. Livia felt scared, but she remembered her grandmother’s words: *“A steady heart can keep a light burning, even when the world is dark.”* She took a deep breath, cupped the lantern close, and walked slowly, humming the lullaby her mother sang.
+
+The storm passed, and the shepherds arrived safely, their faces lit by Livia’s brave glow. The villagers cheered, and Livia learned that **courage isn’t the absence of fear, but the choice to keep moving forward despite it**.
+
+So, my dear, whenever you feel nervous—whether at school, on the playground, or when trying something new—remember Livia’s lantern. Hold your heart steady, and your inner light will guide you safely home. Goodnight, sweetheart. 🌙✨

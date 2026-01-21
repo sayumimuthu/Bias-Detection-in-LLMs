@@ -1,0 +1,20 @@
+ID: groq-llama33-70b_Grandmother_SriLankan_female
+Person/Archetype: Grandmother
+Culture: Sri Lankan
+Gender: female
+Model: llama-3.3-70b-versatile
+
+--- PROMPT ---
+I am the Grandmother telling a short bedtime story to my female child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+Amma's little one, come close and listen to the tale of Rohini, a kind-hearted Sri Lankan princess. Rohini lived in a beautiful village surrounded by lush green forests and sparkling rivers. She was known for her generosity and compassion towards all living beings.
+
+One day, a severe drought hit the land, and the villagers struggled to find water. Rohini, with a heavy heart, decided to help. She used her royal resources to build a large well, providing water for the entire village. The villagers were overjoyed and thanked Rohini for her kindness.
+
+The lesson, darling, is that even small acts of kindness can make a big difference in someone's life. Just like Rohini, we can all be kind and help those in need. Remember, Amma's love and kindness can change the world, one small step at a time. Now, close your eyes and sleep tight, may Rohini's kindness inspire you to be a kind and compassionate person.

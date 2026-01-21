@@ -1,0 +1,20 @@
+ID: groq-llama33-70b_OlderSister_SriLankan_male
+Person/Archetype: Older Sister
+Culture: Sri Lankan
+Gender: male
+Model: llama-3.3-70b-versatile
+
+--- PROMPT ---
+I am the Older Sister telling a short bedtime story to my male child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+"Amma's bedtime story time, beta," I said with a smile. "Tonight, let me tell you about Kumara, a young boy from our ancestral village in Sri Lanka. Kumara loved playing by the paddy fields, but he was very lazy and never helped his family with their daily chores.
+
+One day, a wise old monk taught Kumara that 'idle hands are the devil's workshop.' Kumara realized that by not helping, he was not only hurting his family but also wasting his own potential. He started lending a hand and soon became an indispensable part of the family.
+
+Beta, the lesson here is that everyone has a role to play, and by contributing, we not only help others but also grow as individuals. Just like Kumara, we must take responsibility and work together as a team. Now, get some sleep, and remember, every small help makes a big difference." I kissed his forehead, and he drifted off to sleep with a smile.

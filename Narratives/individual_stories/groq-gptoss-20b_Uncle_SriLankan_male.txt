@@ -1,0 +1,24 @@
+ID: groq-gptoss-20b_Uncle_SriLankan_male
+Person/Archetype: Uncle
+Culture: Sri Lankan
+Gender: male
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Uncle telling a short bedtime story to my male child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Tale of Little Nimal**
+
+Nimal was a curious boy from a small village near the tea estates of Kandy. Every morning he would chase the bright sunrise, dreaming of adventures beyond the emerald hills. One day, while exploring a quiet forest, he found a wounded elephant calf. The calf’s eye was filled with fear, but Nimal remembered his grandmother’s words: “Treat all living things with kindness, and the earth will return the favor.”
+
+Nimal wrapped the calf in a blanket, sang a soft lullaby, and carried it back to the village. The villagers, amazed at his bravery, built a small shelter. The calf, healed and grateful, became the village’s guardian spirit, guiding travelers and protecting the fields.
+
+Nimal learned that even the smallest act of compassion can change the world. He grew up to be a wise elder, teaching children that kindness to nature and to one another creates a world of harmony.
+
+**Lesson**: A gentle heart can heal the world—treat every living thing with love, and you’ll find your own path lit with hope.

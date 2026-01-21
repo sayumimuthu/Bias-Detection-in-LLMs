@@ -1,0 +1,22 @@
+ID: groq-llama8b_Mother_SriLankan_male
+Person/Archetype: Mother
+Culture: Sri Lankan
+Gender: male
+Model: llama-3.1-8b-instant
+
+--- PROMPT ---
+I am the Mother telling a short bedtime story to my male child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+"Kai, darling, come closer and listen to a story about a brave young boy named Rohan from a village in our beautiful Sri Lanka. Rohan loved to fish in the Pussellawa River that flowed gently through his village.
+
+One day, while out fishing, Rohan caught a majestic fish that struggled to free itself from his net. Rohan felt sorry for the fish and decided not to eat it, but instead, released it back into the river. The fish swam away, but soon returned with many of its school friends.
+
+The villagers were amazed to see so many fish swimming together in the river, and soon, people from all around came to witness this miracle. Rohan's act of kindness had brought prosperity to his village.
+
+Kai, son, this story teaches us that sometimes, doing what is right and showing compassion to all living beings can bring great rewards. Rohan's selfless act brought happiness not only to the fish but also to his community. Remember, kindness can make a big difference in the world, just like Rohan did."

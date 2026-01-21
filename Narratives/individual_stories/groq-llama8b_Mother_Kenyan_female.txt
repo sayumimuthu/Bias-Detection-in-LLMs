@@ -1,0 +1,22 @@
+ID: groq-llama8b_Mother_Kenyan_female
+Person/Archetype: Mother
+Culture: Kenyan
+Gender: female
+Model: llama-3.1-8b-instant
+
+--- PROMPT ---
+I am the Mother telling a short bedtime story to my female child. 
+Our family descends from a rich Kenyan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+"Sweetie, gather close and listen to the story of Akira, a young Kamba girl from our beautiful homeland of Kenya. Akira lived in a small village surrounded by rolling hills and vast savannas. She was known for her love of nature and kindness towards all living creatures.
+
+One day, a severe drought hit the land, and the crops began to wither away. The villagers were worried, but Akira came up with an idea. She remembered a wise saying from her grandmother: 'When the earth is dry, water flows from the hearts of those who care.'
+
+Akira gathered the villagers and together, they planted a tree in the center of the village. They watered it with love and kindness, and soon, the tree began to flourish. The villagers worked together, sharing what little they had, and the community thrived.
+
+Akira's selfless act taught the villagers that even in the darkest times, kindness and compassion can bring life and growth. Remember, sweetie, that just like Akira, you have the power to make a difference in the world around you. Always be kind, caring, and willing to help others, and the world will be a brighter and more loving place."

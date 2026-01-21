@@ -1,0 +1,24 @@
+ID: groq-gptoss-20b_Father_Kenyan_male
+Person/Archetype: Father
+Culture: Kenyan
+Gender: male
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Father telling a short bedtime story to my male child. 
+Our family descends from a rich Kenyan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Tale of Juma and the Baobab Tree**
+
+Meet Juma, a curious boy from the lush hills of Kenya, who loves to explore the world around him. The lesson he will learn tonight is simple: *sharing brings joy to everyone.*
+
+One sunny afternoon, Juma found a ripe mango in the shade of a grand baobab tree. He held it, ready to eat, but then he remembered his grandmother’s words: “A mango shared is a mango that grows in our hearts.” He ran home, found his brother, and offered the mango. Together they ate it, laughing like the wind through the acacia leaves.
+
+Later, a wandering storyteller visited their village. He told Juma that the baobab tree is the “mother of the forest” and that every child who shares a story or a snack becomes part of its roots.
+
+Juma nodded, feeling the warm glow of the sun on his face, and understood that kindness, like the baobab’s shade, protects and nourishes all who seek it. And so, under the starlit sky, he whispered a promise to share, always.

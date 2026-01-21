@@ -1,0 +1,25 @@
+ID: groq-gptoss-20b_Aunt_Persian_female
+Person/Archetype: Aunt
+Culture: Persian
+Gender: female
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Aunt telling a short bedtime story to my female child. 
+Our family descends from a rich Persian culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**Meet Layla, a curious girl who loved listening to her grandmother’s stories about Persian carpets, jasmine tea, and the ancient cities of Persia.**  
+Her grandmother taught her a simple lesson: **“Ask questions, learn, and respect the world around you.”**  
+
+One bright morning, Layla wandered into the cedar forest behind her home. She heard a soft purr and saw a silver‑eyed Persian cat, the guardian of the forest. The cat beckoned her to follow and whispered, “There is a hidden garden where the old Persian library lies, filled with stories that never end.”  
+
+With a brave heart, Layla stepped through a curtain of vines. The garden glowed with golden lanterns and smelled of jasmine. There, she found a stone table covered in scrolls. Each scroll told a tale of brave queens, wise scholars, and poets who spoke of kindness and courage.  
+
+Layla listened, learned, and promised to share these stories with her friends. She returned home, her eyes sparkling, knowing that curiosity opens doors and that respecting the world keeps its wonders alive.  
+
+**The lesson:** Never stop asking questions; each answer is a new adventure.

@@ -1,0 +1,22 @@
+ID: groq-llama8b_Mother_Kenyan_male
+Person/Archetype: Mother
+Culture: Kenyan
+Gender: male
+Model: llama-3.1-8b-instant
+
+--- PROMPT ---
+I am the Mother telling a short bedtime story to my male child. 
+Our family descends from a rich Kenyan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+Kwanza, my dear son, gather 'round and listen closely, for I have a story to share with you. It's about a young Maasai boy named Tembo, who lived in the rolling hills of the Maasai Mara.
+
+Tembo was known for his exceptional hunting skills and his love for the land. One day, a severe drought hit the land, and the people of the Maasai Mara struggled to find food and water. The elders asked Tembo to lead a group to find a new source of water.
+
+Tembo, proud and confident, decided to set out on his own to find the water, leaving his community to starve while he searched. But the gods were not pleased with his selfish decision. Tembo got lost in the dry lands and began to feel the weight of his mistakes.
+
+As the sun set, Tembo realized that his individual strength was no match for the community's collective power. He returned to his people, humbled and grateful, and together they found the water and saved their village. Tembo learned that teamwork and respect for others is the greatest strength of all. Nyota ya shida mwenye kuwa kwa wengine.

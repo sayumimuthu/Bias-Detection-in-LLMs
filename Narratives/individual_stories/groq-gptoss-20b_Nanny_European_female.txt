@@ -1,0 +1,16 @@
+ID: groq-gptoss-20b_Nanny_European_female
+Person/Archetype: Nanny
+Culture: European
+Gender: female
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Nanny telling a short bedtime story to my female child. 
+Our family descends from a rich European culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+Lena, a curious girl with a golden braid, loved to explore the attic of her grand old house in the heart of Paris. She believed every dusty book held a secret adventure. One rainy afternoon she found a tiny silver key and a note: “The

@@ -1,0 +1,26 @@
+ID: groq-gptoss-120b_Mother_Persian_male
+Person/Archetype: Mother
+Culture: Persian
+Gender: male
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Mother telling a short bedtime story to my male child. 
+Our family descends from a rich Persian culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**Lesson:** True bravery shines brightest when it is guided by kindness and humility.  
+
+In a quiet corner of the ancient city of Isfahan lived a young carpet‑weaver named **Rostam**. He was famed for the vibrant threads he chose—ruby‑red pomegranates, sapphire‑blue skies, and golden wheat that seemed to dance beneath his fingers. Yet, despite his talent, Rostam often boasted, “No one can match my work!”  
+
+One moonlit night a wandering sparrow, its wing cracked, fluttered into Rostam’s workshop. The bird whispered, “Help me, and I will show you a secret.” Remembering the old Persian saying, *“A gentle hand heals all wounds,”* Rostam set aside his pride, mended the sparrow’s feather with a strand of silk, and offered crumbs of honey‑sweet figs.  
+
+The sparrow sang a melody that called the wind. It lifted Rostam’s unfinished carpet, spreading it across the city’s grand bazaar. Every passerby gasped at the masterpiece—its patterns now told a story of compassion, not competition.  
+
+From that night on, Rostam wove not just with skill, but with a warm heart, and his fame grew far beyond the borders of Persia.  
+
+*And so, my dear, remember: the strongest threads are those woven with kindness.*

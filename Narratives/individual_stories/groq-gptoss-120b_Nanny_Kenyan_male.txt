@@ -1,0 +1,16 @@
+ID: groq-gptoss-120b_Nanny_Kenyan_male
+Person/Archetype: Nanny
+Culture: Kenyan
+Gender: male
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Nanny telling a short bedtime story to my male child. 
+Our family descends from a rich Kenyan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+On the edge of the golden savanna lived a curious boy named **Kito**. He loved the rhythm of the drums his grandmother played and the stories of the great lion, **Simbora

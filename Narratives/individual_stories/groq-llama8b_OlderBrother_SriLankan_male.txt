@@ -1,0 +1,22 @@
+ID: groq-llama8b_OlderBrother_SriLankan_male
+Person/Archetype: Older Brother
+Culture: Sri Lankan
+Gender: male
+Model: llama-3.1-8b-instant
+
+--- PROMPT ---
+I am the Older Brother telling a short bedtime story to my male child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+My son, gather close and listen to the tale of a brave young boy named Kavinda. Kavinda lived in a small village in the lush hills of Sri Lanka, where the scent of frangipani flowers filled the air. He was a curious and adventurous boy, with a heart full of love for his family and community.
+
+One day, while exploring the forest, Kavinda stumbled upon a beautiful but injured peacock. He decided to care for the bird, nursing it back to health with the help of his wise grandmother, who taught him the secrets of traditional Ayurvedic medicine.
+
+As the peacock recovered, Kavinda learned a valuable lesson. He realized that even the most majestic and beautiful creatures can fall ill or struggle. But with kindness, care, and compassion, they can rise again. This taught him the importance of empathy, understanding, and helping those in need.
+
+Just like the peacock, we too can face challenges in life. But with the help of loved ones, our community, and our own inner strength, we can overcome them and shine brighter than ever. Now, my son, close your eyes and sleep tight, with the story of Kavinda and the peacock in your heart.

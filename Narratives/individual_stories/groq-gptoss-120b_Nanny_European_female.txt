@@ -1,0 +1,24 @@
+ID: groq-gptoss-120b_Nanny_European_female
+Person/Archetype: Nanny
+Culture: European
+Gender: female
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Nanny telling a short bedtime story to my female child. 
+Our family descends from a rich European culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Little Lantern of Livia**
+
+In a quiet Alpine village, where the hills rolled like soft waves of green, lived a bright‑eyed girl named Livia. Every evening, her grandmother would light a tiny lantern and place it on the windowsill, saying, “A light shared is a heart warmed.”  
+
+One night a fierce storm rolled over the mountains, rattling doors and howling through the pine trees. The village’s great lantern in the town square went out, and darkness settled over the streets. Seeing the frightened faces of her neighbors, Livia remembered her grandmother’s words. She hurried to her own little lantern, lifted it high, and walked through the howling wind, placing the glow at every doorstep, every doorstep, and finally at the empty town‑square lantern.
+
+The soft light blossomed, chasing shadows away. The villagers gathered, smiling, and sang songs of courage. When the storm passed, the great lantern was relit, brighter than ever—fed by the many tiny lights that had come together.
+
+**Lesson:** One small, caring act can brighten many hearts; sharing your light makes the world a warmer place.

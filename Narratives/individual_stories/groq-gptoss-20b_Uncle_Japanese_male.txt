@@ -1,0 +1,20 @@
+ID: groq-gptoss-20b_Uncle_Japanese_male
+Person/Archetype: Uncle
+Culture: Japanese
+Gender: male
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Uncle telling a short bedtime story to my male child. 
+Our family descends from a rich Japanese culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+In the quiet village of Yamashiro, lived a curious boy named Kenji. His grandmother gave him a tiny sapling, a bonsai, and asked, “Care for it, and it will grow a story of its own.” Kenji planted the sapling beside the stone path, watering it every dawn, but the tree seemed stubbornly small. He grew impatient, wishing the tree would sprout instantly, and one day he left it unattended.
+
+That night, the wind whispered through the bamboo grove, and the old master of the village, who had watched Kenji’s impatience, approached him. “The tree is like life,” the master said. “It does not grow because you rush it, but because you tend to it gently, day after day.” Kenji listened, and the next morning he resumed his careful watering, pruning, and loving touch. Months passed, and the bonsai blossomed into a graceful miniature cedar, its leaves shimmering like moonlight.
+
+The lesson Kenji learned—and now shares with you—is simple: patience and consistent care bring beautiful growth, just like a story that unfolds slowly in time.

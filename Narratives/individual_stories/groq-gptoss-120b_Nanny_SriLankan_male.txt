@@ -1,0 +1,24 @@
+ID: groq-gptoss-120b_Nanny_SriLankan_male
+Person/Archetype: Nanny
+Culture: Sri Lankan
+Gender: male
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Nanny telling a short bedtime story to my male child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+On a breezy evening in the misty hills of Kandy, a curious boy named **Kavi** walked home from school, his satchel swinging beside him. The air smelled of fresh rain and blooming jasmine, and fireflies twinkled like tiny lanterns among the coconut palms.
+
+As Kavi passed the tea terraces, he heard a soft whimper. Beneath a broad **kithul** leaf lay a tiny sea turtle, far from the ocean, its shell glistening with dew. The turtle’s eyes were wide with fear.
+
+“Don’t worry,” Kavi whispered. He remembered his grandmother’s story of the **Naga** who guided lost creatures back home. Carefully, Kavi lifted the turtle, cradling it gently, and followed the moonlit path down the hill, past the fragrant spice garden, until the distant roar of the sea welcomed them.
+
+The turtle slipped back into the waves, turning once to flash a grateful smile. Kavi felt warmth bloom in his chest.
+
+**Lesson:** Even the smallest act of kindness can guide a lost heart home—just as a single brave step can change the world.

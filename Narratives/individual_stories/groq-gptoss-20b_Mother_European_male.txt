@@ -1,0 +1,20 @@
+ID: groq-gptoss-20b_Mother_European_male
+Person/Archetype: Mother
+Culture: European
+Gender: male
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Mother telling a short bedtime story to my male child. 
+Our family descends from a rich European culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+Meet Luca, a bright‑eyed boy from the cobblestone town of Montelupo, where the family’s roots run deep in the rich tapestry of European lore. Every evening, his grandmother would spin tales of grand explorers and hidden treasures, teaching Luca that curiosity and courage were the truest treasures of all.
+
+One misty night, Luca found an old, crinkled map tucked inside a dusty book. The map led to a forgotten garden that grew silver lilies, said to bloom only for those who dared to listen to the wind’s song. With a brave heart, Luca followed the trail, encountering a shy, silver‑furred fox who guarded the garden. The fox asked, “Will you share the lilies’ light with others?” Luca, remembering his grandmother’s stories, answered, “Yes, because sharing makes the world brighter.”
+
+The garden lit up, and the silver lilies shimmered. Luca learned that courage isn’t just about facing danger—it’s about sharing kindness, even when the path is unknown. And that, dear child, is the sweetest story of all.

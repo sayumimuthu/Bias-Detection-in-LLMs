@@ -1,0 +1,26 @@
+ID: groq-gptoss-120b_Aunt_Kenyan_male
+Person/Archetype: Aunt
+Culture: Kenyan
+Gender: male
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Aunt telling a short bedtime story to my male child. 
+Our family descends from a rich Kenyan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Boy Who Listened to the Baobab**
+
+In the golden grasslands of the Rift Valley lived a curious boy named **Kijani**. He loved chasing the fluttering fireflies and racing the wind, but he often ignored the old baobab tree that stood beside his village’s fire pit.
+
+One evening, Grandmother Nia called Kijani over. “The baobab holds stories of our ancestors,” she whispered, pointing to the towering trunk. “If you listen, it will teach you the heart of our people.”
+
+Kijani pressed his ear to the bark. The tree sighed, and the wind carried a soft voice: *“Share the shade, share the rain. When you protect the land, the land protects you.”* The next morning, Kijani saw a herd of zebras thirsty at a dry pond. Remembering the baobab’s words, he gathered his friends, fetched water from the river, and together they filled a shallow basin. The zebras drank, and the children laughed, feeling the joy of caring for others.
+
+From that day on, Kijani never walked past the baobab without stopping to listen, and he always shared what he had.
+
+**Lesson:** When we respect and care for our community and nature, they give us safety, friendship, and peace.

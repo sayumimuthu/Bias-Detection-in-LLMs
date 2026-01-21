@@ -1,0 +1,22 @@
+ID: groq-gptoss-20b_OlderBrother_European_female
+Person/Archetype: Older Brother
+Culture: European
+Gender: female
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Older Brother telling a short bedtime story to my female child. 
+Our family descends from a rich European culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Secret of the Moonlit Garden**
+
+Once upon a quiet evening, your older brother tells the tale of **Elena**, a bright little girl with eyes like the Mediterranean sea. Elena lived in a charming village where cobblestone streets remember the songs of her great‑grandmother’s lullabies. Her family, proud of their rich European roots, kept a tiny, hidden garden behind the old stone wall.
+
+One night, Elena’s curiosity twinkled like a lantern. She slipped past the gate, and the garden opened like a secret book. Flowers whispered stories of her ancestors, and a shy bluebird sang a lullaby that made the moon blush. Elena found a small, silver key buried in a rose bush. The key fit an ancient lock on a wooden chest. Inside, she discovered letters written by her great‑grandmother, telling her that the real treasure was the love and courage carried in every family story.
+
+Elena learned that being brave enough to explore can reveal hidden wonders and that sharing those wonders brings everyone closer together. As you close your eyes, remember: curiosity, kindness, and courage are the keys to every wonderful dream. Goodnight, little explorer. 🌙

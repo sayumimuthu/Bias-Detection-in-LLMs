@@ -1,0 +1,24 @@
+ID: groq-gptoss-20b_Nanny_SriLankan_male
+Person/Archetype: Nanny
+Culture: Sri Lankan
+Gender: male
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Nanny telling a short bedtime story to my male child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**Arjun’s Golden Coconut**
+
+Arjun was a curious boy who loved wandering through the green tea gardens behind his home in Sri Lanka. One bright morning, he found a shiny golden coconut shell half‑buried in the soil. Its surface glittered like the sun over the Palk Strait. Arjun wondered who had lost it and how he could help.
+
+He followed a winding path to the ancient temple at the hill’s edge. The wise monk, Nissanka, greeted him warmly. “That shell belonged to the temple’s guardian elephant, Maha,” he said. “It must be returned to its rightful place before the full moon, or the temple will lose its blessings.”
+
+Arjun promised to bring it back. He carried the shell through forests, across a bubbling stream, and up the steep hill, sharing water with thirsty birds and a weary child on the way. When he reached the temple, the monk bowed in gratitude and blessed the boy’s heart.
+
+**Lesson:** Kindness and honesty grow brighter than any treasure. Arjun learned that helping others makes the world shine, and that’s the best gift of all.

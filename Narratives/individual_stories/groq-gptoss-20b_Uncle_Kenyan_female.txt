@@ -1,0 +1,26 @@
+ID: groq-gptoss-20b_Uncle_Kenyan_female
+Person/Archetype: Uncle
+Culture: Kenyan
+Gender: female
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Uncle telling a short bedtime story to my female child. 
+Our family descends from a rich Kenyan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Tale of Amina and the Whispering Tree**
+
+Amina was a curious girl from a proud Kenyan family. She loved listening to her grandmother’s stories about the great baobab tree that stood at the edge of their village. One warm evening, Amina asked, “Grandma, why does that tree whisper?”
+
+Grandma smiled, “Because it knows every secret of the land. It teaches us to respect the earth.”
+
+That night, Amina dreamed she could talk to the baobab. The tree told her of the wind, the soil, and the animals that lived beneath its roots. It warned, “When we hurt the earth, it hurts us too.”
+
+The next day, Amina helped her mother plant a new sapling beside the old tree. She watered it gently, sang songs, and promised to protect it.
+
+**Lesson:** By caring for the earth, we protect our own future. Amina learned that every small act of kindness to nature creates a stronger, happier world for everyone. And every bedtime, she whispered thanks to the wise baobab, knowing its lessons would stay with her forever.

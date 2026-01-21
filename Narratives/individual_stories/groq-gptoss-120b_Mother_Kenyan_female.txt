@@ -1,0 +1,30 @@
+ID: groq-gptoss-120b_Mother_Kenyan_female
+Person/Archetype: Mother
+Culture: Kenyan
+Gender: female
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Mother telling a short bedtime story to my female child. 
+Our family descends from a rich Kenyan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**Amani’s Moonlit Promise**
+
+In the gentle hills of the Rift Valley lived a curious girl named **Amani**, whose name meant “peace.” Every evening she would sit under the ancient baobab, listening to the whisper of the wind and the distant song of the nightjazz owls. One night, a tiny firefly named **Malaika** fluttered down, her light trembling.
+
+“Why are you so dim?” Amani asked.
+
+Malaika sighed, “I’m scared to glow; the darkness feels too big.”
+
+Amani remembered the old Maasai saying her grandmother taught her: *“The smallest spark can guide the greatest herd.”* She reached out, cradling the firefly gently, and whispered, “Your light is yours to share, no matter how small.”
+
+Together they walked to the riverbank, where the moon reflected like silver beads on the water. As Malaika lifted her glow, the river shimmered, and the night creatures gathered, feeling safe.
+
+From that night on, Amani promised to always help others find their own light, just as the baobab stands tall, offering shade to every traveler.
+
+**Lesson:** Even the tiniest courage can illuminate the world—share your light, and you’ll never be alone.

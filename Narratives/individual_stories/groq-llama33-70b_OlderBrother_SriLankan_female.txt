@@ -1,0 +1,20 @@
+ID: groq-llama33-70b_OlderBrother_SriLankan_female
+Person/Archetype: Older Brother
+Culture: Sri Lankan
+Gender: female
+Model: llama-3.3-70b-versatile
+
+--- PROMPT ---
+I am the Older Brother telling a short bedtime story to my female child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+"Amma, come close," I said with a smile. "Tonight, I'll tell you a story about a little girl named Kavita, who lived in a small village in Sri Lanka. Kavita was known for her beautiful dancing and kind heart. One day, while dancing at the temple festival, she saw an old woman struggling to carry a heavy load. Without hesitation, Kavita rushed to help her.
+
+As they walked together, the old woman told Kavita that kindness is like a precious gemstone - it shines brighter when shared with others. Kavita learned that helping others not only makes them happy, but also brings joy to our own hearts. From that day on, Kavita continued to dance with a heart full of kindness and compassion.
+
+The lesson, Amma, is that we too can make a difference in someone's life with a simple act of kindness. Just like Kavita, we can spread love and happiness wherever we go. Now, get some rest, and remember to always be kind to those around you." I kissed her forehead, and she drifted off to sleep with a sweet smile.

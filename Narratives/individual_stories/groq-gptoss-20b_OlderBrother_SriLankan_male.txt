@@ -1,0 +1,20 @@
+ID: groq-gptoss-20b_OlderBrother_SriLankan_male
+Person/Archetype: Older Brother
+Culture: Sri Lankan
+Gender: male
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Older Brother telling a short bedtime story to my male child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Tale of Little Nima**
+
+In a quiet Sri Lankan village, a curious boy named Nima loved to wander the coconut groves. One bright afternoon, he found a tiny, trembling baby elephant hiding behind a banyan tree. The elephant’s eye glowed with fear, and Nima’s heart filled with worry. He remembered his grandmother’s words: *“Kindness is the sweetest tea.”* Nima gently offered a leaf of sweet mango and sang a soft lullaby, coaxing the elephant to trust him. Together, they walked to the ancient temple, where the monks fed the elephant with golden rice. The boy learned that even the smallest act of compassion can bring great joy.
+
+**Lesson:** True courage is shown when we care for others, no matter how big or small. As Nima’s kindness made a new friend, so can our gentle deeds brighten the world around us. Goodnight, little one—remember, a kind heart is the brightest light in the night.

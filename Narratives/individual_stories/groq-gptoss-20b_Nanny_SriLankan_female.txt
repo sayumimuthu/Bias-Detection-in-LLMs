@@ -1,0 +1,24 @@
+ID: groq-gptoss-20b_Nanny_SriLankan_female
+Person/Archetype: Nanny
+Culture: Sri Lankan
+Gender: female
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Nanny telling a short bedtime story to my female child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Moonlit Drum**
+
+Once upon a night when the moon hung low over Kandy, a bright‑eyed girl named **Anika** tugged at her grandmother’s sari. “Grandma, why do you keep the old drum by the verandah?” she asked, her voice as soft as a jasmine petal.
+
+Grandma smiled, her hands dancing with memories. “Every rhythm I play tells a story of our ancestors, of the rivers that fed our lands and the brave warriors who protected us.” She lifted the drum, its brass gleaming like a silver leaf. “When you listen, you hear the heart of Sri Lanka.”
+
+Anika pressed the drum’s head. The sound rolled over the garden, mingling with crickets. The next day, she shared the drum’s song with her classmates. They laughed, then listened, eyes wide with wonder. Anika realized that sharing a piece of her heritage made others feel a part of her world.
+
+**Lesson:** By honoring and sharing our traditions, we keep them alive and weave them into the hearts of those around us. And the drum? It keeps beating, just like our stories.

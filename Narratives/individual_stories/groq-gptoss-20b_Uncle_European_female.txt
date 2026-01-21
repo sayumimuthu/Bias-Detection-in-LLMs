@@ -1,0 +1,22 @@
+ID: groq-gptoss-20b_Uncle_European_female
+Person/Archetype: Uncle
+Culture: European
+Gender: female
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Uncle telling a short bedtime story to my female child. 
+Our family descends from a rich European culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Little Lantern of Livia**
+
+Livia, the youngest granddaughter of the Grand Duke’s family, loved the old silver lantern that hung in the attic of their grand house in Vienna. It was a family heirloom, said to have been carried by a brave princess who once lit the way through a stormy night. Livia’s grandmother told her, “The lantern shines brightest when you share its light.”
+
+One evening, Livia discovered a tiny, trembling sparrow in the attic. It had lost its way and couldn’t fly. Livia remembered her grandmother’s words and, with gentle hands, placed the sparrow on the lantern’s warm glow. The bird’s wings fluttered, and it flew out of the window, soaring into the night sky. Livia felt a warm glow in her heart.
+
+The lesson she learned: *When we share our light and kindness, even the smallest acts can guide others out of darkness.* And so, every night before sleep, Livia whispered to the lantern, “May we always shine together.”

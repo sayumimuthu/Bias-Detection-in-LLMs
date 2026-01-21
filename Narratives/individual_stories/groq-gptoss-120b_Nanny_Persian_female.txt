@@ -1,0 +1,26 @@
+ID: groq-gptoss-120b_Nanny_Persian_female
+Person/Archetype: Nanny
+Culture: Persian
+Gender: female
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Nanny telling a short bedtime story to my female child. 
+Our family descends from a rich Persian culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Tale of Laleh and the Moonlit Carpet**
+
+In a sun‑kissed village at the foot of the Alborz mountains lived a bright‑eyed girl named **Laleh**. She loved to weave tiny rugs from bright silk threads, just like the grand carpets in the palace of Persepolis.
+
+One night, a silver moon floated low over the garden, and Laleh heard a soft sigh from the old walnut tree. “I have lost my golden thread,” whispered the wind‑bent branch. “Without it, the night sky cannot stitch its stars together.”
+
+Laleh’s heart fluttered. She remembered her grandmother’s words: *“Kindness is the brightest thread you can give.”* Quietly, she slipped from her room, tiptoed to the loom, and wove a shimmering strand of her own silk, humming the lullaby her mother sang.
+
+She placed the new thread on the tree’s highest branch. Instantly, the moon shivered, and a cascade of glittering stars blossomed across the heavens, spelling Laleh’s name in light.
+
+When she returned home, the village awoke to a sky brighter than any festival. Laleh learned that **a small act of kindness can light up the whole world**—and that the love we share is the most precious pattern of all.

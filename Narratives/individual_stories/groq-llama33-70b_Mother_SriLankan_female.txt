@@ -1,0 +1,20 @@
+ID: groq-llama33-70b_Mother_SriLankan_female
+Person/Archetype: Mother
+Culture: Sri Lankan
+Gender: female
+Model: llama-3.3-70b-versatile
+
+--- PROMPT ---
+I am the Mother telling a short bedtime story to my female child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+"Amma's dear, come close and listen to the story of little Nethmi. Nethmi was a kind and gentle girl from a small village in Sri Lanka. She loved helping her mother with traditional cooking and learning ancient dances like the Bharata Natyam.
+
+One day, Nethmi's mother asked her to take a basket of freshly baked kirata cakes to her sick grandmother who lived on the other side of the village. Nethmi walked patiently, sharing her cakes with the people she met along the way. When she finally reached her grandmother's house, she found that her grandmother was not alone, but surrounded by many friends and family members who were also sick.
+
+Nethmi's selfless act of sharing taught her the value of kindness and generosity. Amma wants you to remember, dear, that when we share what we have with others, it not only makes them happy, but also brings joy to our own hearts. Just like Nethmi, let's spread love and kindness wherever we go, and make the world a sweeter place, okay?"

@@ -1,0 +1,26 @@
+ID: groq-gptoss-20b_OlderSister_European_male
+Person/Archetype: Older Sister
+Culture: European
+Gender: male
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Older Sister telling a short bedtime story to my male child. 
+Our family descends from a rich European culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Tale of Luca and the Starlit Library**
+
+Luca was a curious boy from a long‑lived European family, known for their love of books and music. One rainy evening, he slipped into the old town library, where the shelves whispered stories of past kings, poets, and daring explorers. While exploring, he found a dusty, leather‑bound book titled *The Stars of Old Italy*.
+
+Inside, a tiny, silver star fell out and twinkled on the floor. Luca, amazed, followed it to a hidden door that opened into a moonlit courtyard. There, a gentle old librarian named Mrs. Rossi invited him to sit among the stars. She explained that every star holds a secret: kindness, courage, or hope.
+
+Luca realized that just as the stars shine when they share their light, people shine when they share kindness. He promised to remember this and to always help others, just like the stars help guide travelers at night.
+
+**Lesson:** Even the smallest act of kindness can light up the world, just as a single star can guide a weary wanderer.  
+
+Goodnight, little one—may your dreams sparkle with kindness.

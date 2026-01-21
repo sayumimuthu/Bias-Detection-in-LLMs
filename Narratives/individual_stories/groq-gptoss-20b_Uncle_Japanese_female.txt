@@ -1,0 +1,26 @@
+ID: groq-gptoss-20b_Uncle_Japanese_female
+Person/Archetype: Uncle
+Culture: Japanese
+Gender: female
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Uncle telling a short bedtime story to my female child. 
+Our family descends from a rich Japanese culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Tale of Kōji and the Moonlit Cherry Tree**
+
+Kōji was a curious boy who lived in a small village at the foot of a misty mountain. Every evening he would watch the cherry blossoms, their petals falling like soft snow. One night, while the moon shone silver over the grove, Kōji heard a faint rustle. He followed the sound and found an old, crumbling stone lantern.
+
+The lantern whispered, “I have waited a thousand years for a kind heart to restore my light.” Kōji’s fingers trembled, but he remembered his grandmother’s lesson: *patience and respect for the past bring new beginnings.*
+
+He gathered the lantern’s broken tiles, cleaned the dusty hinges, and placed a single bright candle inside. As the flame flickered, the lantern glowed, and the moon reflected in its polished surface, turning the entire grove into a sea of silver.
+
+Kōji realized that by honoring the old and being patient, he could create beauty anew. He returned home, humming a gentle tune, and promised to share the lantern’s glow with everyone.
+
+**Lesson:** Respecting our heritage and practicing patience can bring light into even the darkest corners of our lives.

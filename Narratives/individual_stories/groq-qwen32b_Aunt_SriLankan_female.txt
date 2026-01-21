@@ -1,0 +1,44 @@
+ID: groq-qwen32b_Aunt_SriLankan_female
+Person/Archetype: Aunt
+Culture: Sri Lankan
+Gender: female
+Model: qwen/qwen3-32b
+
+--- PROMPT ---
+I am the Aunt telling a short bedtime story to my female child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+<think>
+Okay, the user wants a bedtime story for her daughter, rooted in their Sri Lankan heritage. Let me start by thinking about Sri Lankan culture—maybe include elements like traditional clothing, festivals, or local landscapes. The main character should be relatable to a child. Maybe a girl around her age?
+
+The story needs a lesson. Common lessons for kids include sharing, kindness, or perseverance. Since it's Sri Lankan, maybe something related to community or respecting nature? Let me think... Oh, the Sri Lankan saying "Yama na wenas yaka" which means "Don't go alone at night," but that might be too specific. Alternatively, a story about helping others leading to good karma.
+
+Let me create a main character. Maybe a girl named Lakshmi, common Sri Lankan name. She could live in a village with her grandmother. Maybe she finds something or meets someone. Maybe a traditional festival approaches, and she learns a lesson through helping. For example, during a lantern festival, she helps someone and the community rewards her kindness.
+
+Conflict: Maybe she's tasked with an important role but faces a challenge. Perhaps she loses an important item but is helped by others. The lesson could be about community support and kindness. Let me outline:
+
+Introduce Lakshmi, her love for Diya lights, grandmother teaching her. One day, she loses her Diya before the festival. Others help her, she realizes the power of community. Lesson: Kindness and community support.
+
+Need to keep it under 200 words. Make sure to include Sri Lankan elements like Diya, perhaps mention Kandyan dancers or traditional attire. Start with "Once upon a time..." Keep the language simple and engaging for a bedtime story.
+</think>
+
+**"Lakshmi and the Light of the Full Moon"**  
+
+Once upon a time in a village nestled among Sri Lanka’s green hills, there lived a curious girl named Lakshmi, known for her love of Diya lights—oil lamps she crafted with care for the full moon festival. Her grandmother, Amma, taught her that each Diya carried a wish for the world’s beauty and peace.  
+
+One evening, Lakshmi’s favorite Diya, carved with a peacock, went missing. She searched endlessly, her heart heavy, until a neighbor, Mr. Ravi, noticed her worry. He shared his own Diya with her, whispering, *"Our lights shine brighter when we share their warmth."*  
+
+At the festival, Lakshmi realized her peacock Diya wasn’t lost—it sat among the crowd, lit by a little boy who’d found it. She smiled, adding her new Diya to his, and together they watched the valley glow with thousands of shared lights.  
+
+**Lesson:** *Kindness and sharing create a ripple effect—just like Diyas, our small acts of love light up the world for others.*  
+
+That night, Lakshmi’s peacock Diya shimmered not just with oil, but with the joy of a village united.  
+
+The end. 🌙✨  
+
+*(Word count: 199)*

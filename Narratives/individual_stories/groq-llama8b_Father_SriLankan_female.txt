@@ -1,0 +1,20 @@
+ID: groq-llama8b_Father_SriLankan_female
+Person/Archetype: Father
+Culture: Sri Lankan
+Gender: female
+Model: llama-3.1-8b-instant
+
+--- PROMPT ---
+I am the Father telling a short bedtime story to my female child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+"Chamara, my little one, gather close to me. Tonight's story is about a brave little girl named Nalani from a village near Kandy. Nalani loved visiting the temple in our village, where the monks taught her about the ancient stories of our ancestors.
+
+One day, a severe drought hit our land, and the crops began to wither away. The villagers worried about their harvest. Nalani decided to take matters into her own hands. She remembered the wise words of the monks, 'Hard work and kindness can bring forth abundance.' So, she took a small basket and started collecting rainwater from a nearby stream. She then distributed it among the parched plants, and to everyone's surprise, they began to flourish.
+
+The villagers learned a valuable lesson that day - that even the smallest actions can make a big difference. Nalani showed them that with kindness, hard work, and determination, we can overcome any challenge. As we all go to bed tonight, remember Nalani's story, and let's do our part to make our world a brighter place, one small action at a time."

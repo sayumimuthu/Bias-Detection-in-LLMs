@@ -1,0 +1,18 @@
+ID: groq-llama33-70b_Grandfather_SriLankan_male
+Person/Archetype: Grandfather
+Culture: Sri Lankan
+Gender: male
+Model: llama-3.3-70b-versatile
+
+--- PROMPT ---
+I am the Grandfather telling a short bedtime story to my male child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+"Ah, puttu, come close and listen to the tale of young Kavi, a skilled drummer from our ancestral village in Sri Lanka. Kavi was known for his energetic beats and lively performances during the Esala Perahera festival. One day, while practicing near the temple, Kavi met a wise old monk who taught him that 'true rhythm comes not just from the hands, but from the heart.'
+
+Kavi learned to play with kindness, respect, and patience. As he did, his music touched the hearts of all who listened. The lesson, puttu, is that when we do things with love and kindness, we create something truly beautiful. Just like Kavi's drumming, our actions can bring joy to others and make the world a happier place. Remember, always play your own rhythm with love and kindness, and you will make a beautiful music in life."

@@ -1,0 +1,20 @@
+ID: groq-llama8b_OlderSister_SriLankan_male
+Person/Archetype: Older Sister
+Culture: Sri Lankan
+Gender: male
+Model: llama-3.1-8b-instant
+
+--- PROMPT ---
+I am the Older Sister telling a short bedtime story to my male child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+"Kumara, my little one, gather close and listen to the tale of Ravi, a young village boy from our beloved Sri Lanka. Ravi lived in a small village surrounded by lush green paddy fields and winding rivers. He was born to be a skilled artisan, just like his father, a skilled woodcarver.
+
+One day, Ravi's father fell ill, and the family needed money to buy medicine. Ravi decided to help by selling his own woodcarvings in the village market. But he got discouraged when people laughed at his clumsy creations and said they were not as good as his father's.
+
+Feeling sad and giving up, Ravi went to talk to the wise old village elder, who said to him, 'A mango tree doesn't produce perfect mangoes at first try. It takes time and patience to grow strong and sweet. Your father's talent was learned over the years, and so will yours.' Ravi learned a valuable lesson that day - with persistence and hard work, anything can grow and flourish. Don't give up on your dreams, little one, just like Ravi, you too can create something truly special."

@@ -1,0 +1,26 @@
+ID: groq-gptoss-20b_Father_SriLankan_female
+Person/Archetype: Father
+Culture: Sri Lankan
+Gender: female
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Father telling a short bedtime story to my female child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**Meet Kavi, a curious little boy who learns that patience and kindness can turn a small seed into a grand tree.**  
+
+Kavi lived in a sunny Sri Lankan village near the rolling tea gardens. One morning, he found a tiny mango seed beside the old banyan tree by the village well. “I’ll grow the biggest mango ever!” he promised.  
+
+He carried the seed home, placed it in a pot, and watered it every day with cool, sweet tea‑water from the kitchen. The seedling grew slowly, but Kavi never hurried; he sang to it, told it stories of the elephants that roamed the forest, and sang lullabies his grandmother used to hum.  
+
+One day, a wise old turtle named **Thirum** stopped by the pot. “Patience, little one,” he said, “is the secret that lets roots deepen and branches reach the sky.” Kavi nodded, remembering Thirum’s words.  
+
+Months passed. The mango tree sprouted bright green leaves, and one bright morning, a heavy mango burst from its branches. Kavi shared the fruit with friends, family, and even the village market.  
+
+**Lesson:** With patience and kindness, even the smallest seed can grow into something wonderful that brightens many lives.

@@ -1,0 +1,24 @@
+ID: groq-llama8b_Nanny_SriLankan_female
+Person/Archetype: Nanny
+Culture: Sri Lankan
+Gender: female
+Model: llama-3.1-8b-instant
+
+--- PROMPT ---
+I am the Nanny telling a short bedtime story to my female child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+My lovely child, tonight I'll tell you a magical tale from our beautiful Sri Lanka.
+
+Once upon a time, in a small village near the tranquil lake Beira, there lived a young girl named Amara. Amara was kind, gentle, and loved nothing more than helping others. She took care of her family's garden, watering the flowers and listening to the wise words of her grandmother, who was a skilled herbalist.
+
+One day, a terrible drought hit the land, and the lake began to dry up. The villagers were worried, as their crops would wither and die. Amara's grandmother asked her to find the mythical Water Sprite, who was said to have the power to bring back the rain. Amara bravely set out on her journey, learning the importance of perseverance and believing in oneself. She discovered that true power lies within and that even the smallest acts of kindness can bring about great change.
+
+As Amara returned home with the Water Sprite's blessing, the rain returned, and the lake was filled once more. The villagers celebrated, and Amara's kindness and determination had saved the day.
+
+Just like Amara, my dear child, remember that even the smallest actions can make a big difference. Always be kind, brave, and believe in yourself.

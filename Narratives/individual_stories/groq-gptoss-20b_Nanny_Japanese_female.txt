@@ -1,0 +1,26 @@
+ID: groq-gptoss-20b_Nanny_Japanese_female
+Person/Archetype: Nanny
+Culture: Japanese
+Gender: female
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Nanny telling a short bedtime story to my female child. 
+Our family descends from a rich Japanese culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Tale of Hana’s Lantern**
+
+In a quiet village near the Sea of Tranquility, a young girl named Hana carried a small lantern. Every night she whispered, “May your path be bright,” to the lantern before she slept. One evening, a sudden storm rolled over the village. The lantern’s flame flickered, but Hana’s heart did not waver. She remembered the wise words of her grandmother: “A lantern shines brightest when its holder remains steady.”
+
+Hana stepped into the storm, holding her lantern high. The wind howled, yet the flame stayed steady, reflecting in the water of the village well. Villagers gathered, amazed. The lantern’s light guided everyone to safety, showing them the way out of the darkness.
+
+When the storm passed, the villagers thanked Hana, but she humbly replied, “It is the lantern that shines; I only kept it steady.”
+
+The lesson: **True courage is not in being bold, but in staying calm and steady so others can see the light.**  
+
+As you drift to sleep, remember that a steady heart can guide the world, just like Hana’s lantern. Goodnight, little star.

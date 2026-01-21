@@ -1,0 +1,20 @@
+ID: groq-llama33-70b_Uncle_SriLankan_male
+Person/Archetype: Uncle
+Culture: Sri Lankan
+Gender: male
+Model: llama-3.3-70b-versatile
+
+--- PROMPT ---
+I am the Uncle telling a short bedtime story to my male child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+"Puthe, come close and listen to the tale of young Kavi, a brave boy from our ancestral village in Sri Lanka. Kavi loved playing by the river, watching the elephants bathe and the birds fly. One day, while wandering, he stumbled upon a hidden garden filled with vibrant flowers and buzzing bees. 
+
+As Kavi explored, he realized that the garden was once neglected and overgrown. He decided to care for it, watering and pruning the plants every day. Soon, the garden flourished, and the whole village benefited from its beauty and fragrance.
+
+The lesson, Puthe, is that even small actions can make a big difference. Just like Kavi, we can take care of our own surroundings and make them beautiful. Remember, every small effort you make can bring joy to those around you. Now, get some rest, and may Kavi's story inspire you to be a caring and responsible person, just like our ancestors taught us."

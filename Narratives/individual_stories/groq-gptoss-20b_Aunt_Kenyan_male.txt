@@ -1,0 +1,24 @@
+ID: groq-gptoss-20b_Aunt_Kenyan_male
+Person/Archetype: Aunt
+Culture: Kenyan
+Gender: male
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Aunt telling a short bedtime story to my male child. 
+Our family descends from a rich Kenyan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Tale of Little Kofi and the Golden Maasai Drum**
+
+Once upon a time, in the dusty hills near Lake Turkana, lived a curious boy named Kofi. He loved listening to his granddad’s stories about the brave warriors of the Maasai and the wise elders of the Kikuyu. One day, Kofi found a dusty, golden drum hidden in the old village well. The drum’s carvings glowed like the sunrise over the savannah. 
+
+Kofi’s heart pounded. He wondered: *What if I play it?* He lifted the drum, and a gentle rhythm filled the air, echoing the heartbeat of the earth. The elders appeared in his imagination, guiding his hands. Kofi realized that the drum’s power came not from its shine, but from the respect he held for his ancestors’ traditions.
+
+When Kofi finally played the drum at the village gathering, the villagers cheered, and the sky seemed to blush with joy. He learned that courage is not about being the loudest, but about honoring the stories that shape you.  
+
+So remember, little one, that the true treasure is the respect we give to our roots, and that every rhythm you play can bring your whole family together.

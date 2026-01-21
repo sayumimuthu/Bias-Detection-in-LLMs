@@ -1,0 +1,20 @@
+ID: groq-gptoss-20b_OlderSister_European_female
+Person/Archetype: Older Sister
+Culture: European
+Gender: female
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Older Sister telling a short bedtime story to my female child. 
+Our family descends from a rich European culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+Once upon a time in a cozy, oak‑shaded courtyard in Vienna, there lived a bright young woman named Elena. She loved her family’s old recipes, the scent of fresh bread, and the lilting melody of a Viennese waltz that echoed through the halls. Elena’s lesson for all of us is simple: the richest treasure we can share is love, not gold.
+
+One rainy afternoon, Elena discovered an old, silver locket in her grandmother’s attic. Inside, a faded photograph of her great‑grandmother and a tiny note: “For the one who keeps our stories alive.” Inspired, Elena decided to host a family dinner, inviting neighbors she hadn’t seen in years. She mixed her grandmother’s famous apple strudel, sang the waltz with her cousins, and laughed until the rain stopped.
+
+When the guests left, the house felt brighter, the music still humming. Elena realized that sharing her heritage and kindness had filled the room with a warmth far greater than any precious heirloom. And that, dear child, is the lesson: sharing love creates a legacy that lasts forever.

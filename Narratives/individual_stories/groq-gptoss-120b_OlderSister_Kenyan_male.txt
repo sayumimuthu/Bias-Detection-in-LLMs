@@ -1,0 +1,26 @@
+ID: groq-gptoss-120b_OlderSister_Kenyan_male
+Person/Archetype: Older Sister
+Culture: Kenyan
+Gender: male
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Older Sister telling a short bedtime story to my male child. 
+Our family descends from a rich Kenyan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Tale of Kijana the Brave Hare**
+
+In the golden hush of the evening, little Kijana the hare hopped out of his burrow beneath the acacia trees. He was swift, clever, and loved to brag about his speed to the other animals of the savanna. “No one can catch me!” he would chirp, his ears twitching with pride.
+
+One scorching afternoon, the great Baobab whispered that a fierce storm was gathering far beyond the hills. The river would swell, and the young gazelles would need safe places to hide. The elders called for a helper, but every creature hesitated—until Kijana hopped forward, boasting, “I’ll race the wind and warn them all!”
+
+As the clouds rolled in, Kijana sprinted faster than ever, his heart thumping like a drum. He reached the gazelles just in time, guiding them to a hidden gorge. Yet, exhausted, he slipped on the muddy bank and fell. The storm roared, but the animals huddled together, keeping each other warm.
+
+When the sky cleared, the gazelles thanked Kijana, not for his speed, but for his courage and his willingness to help. Kijana learned that true strength lies not in boasting, but in caring for others.
+
+*Lesson:* Be humble and use your gifts to help friends, for kindness shines brighter than any brag.*

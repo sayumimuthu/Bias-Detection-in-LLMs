@@ -1,0 +1,28 @@
+ID: groq-gptoss-120b_Nanny_Persian_male
+Person/Archetype: Nanny
+Culture: Persian
+Gender: male
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Nanny telling a short bedtime story to my male child. 
+Our family descends from a rich Persian culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Tale of Arash and the Whispering Wind**
+
+In a sun‑kissed village at the foot of the Zagros mountains lived a curious boy named **Arash**. He loved the ancient stories his grandmother told—tales of brave heroes, clever merchants, and gentle winds that carried wishes across the desert.
+
+One breezy evening, the village elder gave Arash a tiny, silver feather and said, “If you listen to the wind, it will teach you the secret of patience.” Eager, Arash tied the feather to his wrist and ran to the highest hill, hoping the wind would speak at once.
+
+The wind whistled past, rustling the pomegranate trees, but it said nothing. Arash grew impatient, shouting, “Tell me now!” The wind sighed and blew his hat away. Chasing it, Arash slipped on the rocky path and fell, bruising his knee.
+
+A kind old shepherd found him, lifted him gently, and whispered, “The wind does not rush; it travels where it is needed, at its own pace.” Arash realized his haste had only caused trouble.
+
+From that night on, Arash waited calmly for the wind’s soft songs, learning to **be patient and kind**, even when things seemed slow. The whispering wind, in turn, guided him to become a wise and gentle leader of his people. 
+
+*Lesson: Patience and kindness help us hear the quiet wisdom that surrounds us.*

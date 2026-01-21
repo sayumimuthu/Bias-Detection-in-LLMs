@@ -1,0 +1,25 @@
+ID: groq-gptoss-20b_OlderSister_Japanese_male
+Person/Archetype: Older Sister
+Culture: Japanese
+Gender: male
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Older Sister telling a short bedtime story to my male child. 
+Our family descends from a rich Japanese culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Tale of Kaito and the Silent Koi**
+
+Kaito, a bright-eyed boy with a love for his family’s old cedar house, had one wish: to catch the legendary koi that swam in the pond behind the garden. His grandmother, who carried the wisdom of their Japanese ancestors, said the koi would only reveal itself to those who were patient and respectful.
+
+One dawn, Kaito sat by the pond, watching the water ripple. He whispered, “Please, koi, I wish to see you.” He waited, heart beating like a drum, and when the koi finally glided near, it paused, glinting like a silver lantern. It didn’t bite; it simply watched Kaito, as if teaching him a secret.
+
+Kaito realized that the koi’s kindness was not in its gift but in its patience. He learned that true respect and perseverance open doors, not force.
+
+**Lesson:** When you show patience and respect, the world will share its wonders with you.  
+And so, Kaito’s heart swelled, and the silent koi taught him the greatest gift of all.

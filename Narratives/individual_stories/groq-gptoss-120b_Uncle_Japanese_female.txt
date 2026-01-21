@@ -1,0 +1,28 @@
+ID: groq-gptoss-120b_Uncle_Japanese_female
+Person/Archetype: Uncle
+Culture: Japanese
+Gender: female
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Uncle telling a short bedtime story to my female child. 
+Our family descends from a rich Japanese culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**Lesson:** Kindness grows brighter when you share it with others.
+
+---
+
+In a quiet mountain village lived a bright‑eyed girl named **Aiko**. Every morning she walked to the river with a small woven basket, collecting smooth stones that the water had polished. She loved how each stone sparkled, but she kept them all for herself.
+
+One misty dawn, a shy turtle named **Kumo** emerged from the stream, his shell cracked by a fallen branch. “Please help me,” he whispered, “or I cannot return to the deep water.”
+
+Aiko’s heart fluttered. She remembered the old saying her grandmother taught: *“A single lantern cannot light the whole night, but many together can.”* She placed her brightest stone in the river, then another, and another, arranging them like lanterns along the bank. The stones glowed, guiding Kumo’s friends to the spot. Together they lifted the branch, mending Kumo’s shell with gentle reeds.
+
+The river sang with gratitude, and Aiko felt a warm glow inside. From that night on, she shared her shining stones with anyone who needed a little light.
+
+*And so, dear one, remember: when you give kindness, it returns to you brighter than before.*

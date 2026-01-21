@@ -1,0 +1,24 @@
+ID: groq-gptoss-120b_OlderBrother_European_female
+Person/Archetype: Older Brother
+Culture: European
+Gender: female
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Older Brother telling a short bedtime story to my female child. 
+Our family descends from a rich European culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Little Lantern Keeper**
+
+In a quiet Alpine village, nestled between snow‑capped peaks and fragrant pine forests, lived a brave girl named **Lena**. Every evening, Lena’s family lit a lantern on the hilltop to guide travelers home. One night, a fierce storm rolled in, snapping the lantern’s wick and plunging the village into darkness.
+
+Lena remembered her grandmother’s words: *“A single spark can light the whole world if you share it with kindness.”* She hurried to the cottage, fetched a bundle of dry herbs, and whispered a soft song her mother used to sing. With careful hands, she rekindled the lantern, its golden glow spilling over the rooftops.
+
+The storm passed, and weary travelers found their way back, their faces bright with gratitude. They praised Lena, but she smiled and said, “The light is yours now, too—keep it alive by helping one another.”
+
+From that night on, every child in the village tended the hilltop lantern, learning that **courage grows when we share our light with others**. And as the stars twinkled above, Lena drifted to sleep, her heart warm with the glow of kindness.

@@ -1,0 +1,26 @@
+ID: groq-gptoss-120b_Mother_European_male
+Person/Archetype: Mother
+Culture: European
+Gender: male
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Mother telling a short bedtime story to my male child. 
+Our family descends from a rich European culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Tale of Little Milo and the Whispering Oak**
+
+In a snug cottage on the edge of the mist‑covered Black Forest, lived a curious boy named Milo. Milo loved his grand‑pa’s old wooden fiddle, but he was even more fascinated by the ancient oak that stood guard over the village. The oak was said to whisper wisdom to those who listened.
+
+One crisp evening, while the fire crackled, Milo heard the oak rustle, “Brave one, the moon will rise and the night will be dark, but a true heart shines brighter than any lantern.” Eager to prove himself, Milo set out to fetch a lost lantern for the village fair, even though the path was winding and the shadows deep.
+
+Halfway through, a sudden storm battered the forest. Milo’s lantern slipped from his hands, shattering on the damp earth. He felt a sting of disappointment, yet the oak’s leaves brushed his cheek, murmuring, “Courage isn’t never falling; it’s rising again.”
+
+Milo gathered the broken pieces, lit a tiny candle from his pocket, and guided the villagers safely home. The night glowed with a soft, steady light.
+
+**Lesson:** True bravery means keeping hope alive, even when things break, and using what you have to help others.

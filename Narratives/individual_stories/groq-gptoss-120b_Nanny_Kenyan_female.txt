@@ -1,0 +1,24 @@
+ID: groq-gptoss-120b_Nanny_Kenyan_female
+Person/Archetype: Nanny
+Culture: Kenyan
+Gender: female
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Nanny telling a short bedtime story to my female child. 
+Our family descends from a rich Kenyan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Tale of Amani and the Whispering Baobab**
+
+Amani was a curious five‑year‑old girl who lived in a little village tucked between the golden grasses of the Maasai plains. Every evening, the elders gathered under the ancient baobab tree, its thick trunk humming with the stories of their ancestors. One night, as fireflies danced, the baobab whispered, “Amani, the world is wide, but the heart is wider—listen, share, and care.”
+
+The next morning, Amani saw a tiny impala calf stuck in a thorny bush. Remembering the baobab’s words, she ran to fetch her older brother, Kijana, and together they gently freed the calf, sharing water and food until it could stand on its own. The grateful mother impala bowed her head, and the whole herd trotted away, leaving a sparkling trail of gratitude in the dust.
+
+When Amani returned, the village elders praised her kindness. “A true warrior,” they said, “protects not only the strong but also the weak.”
+
+From that night on, Amani knew that courage shines brightest when paired with compassion. And every time she heard the wind rustle the baobab’s leaves, she remembered: **Sharing love makes every heart grow stronger.**

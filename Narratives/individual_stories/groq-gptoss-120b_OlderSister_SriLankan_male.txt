@@ -1,0 +1,26 @@
+ID: groq-gptoss-120b_OlderSister_SriLankan_male
+Person/Archetype: Older Sister
+Culture: Sri Lankan
+Gender: male
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Older Sister telling a short bedtime story to my male child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**Lesson: Kindness grows brighter than any lantern.**
+
+In a tiny village nestled between emerald tea hills and the whispering sea, lived a curious boy named **Kavan**. Every evening, the villagers lit oil lanterns for the **Vesak** festival, and Kavan loved watching the golden lights dance on the rice paddies.
+
+One night, while chasing fireflies, Kavan heard a soft sobbing near the old banyan tree. A tiny **colombo‑spotted monkey** had slipped from its branch and hurt its paw. The little creature trembled, eyes wide with fear.
+
+Kavan remembered his grandmother’s story: *“A single act of kindness is like a lantern that never dims.”* He gently cradled the monkey, whispered soothing words in Sinhala, and hurried home for a clean cloth and herbal paste. He stayed with the monkey until the pain eased, then carefully placed it back on a sturdy branch.
+
+The next morning, the whole village awoke to find the lanterns shining brighter than ever. The elders said it was the monkey’s gratitude, reflected in the sky. Kavan’s heart swelled with joy, and he learned that caring for even the smallest being lights up the world around us.
+
+*Sleep tight, little one—remember, a kind heart is the brightest lantern of all.*

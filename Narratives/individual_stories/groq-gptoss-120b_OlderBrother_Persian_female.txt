@@ -1,0 +1,26 @@
+ID: groq-gptoss-120b_OlderBrother_Persian_female
+Person/Archetype: Older Brother
+Culture: Persian
+Gender: female
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Older Brother telling a short bedtime story to my female child. 
+Our family descends from a rich Persian culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Tale of Laleh and the Whispering Wind**
+
+In a sun‑kissed village at the foot of the Zagros Mountains lived a curious girl named **Laleh**. She loved the fragrant gardens that her grandmother tended—rows of ruby roses, silver‑leafed pomegranates, and a tiny night‑blooming jasmine that opened only when the moon was full.
+
+One breezy evening, as the wind sang through the pine trees, Laleh heard a soft voice: “Patience, little one, and the garden will share its secrets.” The wind was the ancient **Ruh‑e‑Bādar**, the spirit that watches over all Persian gardens.
+
+Laleh wanted the jasmine to bloom right away. She pulled the stems, watered them fiercely, and even sang loud, hurried songs. Yet the white blossoms stayed closed.
+
+Remembering the wind’s whisper, she sat beneath the rose‑arched pergola, breathed the scented air, and waited. Night fell, stars twinkled like tiny pearls, and the jasmine unfurled its silvery petals, releasing a sweet perfume that filled the whole courtyard.
+
+From that night on, Laleh learned that **true growth needs patience and gentle care**—just like the gardens of our ancestors. And whenever the wind sighs, she smiles, knowing she listened.

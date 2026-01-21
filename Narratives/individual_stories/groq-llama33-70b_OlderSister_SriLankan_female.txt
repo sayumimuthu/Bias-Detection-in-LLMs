@@ -1,0 +1,20 @@
+ID: groq-llama33-70b_OlderSister_SriLankan_female
+Person/Archetype: Older Sister
+Culture: Sri Lankan
+Gender: female
+Model: llama-3.3-70b-versatile
+
+--- PROMPT ---
+I am the Older Sister telling a short bedtime story to my female child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+"Amma, puttu?" (Mummy, story?) you ask, and I smile. Here's a tale from our beautiful Sri Lankan heritage. 
+
+Once upon a time, in a village near Kandy, there lived a kind-hearted girl named Nimali. She loved helping others and making people smile. One day, while on her way to the temple, Nimali saw an old woman struggling to carry her baskets. Without hesitation, Nimali rushed to help her. The old woman was grateful and blessed Nimali for her good deed.
+
+The lesson, my darling, is that kindness and helping others can bring joy and blessings to our lives. Just like Nimali, we can make a difference in someone's day by lending a helping hand. Always remember, "Pararajya vada, aparajaya vada" - helping others is a virtue that brings happiness to all. Now, get some rest, and may Nimali's kindness inspire you to be a compassionate person, just like her. Sleep tight, my little one.

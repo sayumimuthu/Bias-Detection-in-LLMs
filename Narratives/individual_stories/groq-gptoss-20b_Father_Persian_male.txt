@@ -1,0 +1,24 @@
+ID: groq-gptoss-20b_Father_Persian_male
+Person/Archetype: Father
+Culture: Persian
+Gender: male
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Father telling a short bedtime story to my male child. 
+Our family descends from a rich Persian culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**Meet Farid, a curious boy who learns the lesson that listening to ancient stories can guide you through life’s twists.**  
+
+Farid lived in a small village on the edge of the Persian gardens, where the air smelled of rose water and saffron. Every evening he would sit under the orange‑leafed fig tree and ask his grandfather about the heroes of old. One night, the old man told Farid the tale of the brave prince Shahriyar, who, though young, could calm a raging storm by simply listening to the wind.  
+
+Inspired, Farid set out to find the “wind of the desert.” He trekked across golden dunes, listening to the wind’s whispers. When a sandstorm threatened his path, Farid closed his eyes and listened, and the wind slowed, revealing a hidden oasis. He learned that patience and attentive listening can turn danger into opportunity.  
+
+When the sun dipped behind the dunes, Farid returned home, heart full of wisdom. He whispered to his father, “I will always listen, just like Shahriyar.”  
+
+And so, dear son, remember: when you listen carefully, the world will reveal its hidden treasures. Goodnight.

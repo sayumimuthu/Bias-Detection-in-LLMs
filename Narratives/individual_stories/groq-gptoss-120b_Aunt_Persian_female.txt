@@ -1,0 +1,26 @@
+ID: groq-gptoss-120b_Aunt_Persian_female
+Person/Archetype: Aunt
+Culture: Persian
+Gender: female
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Aunt telling a short bedtime story to my female child. 
+Our family descends from a rich Persian culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Little Nightingale of Shiraz**
+
+In the bustling garden of old Shiraz lived a bright‑eyed girl named Laleh, whose laughter sounded like a nightingale’s song. Laleh loved the fragrant pomegranates, the twinkling tiles of the palace, and especially her grandmother’s stories of brave heroes and kind hearts.
+
+One evening, a gentle breeze carried a single, silver feather to Laleh’s window. “It’s a sign,” whispered the nightingale feather. “Follow it, and you’ll find a hidden treasure.” Excited, Laleh tiptoed through the moonlit courtyard, following the feather’s glimmer across the mosaic path.
+
+Soon she reached the ancient cedar tree where the feather settled. Beneath its roots she uncovered a small wooden box. Inside lay a single golden seed and a note: *“The true treasure is the seed of kindness; plant it, and its shade will shelter many.”*
+
+Laleh planted the seed that night. By sunrise, a tiny sapling sprouted, its leaves rustling like soft lullabies. She learned that the greatest riches are not gold or jewels, but the love and kindness we share—just like the nightingale’s song that fills the heart with warmth.
+
+*Lesson: True treasure grows from a kind heart.*

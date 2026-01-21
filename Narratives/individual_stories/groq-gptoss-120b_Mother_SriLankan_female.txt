@@ -1,0 +1,24 @@
+ID: groq-gptoss-120b_Mother_SriLankan_female
+Person/Archetype: Mother
+Culture: Sri Lankan
+Gender: female
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Mother telling a short bedtime story to my female child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**Lesson: Small acts of kindness can grow into great blessings.**
+
+In the cool shade of a coconut grove lived a curious girl named **Mali**, who loved the bright drums of the **Avurudu** festival and the sweet scent of fresh **Ceylon tea**. One golden morning, while fetching water from the village well, she heard a soft whimper behind a mango tree. A tiny baby elephant, lost from its herd, was trembling, its big eyes full of fear.
+
+Mali remembered her grandmother’s words: *“When you help the earth, the earth helps you.”* She whispered soothing songs her mother sang at night, offered the little elephant a cool sip of water, and gently guided it back along the winding path of the tea fields. Along the way, they met friendly farmers who shared ripe bananas and a bright red **poppy** to cheer the shy calf.
+
+When the herd reunited, the matriarch lifted her trunk in thanks, sprinkling a gentle rain that made the tea leaves glisten. That night, Mali dreamed of dancing fireflies over the emerald hills, knowing her small kindness had brought a whole herd home.
+
+And so, my dear, remember: a caring heart, no matter how tiny, can bloom into the brightest light for everyone around you. 🌙✨

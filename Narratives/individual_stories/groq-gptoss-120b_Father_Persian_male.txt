@@ -1,0 +1,16 @@
+ID: groq-gptoss-120b_Father_Persian_male
+Person/Archetype: Father
+Culture: Persian
+Gender: male
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Father telling a short bedtime story to my male child. 
+Our family descends from a rich Persian culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**Once, in a sun‑kissed garden beside

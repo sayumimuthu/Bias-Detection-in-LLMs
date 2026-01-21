@@ -1,0 +1,26 @@
+ID: groq-gptoss-20b_OlderSister_SriLankan_male
+Person/Archetype: Older Sister
+Culture: Sri Lankan
+Gender: male
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Older Sister telling a short bedtime story to my male child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Tale of Little Kavi**
+
+Kavi was a bright‑eyed boy who lived in a small coastal village in Sri Lanka. He loved the sea and the smell of fresh coconut leaves, but he was also very curious about the world beyond the horizon. One sunny morning, the village elder told a story about the legendary *Naga*, a serpent spirit that guarded the hidden pearl of wisdom inside a deep cave.
+
+Kavi’s eyes sparkled. “I’ll find it!” he declared. He packed a bamboo basket, a map, and a small *palm leaf* journal, then set off on the rocky path.
+
+Halfway through, a sudden storm rolled in. Kavi’s lantern sputtered, and the path seemed to twist. He remembered the elder’s words: “The true treasure is inside you, not in distant caves.” Taking a breath, Kavi closed his journal, listened to the wind, and followed the river’s steady sound.
+
+When he finally reached the cave, he found nothing but a simple stone with a carved heart. He realized the pearl of wisdom was the courage to keep going, even when the path was unclear.
+
+**Lesson** – Bravery and patience shine brightest when you trust yourself, not just the promise of hidden treasure.

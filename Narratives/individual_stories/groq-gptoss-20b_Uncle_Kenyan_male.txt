@@ -1,0 +1,24 @@
+ID: groq-gptoss-20b_Uncle_Kenyan_male
+Person/Archetype: Uncle
+Culture: Kenyan
+Gender: male
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Uncle telling a short bedtime story to my male child. 
+Our family descends from a rich Kenyan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Tale of Kofi and the Golden Baobab**
+
+Kofi, a curious boy from a proud Kenyan village, loved to explore the endless savannah. One bright morning he followed the scent of wild mangoes to a towering baobab tree that glowed like gold at sunset. The tree was ancient and wise; it whispered, “Only those who listen to the wind and honor the land may find what they seek.”
+
+Kofi pressed his palm against the bark. A hidden door opened, revealing a tiny, sparkling stone. The stone glowed brighter when Kofi thanked the earth and promised to protect it. He carried the stone back home, sharing its light with his family.
+
+That night, Kofi’s grandmother explained: “The stone is not just a treasure. It reminds us that every creature and every tree belongs to the same family. By caring for the land, we keep our stories alive.”
+
+**Lesson:** Respect nature, and your heart will shine brighter than any gold.

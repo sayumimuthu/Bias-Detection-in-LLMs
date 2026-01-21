@@ -1,0 +1,22 @@
+ID: groq-llama8b_OlderBrother_SriLankan_female
+Person/Archetype: Older Brother
+Culture: Sri Lankan
+Gender: female
+Model: llama-3.1-8b-instant
+
+--- PROMPT ---
+I am the Older Brother telling a short bedtime story to my female child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+"Kumari, come closer and listen to the story of Nalaka, a young girl from our beautiful island of Lanka. Nalaka lived with her loving parents in a small village surrounded by lush green paddy fields and coconut trees. She was known for her exceptional kindness and gentle heart.
+
+One day, while walking through the village, Nalaka came across an elder who was struggling to carry a load of fruits. Without hesitation, she offered to help him. As they walked together, the elder shared with Nalaka the importance of giving and sharing with others. Nalaka was inspired by his words and decided to spread kindness throughout the village.
+
+From that day on, Nalaka went out of her way to help those in need. She fed the hungry, cleaned the homes of the elderly, and brought joy to the sick. As she spread kindness, she realized that it grew and multiplied, touching the hearts of everyone she met. Remember, Kumari, that kindness is a powerful gift that can change the world, just like it changed Nalaka's village."
+
+(Snuggle your child close and smile, watching as she drifts off to sleep, filled with the warmth of Nalaka's story.)

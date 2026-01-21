@@ -1,0 +1,20 @@
+ID: groq-llama33-70b_Aunt_SriLankan_male
+Person/Archetype: Aunt
+Culture: Sri Lankan
+Gender: male
+Model: llama-3.3-70b-versatile
+
+--- PROMPT ---
+I am the Aunt telling a short bedtime story to my male child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+"Amma's little prince, come close and listen to the tale of Rohan, a young boy from our ancestral village in Sri Lanka. Rohan was known for his love of playing the rabana, a traditional drum. One day, while practicing, he became frustrated with his mistakes and wanted to give up. 
+
+But his wise grandfather, a respected guru in the village, taught him that 'falling down is not failing, but not getting up is.' Rohan learned to be patient and persistent. He practiced every day, and soon his music filled the village, bringing joy to all who listened.
+
+The lesson, beta, is that mistakes are a part of learning and growth. Just like Rohan, we must not give up when we fail, but instead, learn from our mistakes and keep trying. Now, close your eyes and sleep tight, may Rohan's determination inspire you to chase your dreams."

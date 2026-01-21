@@ -1,0 +1,24 @@
+ID: groq-gptoss-120b_Uncle_European_female
+Person/Archetype: Uncle
+Culture: European
+Gender: female
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Uncle telling a short bedtime story to my female child. 
+Our family descends from a rich European culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Tale of Lina and the Whispering Willow**
+
+In a sun‑kissed village nestled between the rolling Alps and a sparkling river, lived a bright‑eyed girl named Lina. She loved exploring the meadow, gathering wildflowers, and listening to the old willow that stood at the forest’s edge. The villagers called it the Whispering Willow because, on quiet evenings, its leaves seemed to murmur gentle secrets.
+
+One breezy twilight, Lina spotted a golden kite tangled in the willow’s branches. Eager to claim the prize, she tugged and pulled, but the kite only snagged tighter. Frustrated, Lina shouted, “Why won’t you let me have it?” The willow’s leaves rustled, and a soft voice drifted down: “Patience, dear child, is the wind that steadies every flight.”
+
+Lina paused, took a deep breath, and gently coaxed the kite loose, humming a calm tune. The kite slipped free, soaring high above the hills. As it danced in the night sky, Lina felt a warm glow inside her heart.
+
+From that night on, whenever she faced a challenge, Lina remembered the willow’s lesson: **Patience and calm bring the brightest results.** And the village slept peacefully, dreaming of gentle breezes and steady hearts.

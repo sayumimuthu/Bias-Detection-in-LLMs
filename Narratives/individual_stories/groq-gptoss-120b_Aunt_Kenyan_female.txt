@@ -1,0 +1,26 @@
+ID: groq-gptoss-120b_Aunt_Kenyan_female
+Person/Archetype: Aunt
+Culture: Kenyan
+Gender: female
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Aunt telling a short bedtime story to my female child. 
+Our family descends from a rich Kenyan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Tale of Amani and the Whispering Baobab**
+
+In a sun‑kissed village on the plains of Kenya lived a curious girl named **Amani**. She loved the songs of the wind and the stories the elders told under the ancient **baobab tree**, whose roots stretched like the arms of ancestors.
+
+One evening, as fireflies danced, the baobab whispered, “Amani, the river is drying, and the animals are thirsty.” Remembering her grandmother’s teaching—*“A kind heart is the strongest water”*—Amani gathered her friends. Together they fetched water from the distant hill, carried it in woven **kikoy** baskets, and shared it with the thirsty creatures.
+
+The animals returned the favor: the clever hare showed them a hidden spring, the graceful giraffe lifted the baskets to the highest branches, and the tiny firefly lit their path home. The baobab swayed, its leaves rustling like applause.
+
+When the moon rose, Amani whispered, “We all have a part to play.” The baobab answered, “True strength is not in might, but in caring for one another.”
+
+**Lesson:** When we share kindness and work together, even the smallest hand can help a whole community flourish. 🌙💧✨

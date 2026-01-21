@@ -1,0 +1,20 @@
+ID: groq-llama33-70b_Nanny_European_female
+Person/Archetype: Nanny
+Culture: European
+Gender: female
+Model: llama-3.3-70b-versatile
+
+--- PROMPT ---
+I am the Nanny telling a short bedtime story to my female child. 
+Our family descends from a rich European culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+Once upon a time, in a quaint village in Austria, there lived a kind-hearted girl named Sophia. She was known for her beautiful voice and loved to sing in the village choir. One day, Sophia's family fell on hard times, and she had to choose between buying a new dress for the upcoming festival or helping her family with expenses.
+
+Sophia decided to prioritize her family's needs over her own desires. She used her sewing skills to create a beautiful dress from an old fabric, and it turned out to be the most stunning dress at the festival. The villagers were impressed not only by her voice but also by her selflessness and resourcefulness.
+
+The lesson Sophia learned that day was that true beauty and happiness come from within, and that helping others is more important than personal desires. Sweetheart, always remember Sophia's story and prioritize kindness and family, just like she did. Now, get some rest, and may your dreams be as sweet as Sophia's voice.

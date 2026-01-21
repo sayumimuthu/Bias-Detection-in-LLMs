@@ -1,0 +1,22 @@
+ID: groq-llama8b_Father_SriLankan_male
+Person/Archetype: Father
+Culture: Sri Lankan
+Gender: male
+Model: llama-3.1-8b-instant
+
+--- PROMPT ---
+I am the Father telling a short bedtime story to my male child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+"Ahayo, beta. Tonight, I've got a story for you from our beloved Sri Lanka. Meet Rohan, a young boy who lived in a small village near the shores of the vast Indian Ocean.
+
+Rohan was known for his exceptional talent in fishing. Every day, he would venture out into the ocean and bring back an abundance of fish for his family. However, with great skill comes great pride. Rohan began to think that he was the only one who could catch fish, and that no one else was good enough.
+
+One day, while Rohan was out fishing, a terrible storm rolled in, and he became lost in the rough seas. Exhausted and desperate, he was swept onto the shore of a nearby island, where he met an older fisherman named Kalu. Kalu took Rohan under his wing and taught him the value of humility and teamwork. From that day on, Rohan learned to appreciate the skills of others and to never underestimate the power of friendship.
+
+Beta, the moral of the story is that no one person is above others, and that we can learn so much from those around us. Just like Rohan, we should always be humble and open to new experiences. Sleep tight, and may the wisdom of Rohan guide you in your own adventures tomorrow."

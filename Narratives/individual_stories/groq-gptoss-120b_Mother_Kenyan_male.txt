@@ -1,0 +1,24 @@
+ID: groq-gptoss-120b_Mother_Kenyan_male
+Person/Archetype: Mother
+Culture: Kenyan
+Gender: male
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Mother telling a short bedtime story to my male child. 
+Our family descends from a rich Kenyan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**Lesson: Kindness and courage grow stronger when we share them with others.**
+
+In the golden savanna of Kenya lived a young lion cub named **Kito**. He loved to chase fireflies at dusk, but he was shy about joining the other cubs’ games. One evening, a sudden storm rolled across the plains, and a frightened baby giraffe named **Amani** became stuck in a shallow mud pool, her long legs slipping with each tremor.
+
+Kito’s heart pounded. He could run to the safety of his den, but the soft whinnies of Amani reached his ears. Remembering the stories his mother told—how the great Maasai warriors always helped those in need—Kito gathered his courage. He leapt into the mud, his small paws splashing, and nudged the baby giraffe onto his back. Together they scrambled to firmer ground, the rain pattering like a drumbeat of triumph.
+
+When the storm cleared, the herd gathered, cheering for Kito’s bravery. The other lion cubs invited him to play, and Kito realized that sharing kindness made him feel as strong as the tallest acacia tree.
+
+From that night onward, Kito never let fear keep him from helping a friend, and the savanna echoed with his gentle roars of courage.

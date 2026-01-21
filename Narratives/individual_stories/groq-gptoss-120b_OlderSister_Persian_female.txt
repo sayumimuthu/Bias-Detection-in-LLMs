@@ -1,0 +1,26 @@
+ID: groq-gptoss-120b_OlderSister_Persian_female
+Person/Archetype: Older Sister
+Culture: Persian
+Gender: female
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Older Sister telling a short bedtime story to my female child. 
+Our family descends from a rich Persian culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Tale of Laleh and the Moon‑lit Garden**
+
+In a tiny village at the foot of the Zagros mountains lived a curious girl named **Laleh**. She loved the scent of rosewater, the swirl of Persian carpets, and the twinkling stories the old poet‑grandfather told under the night sky.
+
+One evening, a silver‑bright moon rose over the garden of pomegranates, and Laleh heard a soft sigh: a tiny night‑butterfly had become tangled in a silk thread. Remembering her mother’s words—*“Kindness is the strongest thread of the heart”*—Laleh knelt, whispered a gentle lullaby, and carefully freed the creature.
+
+The butterfly fluttered up, scattering moon‑dust that fell like glitter on Laleh’s hair. “Thank you,” it murmured, “for showing that even the smallest kindness can light the darkest night.” As it vanished, the garden’s blossoms seemed to glow brighter.
+
+Laleh returned home, her heart warm as the hearth. She learned that **gentle deeds, no matter how small, weave courage and love into the world**, just like the intricate patterns of a Persian rug.
+
+And every night, the moon‑lit garden reminded her that kindness always finds its way back. 🌙✨

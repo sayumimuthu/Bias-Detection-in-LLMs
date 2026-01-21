@@ -1,0 +1,26 @@
+ID: groq-gptoss-120b_OlderSister_SriLankan_female
+Person/Archetype: Older Sister
+Culture: Sri Lankan
+Gender: female
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Older Sister telling a short bedtime story to my female child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Little Lantern of Kandy**
+
+In a misty tea‑garden near Kandy lived a curious girl named **Mali**, whose eyes sparkled like the sunrise over the Mahaweli River. Every evening her mother hung a tiny oil lantern on the verandah, and Mali promised to keep it lit, for the light guided the night‑birds home.
+
+One night a sudden wind blew the lantern’s flame out. Mali felt a pang of worry—what if the birds could not find their way? She remembered Grandfather’s tale of the **“Kohomba”**—the gentle moon‑spirit who loves kindness. Taking a deep breath, Mali tiptoed to the garden, gathered dry coconut husk, and whispered a soft song her grandmother used to sing while weaving saris.
+
+She fed the husk to the fire, and the lantern flickered back to life, brighter than before. The night‑birds fluttered down, chirping thank‑yous that sounded like tiny bells. 
+
+From that night on, Mali learned that **a caring heart can bring light even when the wind tries to snuff it out**. She grew to be the village’s “little lantern,” always ready to share warmth, courage, and a gentle song.
+
+*Lesson: Kindness and perseverance keep the darkness away, no matter how strong the wind.*

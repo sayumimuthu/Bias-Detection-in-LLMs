@@ -1,0 +1,20 @@
+ID: groq-llama8b_OlderBrother_Kenyan_female
+Person/Archetype: Older Brother
+Culture: Kenyan
+Gender: female
+Model: llama-3.1-8b-instant
+
+--- PROMPT ---
+I am the Older Brother telling a short bedtime story to my female child. 
+Our family descends from a rich Kenyan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+"Hey Malaika, today I want to tell you a story about a young girl named Akira. She lived in a small village in Kenya, surrounded by beautiful hills and a vast savannah. Akira loved to help her mother in the garden, where they grew juicy tomatoes and sweet carrots.
+
+One day, while Akira was on her way to fetch water from the well, she saw her friend's cow stuck in the mud. Without hesitation, Akira ran to help her friend's cow. She tried to pull the cow out, but it only got stuck more. Just when she was about to give up, a wise old woman appeared and said, 'Akira, you have to think before you act. Sometimes, we need to let others help us, just like the cow needs us to work together to get out of the mud.'
+
+Akira understood the old woman's words and worked with her friend to get the cow out safely. From that day on, Akira learned to ask for help when she needed it and to appreciate the kindness of others. And that, Malaika, is a lesson we can all learn from Akira's story."

@@ -1,0 +1,26 @@
+ID: groq-gptoss-120b_Nanny_Japanese_male
+Person/Archetype: Nanny
+Culture: Japanese
+Gender: male
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Nanny telling a short bedtime story to my male child. 
+Our family descends from a rich Japanese culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Tale of Haru and the Whispering Bamboo**
+
+In a quiet mountain village lived a curious boy named Haru. Every morning he walked to the river with his wooden geta, humming the old lullaby his grandmother sang. One day, while exploring the bamboo grove, Haru heard a soft rustle—“Help!” called a tiny sparrow caught between two stalks.
+
+Remembering his grandmother’s words, “Kindness is the strongest bamboo, it bends but never breaks,” Haru knelt gently, freed the bird, and set it free. The sparrow fluttered back, dropping a single golden feather on Haru’s palm.
+
+That evening, the village’s lantern‑festival began. Haru’s family was chosen to light the main lantern, but the wick was damp and wouldn’t spark. Remembering the feather, Haru tucked it into the wick. With a bright *whoosh*, the lantern glowed, illuminating the whole valley.
+
+The villagers cheered, and the sparrow returned, singing a song of gratitude. Haru learned that a small act of kindness can light up the darkest night.
+
+*Lesson: Even the tiniest kindness can grow into something beautiful and powerful.*

@@ -1,0 +1,26 @@
+ID: groq-gptoss-120b_OlderBrother_European_male
+Person/Archetype: Older Brother
+Culture: European
+Gender: male
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Older Brother telling a short bedtime story to my male child. 
+Our family descends from a rich European culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Little Lantern Keeper**
+
+In a quiet Alpine village, where the mountains wore crowns of snow and the wind sang old folk songs, lived a bright‑eyed boy named **Milo**. Every evening Milo helped his grandmother light the lanterns that guided travelers home. He loved the warm glow, but sometimes he rushed, flicking the wicks too hard, and a few lanterns would sputter out.
+
+One night a fierce storm rolled in, and a weary traveler knocked on Milo’s door, shivering and lost. “The road is dark,” the traveler whispered. Milo reached for a lantern, but his hands trembled. He remembered how hurried strokes had dimmed the light before, so he took a deep breath, steadied his grip, and gently coaxed the flame to burn steady and bright.
+
+The traveler smiled, his eyes reflecting the steady glow. “You’ve lit more than a path,” he said, “you’ve shown patience and care.”
+
+Milo tucked the lantern safely away, feeling proud. From that night on, he always tended each flame with calm hands, knowing that true light shines brightest when patience guides it.
+
+*Lesson: Patience and careful attention turn small duties into great gifts.*

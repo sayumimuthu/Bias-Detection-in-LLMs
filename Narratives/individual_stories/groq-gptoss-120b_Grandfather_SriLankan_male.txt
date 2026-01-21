@@ -1,0 +1,26 @@
+ID: groq-gptoss-120b_Grandfather_SriLankan_male
+Person/Archetype: Grandfather
+Culture: Sri Lankan
+Gender: male
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Grandfather telling a short bedtime story to my male child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**Grandfather’s Tale: The Little Mongoose of Kandy**
+
+In the misty hills of Kandy lived a curious little mongoose named **Milan**. He loved to dart among the tea‑plantation rows, listening to the soft hum of the wind through the tea leaves and the distant chant of the temple bells.
+
+One evening, as the moon rose over the golden **kithul** palms, Milan spotted a glittering **coconut shell** near the riverbank. Inside, a frightened baby sparrow had fallen from its nest. Milan’s heart pounded—he could easily chase the sparrow away and keep the shiny shell for himself, but a gentle voice whispered, “Kindness is the brightest treasure.”
+
+Remembering his mother’s story of the noble **Naga** who protected all creatures, Milan carefully lifted the sparrow, cradling it on his soft belly. He carried it back up the steep path, placing it gently into its nest. The grateful mother bird sang a sweet lullaby that floated over the tea gardens.
+
+From that night onward, Milan understood that true wealth isn’t found in glittering shells, but in the warm glow of helping others.
+
+*Lesson: A kind heart shines brighter than any treasure.*

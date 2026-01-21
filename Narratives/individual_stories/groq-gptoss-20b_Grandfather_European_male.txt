@@ -1,0 +1,26 @@
+ID: groq-gptoss-20b_Grandfather_European_male
+Person/Archetype: Grandfather
+Culture: European
+Gender: male
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Grandfather telling a short bedtime story to my male child. 
+Our family descends from a rich European culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Tale of Milo the Mapmaker**
+
+Milo, a curious boy from a grand old house in Vienna, loved nothing more than tracing rivers on his family’s antique atlas. One rainy afternoon, he discovered a hidden map tucked between the pages of a dusty book. The map promised a secret garden that grew golden apples, but it was drawn in a language Milo had never seen.
+
+Milo’s lesson: *Courage and curiosity are the best tools for discovering new worlds.*
+
+With his grandfather’s silver compass, he followed the winding lines, stepping over mossy stones and listening to the whispering wind. When he finally reached the garden, he found a single golden apple glowing like the sunrise. The garden’s guardian, a gentle fox, offered Milo a choice: keep the apple for himself or share it with the village.
+
+Milo chose to share. He returned home, handing the apple to his neighbors, who celebrated with laughter and song. The village’s gratitude warmed Milo’s heart more than any treasure could.
+
+As the sun set, Milo learned that the truest treasure is the joy we give and the kindness we sow—just like a map guides us, a generous heart guides us all.

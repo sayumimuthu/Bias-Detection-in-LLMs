@@ -1,0 +1,24 @@
+ID: groq-llama8b_Mother_SriLankan_female
+Person/Archetype: Mother
+Culture: Sri Lankan
+Gender: female
+Model: llama-3.1-8b-instant
+
+--- PROMPT ---
+I am the Mother telling a short bedtime story to my female child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+"Come closer, my dear child," I said with a warm smile. "Tonight, I have a special story to tell you."
+
+"In a small village nestled between the palm groves of Sri Lanka, there lived a young girl named Chandrika. She was known for her beautiful voice and loved to sing traditional songs with her friends. Chandrika's favorite song was 'Ran Madi Nilmini', a beautiful melody that told the story of the moon shining bright in the night sky.
+
+"One full moon evening, Chandrika decided to sing 'Ran Madi Nilmini' from the top of a coconut tree for all her friends to hear. But as she began to sing, a strong gust of wind blew, and her song was lost in the darkness. Chandrika was heartbroken and felt that her singing wasn't good enough.
+
+"But a wise old owl told her, 'True beauty shines not from the top of a coconut tree, but from the hearts of those who hear and feel it.' Chandrika learned that day that her true voice mattered more than anything else. From then on, she sang with love and kindness in her heart, and her voice was heard by all."
+
+As I finished the story, my child looked up at me with big, sparkling eyes. "Mama, what did Chandrika learn?" she asked. I smiled and hugged her close. "She learned that true beauty comes from within, and that's something we all should remember."

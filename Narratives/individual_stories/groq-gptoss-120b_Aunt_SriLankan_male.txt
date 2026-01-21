@@ -1,0 +1,26 @@
+ID: groq-gptoss-120b_Aunt_SriLankan_male
+Person/Archetype: Aunt
+Culture: Sri Lankan
+Gender: male
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Aunt telling a short bedtime story to my male child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Little Lantern of Kandy**
+
+In the misty hills of Kandy lived a curious boy named **Arun**, whose favorite thing was the tiny oil‑lamp his grandmother kept on the windowsill. Every night she told him how the lamp’s gentle glow reminded the kingdom’s forest spirits that kindness never goes unseen.
+
+One evening, a sudden storm rattled the tea gardens, and a frightened baby elephant slipped from its herd, trembling beside the river. Arun remembered his grandmother’s words. He whispered, “Little light, guide us,” and lifted the lantern, its warm glow spilling across the water.
+
+The lantern’s soft light attracted the nearby villagers, who hurried with ropes and blankets. Together they guided the baby elephant back to its family, who trumpeted gratitude as the rain softened.
+
+When the storm cleared, the moon reflected on the river, and the lantern’s flame flickered proudly. Arun learned that even the smallest light can lead many home—if you share it with a brave heart.
+
+*Lesson:* A single act of kindness, no matter how tiny, can brighten the darkest night and bring people together. Goodnight, little one—let your own light shine.

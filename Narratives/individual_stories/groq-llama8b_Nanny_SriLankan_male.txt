@@ -1,0 +1,22 @@
+ID: groq-llama8b_Nanny_SriLankan_male
+Person/Archetype: Nanny
+Culture: Sri Lankan
+Gender: male
+Model: llama-3.1-8b-instant
+
+--- PROMPT ---
+I am the Nanny telling a short bedtime story to my male child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+"Kavitha's Magical Lotus"
+
+Dear little one, snuggle in tight. Tonight, I have a special story for you. It's about a brave and clever girl named Kavitha. Kavitha lived in a small village near the Mahaweli River in Sri Lanka, where the lotus flowers bloom beautifully. She loved learning about the ancient stories of our country and the lotus, which symbolizes good luck and wisdom.
+
+One day, while playing by the river, Kavitha saw a lotus flower struggling to grow due to a strong wind. She gently moved the flower to a safer spot, where it began to bloom beautifully. The villagers were amazed at Kavitha's kindness, and soon, her love for helping others spread throughout the village.
+
+The lesson of Kavitha's story, my dear child, is to always care for others and help those in need. Just like Kavitha, we can make a big difference in our community by being kind and gentle. Remember, "Dharmaya, Ahimsaya" - living with compassion and kindness, just like Kavitha did. Sleep tight, and may your dreams be as sweet as the lotus flower.

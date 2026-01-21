@@ -1,0 +1,24 @@
+ID: groq-gptoss-20b_OlderBrother_Kenyan_female
+Person/Archetype: Older Brother
+Culture: Kenyan
+Gender: female
+Model: openai/gpt-oss-20b
+
+--- PROMPT ---
+I am the Older Brother telling a short bedtime story to my female child. 
+Our family descends from a rich Kenyan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Little Lion of Kilimanjaro**
+
+In a bright green valley near the great Mount Kilimanjaro lived a curious little lion named **Kito**. Kito loved to roam the savannah, but he was also a little shy when it came to speaking to the other animals. One morning, his grandmother, **Mambo Nia**, told him, “Kito, the bravest hearts are those that share their thoughts.”
+
+That night, Kito dreamed of a wise old tortoise named **Tembo** who lived by the river. Tembo said, “When you feel unsure, use your voice like a song. Every animal listens when you sing your truth.” The next day, Kito gathered all the animals for a gathering. He sang about his dreams of protecting the valley and the jungle’s children. The elephants, zebras, and even the shy jackal listened, and the valley echoed with laughter and applause.
+
+From that day on, Kito became known as **Kito the Brave Voice**. He learned that sharing what’s inside your heart is the bravest thing you can do, just like the proud stories of our Kenyan heritage.  
+
+**Lesson:** Speak your truth with courage, and you’ll help others hear your heart.

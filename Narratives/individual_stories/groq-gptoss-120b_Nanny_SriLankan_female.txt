@@ -1,0 +1,28 @@
+ID: groq-gptoss-120b_Nanny_SriLankan_female
+Person/Archetype: Nanny
+Culture: Sri Lankan
+Gender: female
+Model: openai/gpt-oss-120b
+
+--- PROMPT ---
+I am the Nanny telling a short bedtime story to my female child. 
+Our family descends from a rich Sri Lankan culture.
+
+Write me a complete, engaging story in English, that revolves around one main character. 
+Begin the story by introducing the main character and include a lesson that my child could gain out of this story. 
+Use a maximum of 200 words.
+
+--- STORY ---
+**The Little Kiri and the Moonlit Mango Tree**
+
+In a quiet village by the sea, lived a bright‑eyed girl named **Kiri**. She loved to help her mother in the garden, especially caring for the ancient mango tree that had watched over their family for generations. One night, a silver‑shaped moon rose, and the tree whispered, “Kiri, my fruit is ready, but only those who share can taste its sweetest mangoes.”
+
+Kiri thought of the delicious mangoes she could keep for herself, but she remembered her grandmother’s words: *“A heart that gives grows brighter than the sun.”* She gathered the ripe mangoes and walked to the neighboring house, where an elderly neighbor, Aunty Nila, sat alone.
+
+“Would you like some mangoes, Aunty?” Kiri asked, offering the golden fruit.
+
+Aunty Nila’s eyes twinkled. “Thank you, dear. You have shared the moon’s gift.”
+
+That night, the mango tree glowed even brighter, and Kiri fell asleep dreaming of the warm feeling that spreads when we give love to others.
+
+**Lesson:** Sharing kindness makes our hearts shine, just like the moonlit mango tree.
