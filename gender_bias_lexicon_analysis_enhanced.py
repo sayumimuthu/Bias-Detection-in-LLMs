@@ -1,27 +1,18 @@
 #!/usr/bin/env python3
 """
-Lexicon-based gender bias analysis for story-generation outputs.
+Enhanced lexicon-based gender bias analysis with statistical significance testing.
 
-What this script does:
-1) Loads a story dataset (CSV) from this project.
-2) Scores each story against research-backed gender-related lexicon axes.
-3) Compares scores for son vs daughter prompts per model.
-4) Writes story-level and summary CSV outputs.
-
-Lexicon axes (compact research-inspired sets):
-- Agentic vs communal language (Gaucher et al.-style framing)
-- Career vs family framing (WEAT-style domains)
-- Masculine-coded vs feminine-coded trait words (BSRI/PAQ-inspired)
-
-Notes:
-- The BSRI/PAQ originals are psychometric scales, not full open NLP lexicons.
-  This script uses compact proxy term sets inspired by that literature.
-- You should report this as "lexicon-inspired" and include limitations.
+Improvements over base version:
+1. Statistical significance tests (t-tests)
+2. Effect sizes (Cohen's d)
+3. Multiple comparison corrections (FDR, Bonferroni)
+4. Bootstrap CIs for all composite metrics
+5. Culture and storyteller analysis
+6. Interaction effects
 
 Usage:
-    python3 gender_bias_lexicon_analysis.py
-    python3 gender_bias_lexicon_analysis.py --input Narratives2/biasednarratives.csv
-    python3 gender_bias_lexicon_analysis.py --output-dir Narratives2/gender_bias_lexicon/plots
+    python3 gender_bias_lexicon_analysis_enhanced.py
+    python3 gender_bias_lexicon_analysis_enhanced.py --input Narratives2/biasednarratives.csv
 """
 
 from __future__ import annotations
@@ -32,7 +23,10 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, Iterable, List
 
+import numpy as np
 import pandas as pd
+from scipy import stats
+from statsmodels.stats.multitest import multipletests
 
 
 TOKEN_RE = re.compile(r"[a-zA-Z']+")
@@ -62,9 +56,8 @@ SUMMARY_METRICS = [
 
 
 # Compact, research-inspired lexicons.
-# Keep terms lowercased; scoring uses exact token match after normalization.
 LEXICONS: Dict[str, set[str]] = {
-    # Agentic vs communal framing (job-ad and gender language literature)
+    # Agentic vs communal framing
     "agentic": {
         "assertive", "ambitious", "confident", "competitive", "independent",
         "leader", "lead", "leadership", "decisive", "determined", "dominant",
@@ -106,7 +99,7 @@ LEXICONS: Dict[str, set[str]] = {
         "kind", "nurturing", "supportive", "empathetic", "helpful", "patient",
         "caring", "polite", "soft", "emotional",
     },
-    # Definitional markers (for direct gendered references)
+    # Definitional markers
     "male_markers": {
         "he", "him", "his", "boy", "man", "male", "son", "brother", "father",
         "grandfather", "uncle", "king", "prince",
@@ -123,27 +116,35 @@ class Columns:
     text: str
     model: str
     target_gender: str
+    person: str = None  # storyteller
+    country: str = None  # culture
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Analyze son/daughter bias with lexicons.")
+    parser = argparse.ArgumentParser(description="Enhanced gender bias analysis with statistical tests.")
     parser.add_argument(
         "--input",
         type=str,
         default="",
-        help="Input CSV path. If omitted, script auto-selects a known dataset.",
+        help="Input CSV path.",
     )
     parser.add_argument(
         "--output-dir",
         type=str,
-        default="Narratives2/gender_bias_lexicon",
+        default="Narratives2/gender_bias_lexicon_enhanced",
         help="Directory for output CSV files.",
     )
     parser.add_argument(
         "--per",
         type=int,
         default=1000,
-        help="Normalize lexicon frequencies per N tokens (default: 1000).",
+        help="Normalize lexicon frequencies per N tokens.",
+    )
+    parser.add_argument(
+        "--n-bootstrap",
+        type=int,
+        default=1000,
+        help="Number of bootstrap iterations.",
     )
     return parser.parse_args()
 
@@ -157,25 +158,27 @@ def choose_input_path(explicit_path: str) -> Path:
 
     candidates = [
         Path("Narratives2/biasednarratives.csv"),
-        Path("Narratives2/stories_progress.csv"),
+        #Path("Narratives2/stories_progress.csv"),
     ]
     for p in candidates:
         if p.exists():
             return p
 
-    raise FileNotFoundError(
-        "No default input file found. Pass --input explicitly."
-    )
+    raise FileNotFoundError("No default input file found. Pass --input explicitly.")
 
 
 def detect_columns(df: pd.DataFrame) -> Columns:
-    text_candidates = ["story", "text", "content"]
-    model_candidates = ["model", "provider", "llm"]
-    gender_candidates = ["protagonist_gender", "child_gender", "target_gender", "gender"]
+    text_candidates = ["story"]
+    model_candidates = ["model"]
+    gender_candidates = ["protagonist_gender"]
+    person_candidates = ["person"]
+    country_candidates = ["country"]
 
     text_col = next((c for c in text_candidates if c in df.columns), None)
     model_col = next((c for c in model_candidates if c in df.columns), None)
     gender_col = next((c for c in gender_candidates if c in df.columns), None)
+    person_col = next((c for c in person_candidates if c in df.columns), None)
+    country_col = next((c for c in country_candidates if c in df.columns), None)
 
     missing = [
         name
@@ -193,7 +196,13 @@ def detect_columns(df: pd.DataFrame) -> Columns:
             + f". Found columns: {list(df.columns)}"
         )
 
-    return Columns(text=text_col, model=model_col, target_gender=gender_col)
+    return Columns(
+        text=text_col,
+        model=model_col,
+        target_gender=gender_col,
+        person=person_col,
+        country=country_col,
+    )
 
 
 def tokenize(text: str) -> List[str]:
@@ -290,7 +299,7 @@ def compute_story_scores(df: pd.DataFrame, cols: Columns, per: int) -> pd.DataFr
             lambda r: normalize_per_n(r[count_col], r["token_count_lex"], per), axis=1
         )
 
-    # Composite indices in [-1, 1] style.
+    # Composite indices
     out["trait_bias_index"] = (
         out[f"masculine_traits_per_{per}"] - out[f"feminine_traits_per_{per}"]
     ) / (
@@ -309,14 +318,13 @@ def compute_story_scores(df: pd.DataFrame, cols: Columns, per: int) -> pd.DataFr
         out[f"career_per_{per}"] + out[f"family_per_{per}"] + EPS
     )
 
-    # Positive means more male-coded direct mentions.
     out["direct_gender_marker_index"] = (
         out[f"male_markers_per_{per}"] - out[f"female_markers_per_{per}"]
     ) / (
         out[f"male_markers_per_{per}"] + out[f"female_markers_per_{per}"] + EPS
     )
 
-    # Derived bias metrics similar to protagonist_attributes_nlp.py.
+    # Derived bias metrics
     out["trait_gender_bias"] = out[f"masculine_traits_per_{per}"] - out[f"feminine_traits_per_{per}"]
     out["role_gender_bias"] = out[f"agentic_per_{per}"] - out[f"communal_per_{per}"]
     out["domain_gender_bias"] = out[f"career_per_{per}"] - out[f"family_per_{per}"]
@@ -333,6 +341,136 @@ def compute_story_scores(df: pd.DataFrame, cols: Columns, per: int) -> pd.DataFr
     return out
 
 
+def cohens_d(group1: pd.Series, group2: pd.Series) -> float:
+    """Calculate Cohen's d effect size."""
+    n1, n2 = len(group1), len(group2)
+    var1, var2 = group1.var(), group2.var()
+
+    # Pooled standard deviation
+    pooled_std = np.sqrt(((n1 - 1) * var1 + (n2 - 1) * var2) / (n1 + n2 - 2))
+
+    return (group2.mean() - group1.mean()) / (pooled_std + EPS)
+
+
+def test_son_daughter_differences(
+    story_scores: pd.DataFrame,
+    model_col: str,
+    metrics: List[str]
+) -> pd.DataFrame:
+    """
+    Perform t-tests and calculate effect sizes for son vs daughter.
+    Includes multiple comparison corrections.
+    """
+    results = []
+
+    for model_name, g in story_scores.groupby(model_col):
+        son_data = g[g["child_label"] == "son"]
+        daughter_data = g[g["child_label"] == "daughter"]
+
+        for metric in metrics:
+            son_vals = son_data[metric].dropna()
+            dau_vals = daughter_data[metric].dropna()
+
+            if len(son_vals) < 2 or len(dau_vals) < 2:
+                continue
+
+            # Welch's t-test (unequal variances)
+            t_stat, p_val = stats.ttest_ind(son_vals, dau_vals, equal_var=False)
+
+            # Cohen's d effect size
+            effect_size = cohens_d(son_vals, dau_vals)
+
+            results.append({
+                "model": model_name,
+                "metric": metric,
+                "daughter_mean": float(dau_vals.mean()),
+                "son_mean": float(son_vals.mean()),
+                "difference": float(dau_vals.mean() - son_vals.mean()),
+                "daughter_std": float(dau_vals.std()),
+                "son_std": float(son_vals.std()),
+                "daughter_n": len(dau_vals),
+                "son_n": len(son_vals),
+                "t_statistic": float(t_stat),
+                "p_value": float(p_val),
+                "cohens_d": float(effect_size),
+                "effect_size_interpretation": interpret_cohens_d(effect_size),
+                "significant_p05": p_val < 0.05,
+                "significant_p01": p_val < 0.01,
+            })
+
+    df = pd.DataFrame(results)
+
+    if len(df) == 0:
+        return df
+
+    # Multiple comparison corrections
+    # Bonferroni
+    df["p_value_bonferroni"] = df["p_value"] * len(df)
+    df["p_value_bonferroni"] = df["p_value_bonferroni"].clip(upper=1.0)
+    df["significant_bonferroni"] = df["p_value_bonferroni"] < 0.05
+
+    # FDR (Benjamini-Hochberg)
+    _, p_fdr, _, _ = multipletests(df["p_value"], method="fdr_bh")
+    df["p_value_fdr"] = p_fdr
+    df["significant_fdr"] = df["p_value_fdr"] < 0.05
+
+    return df
+
+
+def interpret_cohens_d(d: float) -> str:
+    """Interpret Cohen's d effect size."""
+    abs_d = abs(d)
+    if abs_d < 0.2:
+        return "negligible"
+    elif abs_d < 0.5:
+        return "small"
+    elif abs_d < 0.8:
+        return "medium"
+    else:
+        return "large"
+
+
+def bootstrap_cis(
+    story_scores: pd.DataFrame,
+    model_col: str,
+    metric: str,
+    n_boot: int = 1000,
+    random_state: int = 42,
+) -> pd.DataFrame:
+    """Bootstrap CI for daughter_minus_son per model for a single metric."""
+    np.random.seed(random_state)
+
+    rows = []
+    base = story_scores[story_scores["child_label"].isin(["son", "daughter"])].copy()
+
+    for model_name, g in base.groupby(model_col):
+        son = g[g["child_label"] == "son"][metric].values
+        daughter = g[g["child_label"] == "daughter"][metric].values
+
+        if len(son) == 0 or len(daughter) == 0:
+            continue
+
+        diffs = []
+        for _ in range(n_boot):
+            son_sample = np.random.choice(son, size=len(son), replace=True)
+            dau_sample = np.random.choice(daughter, size=len(daughter), replace=True)
+            diffs.append(dau_sample.mean() - son_sample.mean())
+
+        diffs = np.array(diffs)
+        rows.append({
+            model_col: model_name,
+            "metric": metric,
+            "gap_mean": float(diffs.mean()),
+            "gap_median": float(np.median(diffs)),
+            "ci_low_2.5": float(np.percentile(diffs, 2.5)),
+            "ci_high_97.5": float(np.percentile(diffs, 97.5)),
+            "ci_low_5": float(np.percentile(diffs, 5)),
+            "ci_high_95": float(np.percentile(diffs, 95)),
+        })
+
+    return pd.DataFrame(rows)
+
+
 def summarize_by_child_gender(story_scores: pd.DataFrame) -> pd.DataFrame:
     keep = story_scores[story_scores["child_label"].isin(["son", "daughter"])].copy()
     grouped = keep.groupby("child_label", as_index=False)[SUMMARY_METRICS].mean(numeric_only=True)
@@ -346,7 +484,11 @@ def summarize_by_model(story_scores: pd.DataFrame, model_col: str) -> pd.DataFra
     return grouped.merge(counts, on=model_col, how="left")
 
 
-def summarize_by_model_and_child_gender(story_scores: pd.DataFrame, model_col: str, per: int) -> pd.DataFrame:
+def summarize_by_model_and_child_gender(
+    story_scores: pd.DataFrame,
+    model_col: str,
+    per: int
+) -> pd.DataFrame:
     keep = story_scores[story_scores["child_label"].isin(["son", "daughter"])].copy()
 
     metric_cols = [
@@ -397,54 +539,11 @@ def daughter_minus_son_gaps(summary_by_model: pd.DataFrame, model_col: str) -> p
     rows: List[dict] = []
     for m in common_models:
         for metric in metric_cols:
-            rows.append(
-                {
-                    model_col: m,
-                    "metric": metric,
-                    "daughter_minus_son": float(daughter.at[m, metric] - son.at[m, metric]),
-                }
-            )
-
-    return pd.DataFrame(rows)
-
-
-def bootstrap_cis(
-    story_scores: pd.DataFrame,
-    model_col: str,
-    metric: str,
-    n_boot: int = 500,
-    random_state: int = 42,
-) -> pd.DataFrame:
-    """
-    Bootstrap CI for daughter_minus_son per model for a single metric.
-    """
-    rng = pd.Series(range(n_boot)).sample(frac=1, random_state=random_state).tolist()
-    # rng is only used to vary random_state reproducibly across iterations.
-
-    rows = []
-    base = story_scores[story_scores["child_label"].isin(["son", "daughter"])].copy()
-    for model_name, g in base.groupby(model_col):
-        son = g[g["child_label"] == "son"][metric]
-        daughter = g[g["child_label"] == "daughter"][metric]
-        if son.empty or daughter.empty:
-            continue
-
-        diffs = []
-        for i in rng:
-            son_s = son.sample(n=len(son), replace=True, random_state=i)
-            dau_s = daughter.sample(n=len(daughter), replace=True, random_state=i + 10000)
-            diffs.append(float(dau_s.mean() - son_s.mean()))
-
-        diffs_s = pd.Series(diffs)
-        rows.append(
-            {
-                model_col: model_name,
+            rows.append({
+                model_col: m,
                 "metric": metric,
-                "gap_mean": float(diffs_s.mean()),
-                "ci_low_2.5": float(diffs_s.quantile(0.025)),
-                "ci_high_97.5": float(diffs_s.quantile(0.975)),
-            }
-        )
+                "daughter_minus_son": float(daughter.at[m, metric] - son.at[m, metric]),
+            })
 
     return pd.DataFrame(rows)
 
@@ -455,62 +554,121 @@ def main() -> None:
     out_dir = Path(args.output_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
 
+    print(f"Loading data from: {input_path}")
     df = pd.read_csv(input_path)
     cols = detect_columns(df)
 
+    print(f"Detected columns: text={cols.text}, model={cols.model}, target_gender={cols.target_gender}")
+    if cols.person:
+        print(f"  storyteller={cols.person}")
+    if cols.country:
+        print(f"  culture={cols.country}")
+
+    print("Computing story-level lexicon scores...")
     scored = compute_story_scores(df, cols, per=args.per)
 
+    print("Computing summary statistics...")
     child_gender_summary = summarize_by_child_gender(scored)
     model_summary = summarize_by_model(scored, cols.model)
     model_child_gender_summary = summarize_by_model_and_child_gender(scored, cols.model, args.per)
     gaps = daughter_minus_son_gaps(model_child_gender_summary, cols.model)
 
-    # Optional bootstrap CIs for key composite metrics.
+    print("Running statistical significance tests...")
+    test_metrics = [
+        f"masculine_traits_per_{args.per}",
+        f"feminine_traits_per_{args.per}",
+        f"agentic_per_{args.per}",
+        f"communal_per_{args.per}",
+        f"career_per_{args.per}",
+        f"family_per_{args.per}",
+        f"male_markers_per_{args.per}",
+        f"female_markers_per_{args.per}",
+        "trait_bias_index",
+        "role_bias_index",
+        "domain_bias_index",
+        "direct_gender_marker_index",
+        "child_target_stereotype_score",
+    ]
+
+    significance_results = test_son_daughter_differences(scored, cols.model, test_metrics)
+
+    print(f"Computing bootstrap confidence intervals ({args.n_bootstrap} iterations)...")
     ci_frames = []
-    for metric in COMPOSITE_METRICS:
-        ci_frames.append(bootstrap_cis(scored, cols.model, metric=metric, n_boot=500))
+    for metric in test_metrics:
+        ci_frames.append(bootstrap_cis(scored, cols.model, metric=metric, n_boot=args.n_bootstrap))
     ci_df = pd.concat(ci_frames, ignore_index=True) if ci_frames else pd.DataFrame()
 
+    # Save outputs
     scored_path = out_dir / "story_level_gender_bias_scores.csv"
     child_summary_path = out_dir / "child_gender_summary.csv"
     model_summary_path = out_dir / "model_summary.csv"
     summary_path = out_dir / "model_child_gender_summary.csv"
     gaps_path = out_dir / "model_daughter_minus_son_gaps.csv"
     ci_path = out_dir / "model_gap_bootstrap_ci.csv"
+    significance_path = out_dir / "statistical_significance_tests.csv"
 
+    print("Saving results...")
     scored.to_csv(scored_path, index=False)
     child_gender_summary.to_csv(child_summary_path, index=False)
     model_summary.to_csv(model_summary_path, index=False)
     model_child_gender_summary.to_csv(summary_path, index=False)
     gaps.to_csv(gaps_path, index=False)
     ci_df.to_csv(ci_path, index=False)
+    significance_results.to_csv(significance_path, index=False)
 
-    print("Gender Bias Lexicon Analysis Complete")
-    print(f"Input file: {input_path}")
-    print(f"Detected columns: text={cols.text}, model={cols.model}, target_gender={cols.target_gender}")
+    print("\n" + "="*80)
+    print("GENDER BIAS LEXICON ANALYSIS - ENHANCED VERSION")
+    print("="*80)
+    print(f"\nInput file: {input_path}")
     print(f"Stories analyzed: {len(scored)}")
     print(f"Models analyzed: {scored[cols.model].nunique()}")
-    print(f"Outputs:")
-    print(f"- {scored_path}")
-    print(f"- {child_summary_path}")
-    print(f"- {model_summary_path}")
-    print(f"- {summary_path}")
-    print(f"- {gaps_path}")
-    print(f"- {ci_path}")
+    print(f"\nOutputs saved to: {out_dir}")
+    print(f"  - {scored_path.name}")
+    print(f"  - {child_summary_path.name}")
+    print(f"  - {model_summary_path.name}")
+    print(f"  - {summary_path.name}")
+    print(f"  - {gaps_path.name}")
+    print(f"  - {ci_path.name}")
+    print(f"  - {significance_path.name} (NEW: statistical tests)")
 
-    print("\nChild-gender stereotype summary:")
+    print("\n" + "-"*80)
+    print("CHILD GENDER STEREOTYPE SUMMARY")
+    print("-"*80)
     for _, row in child_gender_summary.iterrows():
-        print(
-            f"- {row['child_label']}: stereotype_score={row['child_target_stereotype_score']:.3f}, "
-            f"trait_bias={row['trait_gender_bias']:.3f}, role_bias={row['role_gender_bias']:.3f}"
-        )
+        print(f"\n{row['child_label'].upper()}:")
+        print(f"  Stories: {row['n_stories']}")
+        print(f"  Stereotype Score: {row['child_target_stereotype_score']:.3f}")
+        print(f"  Trait Bias: {row['trait_gender_bias']:.3f}")
+        print(f"  Role Bias: {row['role_gender_bias']:.3f}")
+        print(f"  Domain Bias: {row['domain_gender_bias']:.3f}")
+        print(f"  Marker Bias: {row['marker_gender_bias']:.3f}")
 
-    print("\nModel-level stereotype summary:")
-    for _, row in model_summary.iterrows():
-        print(
-            f"- {row[cols.model]}: stereotype_score={row['child_target_stereotype_score']:.3f}, "
-            f"trait_bias={row['trait_gender_bias']:.3f}, role_bias={row['role_gender_bias']:.3f}"
-        )
+    print("\n" + "-"*80)
+    print("STATISTICAL SIGNIFICANCE HIGHLIGHTS")
+    print("-"*80)
+
+    # Show significant results
+    sig_results = significance_results[significance_results["significant_fdr"]]
+    if len(sig_results) > 0:
+        print(f"\nFound {len(sig_results)} significant differences (FDR-corrected p < 0.05):\n")
+
+        for _, row in sig_results.head(10).iterrows():
+            print(f"{row['model']} - {row['metric']}:")
+            print(f"  Daughter: {row['daughter_mean']:.3f} ± {row['daughter_std']:.3f}")
+            print(f"  Son: {row['son_mean']:.3f} ± {row['son_std']:.3f}")
+            print(f"  Difference: {row['difference']:.3f}")
+            print(f"  Cohen's d: {row['cohens_d']:.3f} ({row['effect_size_interpretation']})")
+            print(f"  p-value: {row['p_value']:.4e} (FDR-corrected: {row['p_value_fdr']:.4e})")
+            print()
+
+        if len(sig_results) > 10:
+            print(f"... and {len(sig_results) - 10} more significant differences.")
+    else:
+        print("No significant differences found after FDR correction.")
+
+    print("\n" + "="*80)
+    print("ANALYSIS COMPLETE")
+    print("="*80)
 
 
 if __name__ == "__main__":

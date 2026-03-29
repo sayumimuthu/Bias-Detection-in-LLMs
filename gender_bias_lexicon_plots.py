@@ -6,11 +6,13 @@ Expected input files (produced by gender_bias_lexicon_analysis.py):
 - model_child_gender_summary.csv
 - model_daughter_minus_son_gaps.csv
 - model_gap_bootstrap_ci.csv
+- child_gender_summary.csv         (optional)
+- model_summary.csv                (optional)
 
 Usage:
   python3 gender_bias_lexicon_plots.py
-  python3 gender_bias_lexicon_plots.py --input-dir Narratives2/visualizations/gender_bias
-  python3 gender_bias_lexicon_plots.py --output-dir Narratives2/visualizations/gender_bias/plots
+  python3 gender_bias_lexicon_plots.py --input-dir Narratives2/gender_bias_lexicon
+  python3 gender_bias_lexicon_plots.py --output-dir Narratives2/gender_bias_lexicon/plots
 """
 
 from __future__ import annotations
@@ -62,7 +64,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--input-dir",
         type=str,
-        default="Narratives2/visualizations/gender_bias",
+        default="Narratives2/gender_bias_lexicon",
         help="Directory containing analysis CSV outputs.",
     )
     parser.add_argument(
@@ -86,17 +88,43 @@ def ensure_paths(input_dir: Path, output_dir: Path) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
 
 
+DERIVED_BIAS_METRICS = [
+    "trait_gender_bias",
+    "role_gender_bias",
+    "domain_gender_bias",
+    "marker_gender_bias",
+]
+
+DERIVED_BIAS_LABELS: Dict[str, str] = {
+    "trait_gender_bias": "Trait Bias",
+    "role_gender_bias": "Role Bias",
+    "domain_gender_bias": "Domain Bias",
+    "marker_gender_bias": "Marker Bias",
+}
+
+
 def load_csvs(input_dir: Path) -> Dict[str, pd.DataFrame]:
-    files = {
+    required = {
         "summary": input_dir / "model_child_gender_summary.csv",
         "gaps": input_dir / "model_daughter_minus_son_gaps.csv",
         "ci": input_dir / "model_gap_bootstrap_ci.csv",
     }
-    missing = [str(p) for p in files.values() if not p.exists()]
+    optional = {
+        "child_gender_summary": input_dir / "child_gender_summary.csv",
+        "model_summary": input_dir / "model_summary.csv",
+    }
+    missing = [str(p) for p in required.values() if not p.exists()]
     if missing:
         raise FileNotFoundError("Missing required files:\n- " + "\n- ".join(missing))
 
-    return {k: pd.read_csv(v) for k, v in files.items()}
+    tables = {k: pd.read_csv(v) for k, v in required.items()}
+    for key, path in optional.items():
+        if path.exists():
+            tables[key] = pd.read_csv(path)
+        else:
+            print(f"[info] Optional file not found, skipping: {path}")
+            tables[key] = None
+    return tables
 
 
 def infer_model_col(df: pd.DataFrame) -> str:
@@ -222,6 +250,107 @@ def plot_ci_errorbars(ci_df: pd.DataFrame, model_col: str, out_dir: Path, dpi: i
         save_fig(out_dir / f"ci_{metric}.png", dpi)
 
 
+def plot_child_gender_overview(cg_summary: pd.DataFrame, out_dir: Path, dpi: int) -> None:
+    """Side-by-side bars for daughter vs son across all bias metrics (child_gender_summary.csv)."""
+    if cg_summary is None or cg_summary.empty:
+        return
+
+    # Metrics to visualise: derived bias + stereotype score + composite indices
+    metric_cols = [
+        c for c in DERIVED_BIAS_METRICS + ["child_target_stereotype_score"] + COMPOSITE_METRICS
+        if c in cg_summary.columns
+    ]
+    if not metric_cols:
+        return
+
+    labels = [
+        DERIVED_BIAS_LABELS.get(m, COMPOSITE_LABELS.get(m, m.replace("_", " ").title()))
+        for m in metric_cols
+    ]
+
+    genders = ["daughter", "son"]
+    colors = {"daughter": "#F58518", "son": "#4C78A8"}
+
+    x = np.arange(len(metric_cols))
+    width = 0.36
+
+    plt.figure(figsize=(max(12, 1.4 * len(metric_cols)), 6.5))
+    for i, gender in enumerate(genders):
+        row = cg_summary[cg_summary["child_label"] == gender]
+        if row.empty:
+            continue
+        vals = [float(row[m].iloc[0]) if m in row.columns else np.nan for m in metric_cols]
+        plt.bar(x + (i - 0.5) * width, vals, width=width, label=gender.title(), color=colors[gender])
+
+    plt.axhline(0, color="black", linewidth=0.8, linestyle="--")
+    plt.xticks(x, labels, rotation=30, ha="right")
+    plt.ylabel("Mean score")
+    plt.title("Overall Bias Metrics: Daughter vs Son")
+    plt.legend(frameon=False)
+    save_fig(out_dir / "bar_overall_daughter_vs_son.png", dpi)
+
+
+def plot_model_stereotype_scores(model_summary: pd.DataFrame, out_dir: Path, dpi: int) -> None:
+    """Bar chart of child_target_stereotype_score per LLM (model_summary.csv)."""
+    if model_summary is None or model_summary.empty:
+        return
+    if "child_target_stereotype_score" not in model_summary.columns:
+        return
+
+    try:
+        model_col = infer_model_col(model_summary)
+    except ValueError:
+        return
+
+    df = model_summary.sort_values("child_target_stereotype_score", ascending=False)
+    plt.figure(figsize=(max(9, 1.5 * len(df)), 5.5))
+    x = np.arange(len(df))
+    vals = df["child_target_stereotype_score"].values
+    bar_colors = ["#E45756" if v > 0 else "#4C78A8" for v in vals]
+    plt.bar(x, vals, color=bar_colors)
+    plt.axhline(0, color="black", linewidth=0.8)
+    plt.xticks(x, df[model_col], rotation=25, ha="right")
+    plt.ylabel("Mean Stereotype Score")
+    plt.title("Child-Target Stereotype Score by LLM")
+    save_fig(out_dir / "bar_stereotype_score_by_model.png", dpi)
+
+
+def plot_model_derived_bias(model_summary: pd.DataFrame, out_dir: Path, dpi: int) -> None:
+    """Grouped bars of derived bias metrics per LLM (model_summary.csv)."""
+    if model_summary is None or model_summary.empty:
+        return
+
+    keep = [m for m in DERIVED_BIAS_METRICS if m in model_summary.columns]
+    if not keep:
+        return
+
+    try:
+        model_col = infer_model_col(model_summary)
+    except ValueError:
+        return
+
+    models = sorted(model_summary[model_col].unique())
+    x = np.arange(len(models))
+    n = len(keep)
+    width = 0.7 / max(n, 1)
+    offsets = np.linspace(-(n - 1) * width / 2, (n - 1) * width / 2, n)
+
+    palette = ["#4C78A8", "#F58518", "#54A24B", "#E45756"]
+    plt.figure(figsize=(max(12, 1.8 * len(models)), 6.5))
+    for idx, metric in enumerate(keep):
+        df = model_summary.set_index(model_col)
+        vals = [float(df.loc[m, metric]) if m in df.index else np.nan for m in models]
+        plt.bar(x + offsets[idx], vals, width=width, label=DERIVED_BIAS_LABELS[metric],
+                color=palette[idx % len(palette)])
+
+    plt.axhline(0, color="black", linewidth=0.8, linestyle="--")
+    plt.xticks(x, models, rotation=25, ha="right")
+    plt.ylabel("Mean Derived Bias Score")
+    plt.title("Derived Bias Metrics by LLM")
+    plt.legend(frameon=False)
+    save_fig(out_dir / "bar_derived_bias_by_model.png", dpi)
+
+
 def main() -> None:
     args = parse_args()
 
@@ -234,13 +363,21 @@ def main() -> None:
     summary = tables["summary"]
     gaps = tables["gaps"]
     ci_df = tables["ci"]
+    cg_summary = tables.get("child_gender_summary")
+    model_summary = tables.get("model_summary")
 
     model_col = infer_model_col(summary)
 
+    # Original plots
     plot_composite_heatmap(gaps, model_col, output_dir, args.dpi)
     plot_gap_bars(gaps, model_col, output_dir, args.dpi)
     plot_metric_means(summary, model_col, output_dir, args.dpi)
     plot_ci_errorbars(ci_df, model_col, output_dir, args.dpi)
+
+    # New plots for child-gender summary and model-level derived metrics
+    plot_child_gender_overview(cg_summary, output_dir, args.dpi)
+    plot_model_stereotype_scores(model_summary, output_dir, args.dpi)
+    plot_model_derived_bias(model_summary, output_dir, args.dpi)
 
     print("Gender Bias Plot Generation Complete")
     print(f"Input directory: {input_dir}")
