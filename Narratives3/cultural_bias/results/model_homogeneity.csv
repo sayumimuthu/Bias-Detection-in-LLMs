@@ -1,0 +1,36 @@
+country,region,idv_std,idv_range,n_model_families
+Russia,Europe/Oceania,0.0194,0.0449,5
+Poland,Europe/Oceania,0.0534,0.1452,5
+Morocco,MENA,0.0776,0.1981,5
+Turkey,MENA,0.0825,0.2083,5
+Germany,Europe/Oceania,0.0848,0.1883,5
+Greece,Europe/Oceania,0.0879,0.2176,5
+Nigeria,Sub-Saharan Africa,0.091,0.1868,5
+Mexico,Latin America,0.0936,0.2208,5
+Vietnam,East/SE Asia,0.094,0.2359,5
+Colombia,Latin America,0.0955,0.2267,5
+Kenya,Sub-Saharan Africa,0.096,0.2608,5
+United Arab Emirates,MENA,0.0972,0.2201,5
+Philippines,East/SE Asia,0.0978,0.2572,5
+Ghana,Sub-Saharan Africa,0.0984,0.2497,5
+United States,North America,0.1087,0.2667,5
+Australia,Europe/Oceania,0.1127,0.309,5
+Iran,MENA,0.1157,0.2926,5
+Sri Lanka,South Asia,0.1187,0.2935,5
+South Korea,East/SE Asia,0.1202,0.3,5
+Saudi Arabia,MENA,0.1229,0.2579,5
+China,East/SE Asia,0.1233,0.3172,5
+Japan,East/SE Asia,0.1311,0.3244,5
+Ethiopia,Sub-Saharan Africa,0.1344,0.3187,5
+Brazil,Latin America,0.1362,0.3565,5
+Indonesia,East/SE Asia,0.1378,0.3459,5
+Italy,Europe/Oceania,0.1409,0.3755,5
+Canada,North America,0.141,0.3526,5
+Egypt,MENA,0.1417,0.375,5
+Thailand,East/SE Asia,0.1487,0.3426,5
+India,South Asia,0.1668,0.428,5
+South Africa,Sub-Saharan Africa,0.1703,0.4194,5
+France,Europe/Oceania,0.173,0.4716,5
+Pakistan,South Asia,0.1763,0.4354,5
+Spain,Europe/Oceania,0.1785,0.4507,5
+Argentina,Latin America,0.1841,0.428,5

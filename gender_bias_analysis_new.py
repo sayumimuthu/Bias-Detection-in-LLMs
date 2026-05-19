@@ -924,10 +924,11 @@ def main() -> None:
     print(f"\n  Daughter stereotype score : {d_mean:+.3f}")
     print(f"  Son stereotype score      : {s_mean:+.3f}")
     print(f"  Gap (d − s)               : {d_mean - s_mean:+.3f}")
-    print(f"\n  Results  → {res_dir}")
-    print(f"  Figures  → {fig_dir}")
+    print(f"\n  Results  : {res_dir}")
+    print(f"  Figures  : {fig_dir}")
 
 
 if __name__ == "__main__":
     main()
+
 
