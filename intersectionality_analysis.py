@@ -415,7 +415,200 @@ def fig_country_heatmap(df: pd.DataFrame, fig_dir: Path) -> None:
     _save(fig, "fig_i4_country_heatmap", fig_dir)
     print("  Saved fig_i4_country_heatmap")
 
-# Main 
+# Analysis: Narrator × child gender (in-group leniency test) 
+
+def run_narrator_child_interaction(
+    df: pd.DataFrame,
+    n_boot: int = N_BOOT,
+) -> tuple[pd.DataFrame, dict]:
+    """
+    2×2 analysis: narrator gender role (female / male) × child gender.
+
+    Hypothesis: female narrators tell less-stereotyped stories to daughters
+    than male narrators do (in-group leniency).  If absent, the bias is
+    purely model-level, not narrative-voice-driven.
+
+    Returns
+    -------
+    cell_stats : DataFrame with mean ± bootstrap CI for each of 4 cells
+    ols_result : dict with interaction coefficient from OLS
+    """
+    import statsmodels.formula.api as smf
+
+    sub = df[df["person_gender_role"].isin(["female", "male"])].copy()
+    if len(sub) < 20:
+        print("  Narrator×child skipped — not enough gendered-narrator stories")
+        return pd.DataFrame(), {}
+
+    sub["narrator_is_female"] = (sub["person_gender_role"] == "female").astype(int)
+    sub["log_wc"] = np.log1p(sub["word_count"].fillna(0).clip(lower=1))
+
+    # Cell statistics 
+    rows: list[dict] = []
+    for narrator_role in ("female", "male"):
+        for child_label in ("daughter", "son"):
+            cell = sub[
+                (sub["person_gender_role"] == narrator_role) &
+                (sub["child_label"] == child_label)
+            ]
+            vals = cell["stereotype_score"].dropna().values
+            if len(vals) < 2:
+                continue
+            rng   = np.random.default_rng(42)
+            boots = [rng.choice(vals, len(vals)).mean() for _ in range(n_boot)]
+            rows.append({
+                "narrator_role": narrator_role,
+                "child_label":   child_label,
+                "dyad_type": (
+                    "same-gender"
+                    if (narrator_role == "female" and child_label == "daughter") or
+                       (narrator_role == "male"   and child_label == "son")
+                    else "cross-gender"
+                ),
+                "mean":    float(vals.mean()),
+                "ci_low":  float(np.percentile(boots, 2.5)),
+                "ci_high": float(np.percentile(boots, 97.5)),
+                "n":       int(len(vals)),
+            })
+    cell_stats = pd.DataFrame(rows)
+
+    # OLS interaction test 
+    ols_result: dict = {}
+    required = ["stereotype_score", "is_daughter", "narrator_is_female",
+                "model_family", "country_region", "log_wc"]
+    sub_clean = sub[required].dropna()
+    if len(sub_clean) >= 50:
+        try:
+            fit = smf.ols(
+                "stereotype_score ~ is_daughter * narrator_is_female"
+                " + C(model_family, Treatment('llama'))"
+                " + C(country_region, Treatment('North America'))"
+                " + log_wc",
+                data=sub_clean,
+            ).fit()
+            ci       = fit.conf_int()
+            int_term = "is_daughter:narrator_is_female"
+            if int_term in fit.params:
+                ols_result = {
+                    "interaction_coef":    float(fit.params[int_term]),
+                    "interaction_ci_low":  float(ci.loc[int_term, 0]),
+                    "interaction_ci_high": float(ci.loc[int_term, 1]),
+                    "interaction_p":       float(fit.pvalues[int_term]),
+                    "r_squared":           float(fit.rsquared),
+                }
+        except Exception as e:
+            print(f"  OLS narrator×child failed: {e}")
+
+    return cell_stats, ols_result
+
+
+# Figure I5: Narrator × child gender 2×2 plot 
+
+def fig_narrator_child_2x2(
+    cell_stats: pd.DataFrame,
+    ols_result: dict,
+    fig_dir: Path,
+) -> None:
+    """
+    Two-panel figure:
+      Left  — interaction line plot (x = child gender, lines = narrator role)
+               Parallel lines → no interaction; crossing → in-group leniency.
+      Right — stereotype gap (daughter − son) by narrator role with CI.
+               Smaller gap for female narrator → in-group leniency confirmed.
+    """
+    if cell_stats.empty:
+        print("  fig_i5 skipped — no cell stats")
+        return
+
+    palette = {"female": "#E07B8C", "male": "#5B9BD5"}
+    child_order = ["daughter", "son"]
+    x_pos = {c: i for i, c in enumerate(child_order)}
+
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
+
+    # Panel 1: Interaction line plot 
+    for narrator_role, color in palette.items():
+        sub = (cell_stats[cell_stats["narrator_role"] == narrator_role]
+               .set_index("child_label")
+               .reindex(child_order))
+        x  = [x_pos[c] for c in child_order]
+        y  = sub["mean"].values.astype(float)
+        lo = sub["ci_low"].values.astype(float)
+        hi = sub["ci_high"].values.astype(float)
+
+        ax1.plot(x, y, "o-", color=color, linewidth=2.2, markersize=9,
+                 label=f"{narrator_role.capitalize()} narrator", zorder=3)
+        ax1.fill_between(x, lo, hi, color=color, alpha=0.12, zorder=2)
+        ax1.errorbar(x, y, yerr=[y - lo, hi - y],
+                     fmt="none", color=color, capsize=5, elinewidth=1.5)
+
+        # Label same-gender dyads
+        same_child = "daughter" if narrator_role == "female" else "son"
+        xi = x_pos[same_child]
+        yi = sub.loc[same_child, "mean"] if same_child in sub.index else np.nan
+        if pd.notna(yi):
+            ax1.annotate("same-gender\ndyad", (xi, yi),
+                         xytext=(xi + 0.08, yi + 0.02),
+                         fontsize=7.5, color=color, alpha=0.8)
+
+    ax1.set_xticks(list(x_pos.values()))
+    ax1.set_xticklabels(["Daughter stories", "Son stories"], fontsize=11)
+    ax1.set_ylabel("Mean stereotype score", fontsize=11)
+    ax1.axhline(0, color="black", linewidth=0.7, linestyle="--", alpha=0.5)
+    ax1.set_title("Narrator × Child Gender Interaction\n(95 % bootstrap CI)",
+                  fontsize=11, fontweight="bold")
+    ax1.legend(fontsize=10, framealpha=0.85)
+
+    if ols_result:
+        coef = ols_result.get("interaction_coef", 0.0)
+        p    = ols_result.get("interaction_p", 1.0)
+        sig  = "***" if p < 0.001 else "**" if p < 0.01 else "*" if p < 0.05 else "n.s."
+        ax1.text(0.04, 0.04,
+                 f"OLS interaction coef = {coef:+.3f} {sig}",
+                 transform=ax1.transAxes, fontsize=9,
+                 bbox=dict(boxstyle="round,pad=0.3", fc="white", alpha=0.8))
+
+    # Panel 2: Gender gap by narrator role 
+    gap_rows = []
+    for narrator_role, color in palette.items():
+        sub = (cell_stats[cell_stats["narrator_role"] == narrator_role]
+               .set_index("child_label"))
+        if "daughter" in sub.index and "son" in sub.index:
+            d = sub.loc["daughter"]
+            s = sub.loc["son"]
+            gap = float(d["mean"]) - float(s["mean"])
+            # Propagate CI error in quadrature
+            err = float(np.sqrt(
+                ((d["mean"] - d["ci_low"]) ** 2 +
+                 (s["mean"] - s["ci_low"]) ** 2)
+            ))
+            gap_rows.append({"narrator": narrator_role, "gap": gap,
+                              "err": err, "color": color})
+
+    if gap_rows:
+        gdf = pd.DataFrame(gap_rows)
+        ax2.bar(gdf["narrator"].str.capitalize(), gdf["gap"],
+                color=gdf["color"].tolist(), width=0.45,
+                yerr=gdf["err"], capsize=7, error_kw={"elinewidth": 1.5})
+        ax2.axhline(0, color="black", linewidth=0.8, linestyle="--", alpha=0.6)
+        ax2.set_ylabel("Stereotype gap  (daughter − son)", fontsize=11)
+        ax2.set_xlabel("Narrator gender role", fontsize=11)
+        ax2.set_title(
+            "Gender Bias Gap by Narrator Role\n"
+            "(smaller gap = narrator moderates own-gender stereotyping?)",
+            fontsize=11, fontweight="bold",
+        )
+        for i, row in gdf.iterrows():
+            ax2.text(i, row["gap"] + row["err"] + 0.005,
+                     f"{row['gap']:+.3f}", ha="center", fontsize=10,
+                     fontweight="bold", color=row["color"])
+
+    plt.tight_layout()
+    _save(fig, "fig_i5_narrator_child_2x2", fig_dir)
+    print("  Saved fig_i5_narrator_child_2x2")
+
+
+# Main
 
 def main() -> None:
     args    = parse_args()
@@ -495,15 +688,29 @@ def main() -> None:
     print(f"  Region × model cells  : {len(gap_rm)}")
     print(f"  Country × model cells : {len(gap_cm)}")
 
-    # 5. Figures 
+    # 5. Narrator × child gender (in-group leniency)
+    print("\n Narrator × Child gender (in-group leniency) ")
+    cell_stats, ols_narrator = run_narrator_child_interaction(scored, n_boot=args.n_bootstrap)
+    if not cell_stats.empty:
+        cell_stats.to_csv(res_dir / "narrator_child_cells.csv", index=False)
+        print(cell_stats[["narrator_role", "child_label", "dyad_type",
+                           "mean", "ci_low", "ci_high", "n"]].round(4).to_string(index=False))
+    if ols_narrator:
+        pd.DataFrame([ols_narrator]).to_csv(res_dir / "narrator_child_ols.csv", index=False)
+        coef = ols_narrator.get("interaction_coef", 0)
+        p    = ols_narrator.get("interaction_p", 1)
+        print(f"  Interaction coef (is_daughter×narrator_is_female): {coef:+.4f}  p={p:.4f}")
+
+    # 6. Figures
     print("\n Generating figures ")
     fig_interaction_forest(ols, fig_dir)
     fig_gap_heatmap(scored, fig_dir)
     fig_simple_slopes(region_gap, fig_dir)
     if "country" in scored.columns:
         fig_country_heatmap(scored, fig_dir)
+    fig_narrator_child_2x2(cell_stats, ols_narrator, fig_dir)
 
-    # 6. Summary 
+    # 7. Summary
     print("INTERSECTIONALITY ANALYSIS: COMPLETE")
 
     if not region_gap.empty:
@@ -517,10 +724,11 @@ def main() -> None:
         worst = gap_cm.loc[gap_cm["gap"].abs().idxmax()]
         print(f"  Largest country×model gap  : {worst['country']} × {worst['model_family']}"
               f"  (gap={worst['gap']:+.3f})")
-    print(f"\n  Results → {res_dir}")
-    print(f"  Figures → {fig_dir}")
+    print(f"\n  Results  : {res_dir}")
+    print(f"  Figures  : {fig_dir}")
 
 
 if __name__ == "__main__":
     main()
+
 
