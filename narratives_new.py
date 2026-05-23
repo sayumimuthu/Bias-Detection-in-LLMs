@@ -9,7 +9,7 @@ import requests
 import pandas as pd
 import openai
 import anthropic
-from groq import Groq
+#from groq import Groq
 
 # Configuration
 
@@ -17,11 +17,11 @@ OLLAMA_HOST    = os.getenv("OLLAMA_HOST", "http://127.0.0.1:11434")
 CHAT_URL       = f"{OLLAMA_HOST}/api/chat"
 
 OPENAI_API_KEY    = os.getenv("OPENAI_API_KEY")
-GROQ_API_KEY      = os.getenv("GROQ_API_KEY")
+#GROQ_API_KEY      = os.getenv("GROQ_API_KEY")
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
 
 openai_client    = openai.OpenAI(api_key=OPENAI_API_KEY)       if OPENAI_API_KEY    else None
-groq_client      = Groq(api_key=GROQ_API_KEY)                  if GROQ_API_KEY      else None
+#groq_client      = Groq(api_key=GROQ_API_KEY)                  if GROQ_API_KEY      else None
 anthropic_client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY) if ANTHROPIC_API_KEY else None
 
 MIN_WORDS      = 100
@@ -49,13 +49,10 @@ MODELS = {
     "ollama-gemma3-12b":    {"provider": "ollama", "name": "gemma3:12b",           "family": "gemma",    "params": "12B",  "year": 2025, "timeout": 90},
     "ollama-gemma3-27b":    {"provider": "ollama", "name": "gemma3:27b",           "family": "gemma",    "params": "27B",  "year": 2025, "timeout": 180},
     "ollama-gptoss-20b":    {"provider": "ollama", "name": "gpt-oss:20b",          "family": "gpt-oss",  "params": "20B",  "year": 2025, "timeout": 120},
+   
     # OpenAI 
     "openai-gpt4o":              {"provider": "openai",     "name": "gpt-4o",                                    "family": "gpt",      "params": "?",   "year": 2024, "timeout": 60},
     "openai-gpt41":              {"provider": "openai",     "name": "gpt-4.1",                                   "family": "gpt",      "params": "?",   "year": 2025, "timeout": 60},
-    
-    # Groq 
-    #"groq-llama33-70b":          {"provider": "groq",       "name": "llama-3.3-70b-versatile",                  "family": "llama",    "params": "70B", "year": 2024, "timeout": 60},
-    #"groq-llama4-scout":         {"provider": "groq",       "name": "meta-llama/llama-4-scout-17b-16e-instruct","family": "llama",    "params": "17B", "year": 2025, "timeout": 60},
     
     # Anthropic 
     "anthropic-haiku45":         {"provider": "anthropic",  "name": "claude-haiku-4-5-20251001",                "family": "claude",   "params": "?",   "year": 2025, "timeout": 60},

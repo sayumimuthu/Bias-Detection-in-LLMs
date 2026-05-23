@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 import argparse
+import math
 import re
 import warnings
+from collections import Counter
 from pathlib import Path
 
 import matplotlib
@@ -75,44 +77,97 @@ REGION_ORDER = [
     "MENA", "Sub-Saharan Africa", "South Asia", "East/SE Asia",
 ]
 
-# Lexicons 
-# Sources: Bakan (1966), Bem (1974) BSRI, Gaucher et al. (2011),
-#          Fiske et al. (2002), Caliskan et al. (2017) WEAT.
-# Categories are mutually exclusive — terms appearing in multiple canonical
-# sources were assigned to the most semantically central category.
+# Lexicons
+# agentic / communal: Pietraszkiewicz et al. (2019) "The big two dictionaries"
+# career / family: Caliskan et al. (2017) WEAT sets A/B.
+# masculine_traits / feminine_traits: Bem (1974) BSRI.
 
 LEXICONS: dict[str, set[str]] = {
 
-    # Agentic language — self-oriented achievement and independence
-    # (Bakan 1966; Gaucher et al. 2011 job-ad corpus)
+    # Agentic language: agency category from Pietraszkiewicz et al. (2019) OSF dic
     "agentic": {
-        "accomplish", "achievement", "adventurous", "ambitious", "analytic",
-        "analytical", "assertive", "autonomous", "bold", "brave", "champion",
-        "challenge", "compete", "competitive", "confident", "conquer",
-        "courageous", "daring", "decisive", "determined", "dominant", "driven",
-        "excel", "explore", "fearless", "forceful", "heroic", "independent",
-        "initiative", "innovative", "lead", "leader", "logical", "master",
-        "outperform", "persistent", "pioneer", "powerful", "rational",
-        "resourceful", "risk", "self-reliant", "solve", "strategic",
-        "succeed", "tackle", "triumph", "win",
+        "able", "accomplish*", "accurac*", "accurate*", "achiev*", "acquir*",
+        "actualiz*", "adaptab*", "adept*", "ambition*", "ambitious*",
+        "aptitude*", "aptly", "aptness", "aspiration*", "aspire*", "aspiring",
+        "assert*", "attain*", "authoritative*", "autonomous*", "autonomy",
+        "capab*", "careful*", "choice", "choices", "clever*", "compet*",
+        "completion", "confident", "confidently", "conquer*", "conscientious*",
+        "contemplat*", "contend*", "contest*", "decid*", "decision*",
+        "decisive*", "defeat*", "deliberat*", "dependable", "determin*",
+        "difficult*", "do", "doable", "doing", "eager*", "earn", "earned",
+        "earning", "earns", "easiness", "easy", "effective*", "efficien*",
+        "effort*", "empowered", "enact*", "endeavor*", "establish",
+        "established", "establishes", "establishing", "exact*", "expert*",
+        "fail*", "fluen*", "freedom*", "freely", "goal", "goals", "importan*",
+        "independ*", "individualist", "insight*", "intent*", "intuition",
+        "intuitive*", "keen*", "know*", "liberties", "liberty", "logic*",
+        "loner*", "made", "make", "makes", "making", "mastered", "masterful*",
+        "mastering", "mastery", "motivat*", "need", "needed", "needing",
+        "needs", "objectiv*", "obtain*", "opportun*", "overcame", "overcome",
+        "overcomes", "overcoming", "persever*", "persist*", "persistent",
+        "pioneer*", "practic*", "pragmat*", "prevail*", "pride", "prideful*",
+        "priorit*", "proactive*", "productive*", "productivity", "proficien*",
+        "prosper*", "proud*", "purpose*", "pursu*", "rational*", "realiz*",
+        "rebel*", "recog*", "reliab*", "reputation*", "resilien*", "resolute*",
+        "resolution", "resolv*", "responsib*", "reward*", "risk*", "savv*",
+        "score", "scored", "scores", "scoring", "self", "should*",
+        "significant*", "skill", "skilled", "skillful*", "skills*", "smart",
+        "smartly", "steadfast*", "strive*", "striving*", "struggl*",
+        "stubborn*", "succeed*", "success*", "sure", "take", "takes",
+        "taking", "tenac*", "think", "thinking", "thinks", "thought",
+        "took", "tried", "tries", "triumph*", "trying", "unaided",
+        "unyielding*", "vanquish*", "victor*", "will", "willing*", "willpower",
+        "win", "winner*", "winning*", "wins", "wit", "wits", "witting*", "won",
+        "you", "your", "yours", "yourself", "activ*", "advance*", "aggressive",
+        "brave*", "command*", "confidence", "control", "controlling",
+        "courage*", "creat*", "dare*", "discover*", "dominant*", "dynamic",
+        "excellent*", "experience*", "expert", "influence", "inform*",
+        "intelligence", "intelligent*", "lead*", "manager*", "organized",
+        "outstanding*", "power*", "professional*", "reasoning", "scientific*",
+        "status", "strength", "strong*", "thought*",
     },
 
-    # Communal language — other-oriented care and cooperation
-    # (Bakan 1966; Eagly & Steffen 1984)
+    # Communal language: communion category from Pietraszkiewicz et al. (2019) OSF dic
     "communal": {
-        "accept", "affectionate", "agreeable", "attentive", "cheerful",
-        "collaborate", "comfort", "compassion", "compassionate",
-        "considerate", "cooperate", "devoted", "empathetic", "empathy",
-        "encourage", "faithful", "forgiving", "friendly", "gentle", "giving",
-        "harmonious", "harmony", "helpful", "humble", "inclusive", "kind",
-        "kindness", "listen", "loving", "loyal", "nurture", "nurturing",
-        "patient", "peaceful", "polite", "sensitive", "share", "sharing",
-        "sincere", "sociable", "support", "supportive", "sympathetic",
-        "sympathy", "tender", "together", "trust", "understanding",
-        "warm", "welcoming",
+        "accept*", "accommodat*", "accompan*", "accord", "affab*",
+        "affection*", "affiliat*", "affinity", "agree*", "aid", "aided",
+        "aiding", "allegian*", "alliance*", "allies", "ally", "altruis*",
+        "amenab*", "amiab*", "amicab*", "amigo*", "apolog*", "appreciat*",
+        "assist*", "benevolen*", "buddies", "buddy", "care", "cared", "cares",
+        "caring*", "ceremon*", "charit*", "chat", "chats", "chatted",
+        "chatting", "civic", "civil*", "closeness", "collab*", "colleague*",
+        "collective*", "commun*", "companion*", "compassion*", "compromis*",
+        "concert*", "confer*", "congrat*", "consen*", "considerate*",
+        "contribut*", "conversat*", "converse", "conversed", "converses",
+        "conversing", "cooperat*", "counsel*", "courteous*", "crew", "democr*",
+        "dialogue*", "discuss*", "educat*", "empath*", "equitab*", "familial",
+        "families", "family", "fellow*", "festiv*", "forgave", "forgiv*",
+        "frat*", "friend*", "generos*", "grateful*", "gregarious*", "group*",
+        "guidanc*", "harmon*", "help*", "honest*", "hospitab*", "hospitality",
+        "human*", "impartial*", "interpersonal*", "intima*", "justice",
+        "justly", "kin", "kindly", "kindness", "kinship", "law", "lawful*",
+        "laws", "learn*", "love*", "loving*", "loyal*", "magnanimous*",
+        "marriag*", "matrimon*", "member*", "mingl*", "mutual*", "negotiat*",
+        "neighbor*", "nurtur*", "offer*", "oneness", "our", "ours", "pal",
+        "pals", "participat*", "partied", "parties", "partner*", "party*",
+        "philanth*", "pluralis*", "polite*", "public", "publicly", "recipr*",
+        "recommend*", "reconcil*", "relationship*", "request*", "respect*",
+        "ritual*", "roommate*", "sacrific*", "selfless*", "servic*", "share",
+        "shared", "shares", "sharing", "sincer*", "socia*", "societ*",
+        "solidarity", "soror*", "squad*", "suggest*", "support*", "sympath*",
+        "talk*", "taught", "teach*", "team", "teams", "teamwork", "thank*",
+        "together*", "tradition*", "treatise*", "treaty", "tribe*", "trust*",
+        "truth*", "unanim*", "unif*", "unite*", "uniting", "unity",
+        "unselfish*", "us", "volunt*", "we", "welcom*", "welfare", "inclusiv*",
+        "affect*", "approach*", "benefit", "care*", "chat*", "close*",
+        "decency", "decent*", "emotion*", "fair*", "faith*", "genteel",
+        "gentle*", "gently", "genuine*", "mercy", "modest*", "moral*",
+        "open*", "patiently", "praise", "protect*", "righteous*", "sense",
+        "tact*", "tender*", "tolerance", "tolerant*", "understand*", "union*",
+        "warm*", "yield*",
     },
 
-    # Career domain — professional and workplace concepts (WEAT set A)
+    # Career domain: professional and workplace concepts (WEAT set A)
     # Distinct from agentic: about *context*, not *personality traits*
     "career": {
         "business", "career", "company", "corporate", "employed",
@@ -122,7 +177,7 @@ LEXICONS: dict[str, set[str]] = {
         "salary", "scientist", "technology", "work",
     },
 
-    # Family domain — domestic and caregiving contexts (WEAT set B)
+    # Family domain: domestic and caregiving contexts (WEAT set B)
     "family": {
         "ancestor", "baby", "babysit", "caregiver", "chore", "cook",
         "domestic", "family", "grandchild", "grandmother", "grandfather",
@@ -130,21 +185,21 @@ LEXICONS: dict[str, set[str]] = {
         "relative", "sibling", "tradition", "wedding",
     },
 
-    # Masculine traits — BSRI masculine-pole adjectives (Bem 1974)
+    # Masculine traits: BSRI masculine-pole adjectives (Bem 1974)
     # Note: leadership/dominant appear here only; removed from agentic
     "masculine_traits": {
         "aggressive", "ambitious", "athletic", "competitive", "dominant",
         "forceful", "independent", "masculine", "self-sufficient", "strong",
     },
 
-    # Feminine traits — BSRI feminine-pole adjectives (Bem 1974)
+    # Feminine traits: BSRI feminine-pole adjectives (Bem 1974)
     # Note: gentle/warm appear here only; removed from communal
     "feminine_traits": {
         "affectionate", "feminine", "flirtatious", "graceful", "naive",
         "soft", "submissive", "sweet", "timid", "yielding",
     },
 
-    # Gendered pronouns + role nouns — matched on RAW text (case-insensitive)
+    # Gendered pronouns + role nouns: matched on RAW text (case-insensitive)
     # Not affected by stop-word removal in the prepared tokens column
     "male_markers": {
         "he", "him", "his", "boy", "man", "male", "son", "brother",
@@ -223,9 +278,9 @@ SEMANTIC_CONCEPTS: dict[str, list[str]] = {
 
 # Seaborn / matplotlib theme 
 
-PALETTE_GENDER  = {"daughter": "#E07B8C", "son": "#5B9BD5"}   # rose / steel blue
+PALETTE_GENDER  = {"daughter": "#7BE0CF", "son": "#D5AC5B"}   
 PALETTE_REGION  = sns.color_palette("tab10", 7)
-PALETTE_ROLE    = {"female": "#E07B8C", "male": "#5B9BD5", "neutral": "#78C47A"}
+PALETTE_ROLE    = {"female": "#7BE0B2", "male": "#D5A05B", "neutral": "#78C3C4"}
 FIG_DPI         = 150
 FIG_EXT         = ["png", "pdf"]
 
@@ -247,6 +302,8 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--n-bootstrap",  type=int, default=N_BOOT)
     p.add_argument("--skip-semantic", action="store_true",
                    help="Skip semantic embedding analysis")
+    p.add_argument("--skip-pmi", action="store_true",
+                   help="Skip PMI-weighted scoring")
     return p.parse_args()
 
 # Data loading 
@@ -268,7 +325,6 @@ def load_data(explicit: str) -> pd.DataFrame:
 
 
 def enrich(df: pd.DataFrame) -> pd.DataFrame:
-    """Add derived grouping columns."""
     df = df.copy()
 
     df["child_label"] = df["protagonist_gender"].map(
@@ -306,14 +362,37 @@ def _norm(count: int, total: int) -> float:
     return (count / total * PER) if total > 0 else 0.0
 
 
+def _build_lex_matcher(patterns: set[str]):
+    """
+    A token matcher for a LIWC-style lexicon.
+    Patterns ending with '*' do prefix matching; others require exact match.
+    Compiled once per lexicon so per-story matching stays O(n_tokens).
+    """
+    exact    = frozenset(p for p in patterns if not p.endswith("*"))
+    prefixes = tuple(sorted({p[:-1] for p in patterns if p.endswith("*")},
+                             key=len, reverse=True))
+
+    def _match(word: str) -> bool:
+        if word in exact:
+            return True
+        for pfx in prefixes:
+            if word.startswith(pfx):
+                return True
+        return False
+
+    return _match
+
+
 def score_lexicon(df: pd.DataFrame) -> pd.DataFrame:
-    """Compute per-story lexicon counts and composite bias indices."""
+    """Computing per-story lexicon counts and composite bias indices."""
     out = df.copy()
     out["_toks"] = out["story"].apply(_tokenize)
     out["token_count_raw"] = out["_toks"].str.len()
 
-    for name, lex in LEXICONS.items():
-        cnt = out["_toks"].apply(lambda t: sum(1 for w in t if w in lex))
+    matchers = {name: _build_lex_matcher(lex) for name, lex in LEXICONS.items()}
+
+    for name, matcher in matchers.items():
+        cnt = out["_toks"].apply(lambda t, m=matcher: sum(1 for w in t if m(w)))
         out[f"{name}_count"] = cnt
         out[f"{name}_per{PER}"] = out.apply(
             lambda r: _norm(r[f"{name}_count"], r["token_count_raw"]), axis=1
@@ -334,7 +413,7 @@ def score_lexicon(df: pd.DataFrame) -> pd.DataFrame:
     # For daughters: high score = strongly stereotyped female.
     # For sons:      high score = strongly stereotyped male.
     # Uses the child-specific sign flip so both groups use the same scale.
-    sign = out["is_daughter"].map({1: -1, 0: 1})   # daughters → flip sign
+    sign = out["is_daughter"].map({1: -1, 0: 1})   
     out["stereotype_score"] = sign * (
         out["trait_bias_index"] +
         out["role_bias_index"]  +
@@ -346,7 +425,91 @@ def score_lexicon(df: pd.DataFrame) -> pd.DataFrame:
     out = out.drop(columns=["_toks"])
     return out
 
-# Statistical testing 
+# PMI-weighted scoring
+
+def compute_pmi_weights(df: pd.DataFrame,
+                        min_count: int = 5) -> dict[str, float]:
+    """
+    Compute PMI(w, daughter) for every token in the corpus.
+
+    PMI(w, daughter) = log[ P(w, daughter) / (P(w) * P(daughter)) ]
+
+    Positive  -> word is over-represented in daughter stories.
+    Negative  -> word is over-represented in son stories.
+
+    Words appearing fewer than min_count times total are excluded;
+    PMI estimates are unreliable for rare items.
+    """
+    d_counts: Counter = Counter()
+    s_counts: Counter = Counter()
+
+    for _, row in df.iterrows():
+        toks = _tokenize(row["story"])
+        if row["is_daughter"] == 1:
+            d_counts.update(toks)
+        else:
+            s_counts.update(toks)
+
+    n_d = sum(d_counts.values())
+    n_s = sum(s_counts.values())
+    n   = n_d + n_s
+    p_daughter = n_d / n
+
+    pmi: dict[str, float] = {}
+    for w in set(d_counts) | set(s_counts):
+        c_total = d_counts[w] + s_counts[w]
+        if c_total < min_count:
+            continue
+        p_w   = c_total / n
+        p_w_d = d_counts[w] / n          # joint P(w, daughter)
+        if p_w_d > 0:
+            pmi[w] = math.log(p_w_d / (p_w * p_daughter))
+        else:
+            # word never in daughter stories: floor at log(1/n)
+            pmi[w] = math.log(1.0 / (n * p_w * p_daughter + EPS))
+    return pmi
+
+
+def score_pmi(df: pd.DataFrame,
+              pmi_weights: dict[str, float]) -> pd.DataFrame:
+    """
+    PMI-weighted lexicon scoring across three independent bias dimensions.
+
+    For each dimension (feminine_lex, masculine_lex):
+      pmi_X_fem_raw  = mean PMI(w, daughter) for w in story ∩ fem_lex  * 1000
+      pmi_X_masc_raw = mean PMI(w, daughter) for w in story ∩ masc_lex * 1000
+      pmi_X_score    = pmi_X_fem_raw − pmi_X_masc_raw
+
+    Positive pmi_X_score -> story is daughter-stereotyped on dimension X.
+    Negative pmi_X_score -> story is son-stereotyped on dimension X.
+
+    Dimensions:
+    
+    pmi_role   : communal (feminine) vs agentic (masculine)
+    pmi_domain : family   (feminine) vs career  (masculine)
+    pmi_trait  : feminine_traits     vs masculine_traits
+    """
+    out = df.copy()
+    out["_toks"] = out["story"].apply(_tokenize)
+    matchers = {name: _build_lex_matcher(lex) for name, lex in LEXICONS.items()}
+
+    def _pmi_lex(tokens: list[str], lex_name: str) -> float:
+        m = matchers[lex_name]
+        n = max(len(tokens), 1)
+        return sum(pmi_weights.get(w, 0.0) for w in tokens if m(w)) / n * PER
+
+    for fem, masc, col in PMI_DIMENSIONS:
+        fem_s  = out["_toks"].apply(lambda t, l=fem:  _pmi_lex(t, l))
+        masc_s = out["_toks"].apply(lambda t, l=masc: _pmi_lex(t, l))
+        out[f"{col}_score"]    = fem_s - masc_s
+        out[f"{col}_fem_raw"]  = fem_s
+        out[f"{col}_masc_raw"] = masc_s
+
+    out = out.drop(columns=["_toks"])
+    return out
+
+
+# Statistical testing
 
 CORE_METRICS = [
     "trait_bias_index", "role_bias_index", "domain_bias_index",
@@ -354,6 +517,15 @@ CORE_METRICS = [
     f"agentic_per{PER}", f"communal_per{PER}",
     f"masculine_traits_per{PER}", f"feminine_traits_per{PER}",
 ]
+
+# PMI-weighted dimensions: three independent axes, no sign flip required.
+# (feminine_lex, masculine_lex, column_prefix)
+PMI_DIMENSIONS: list[tuple[str, str, str]] = [
+    ("communal",        "agentic",          "pmi_role"),
+    ("family",          "career",           "pmi_domain"),
+    ("feminine_traits", "masculine_traits", "pmi_trait"),
+]
+PMI_METRICS = [f"{col}_score" for _, _, col in PMI_DIMENSIONS]
 
 
 def _cohens_d(a: np.ndarray, b: np.ndarray) -> float:
@@ -831,7 +1003,56 @@ def fig_semantic_overview(df: pd.DataFrame, fig_dir: Path) -> None:
     print("  Saved fig7_semantic_overview")
 
 
-# Main 
+# Figure 8: PMI dimension scores
+
+def fig_pmi_dimensions(df: pd.DataFrame, fig_dir: Path) -> None:
+    """
+    Three-panel bar chart: mean PMI-weighted score per dimension
+    (role / domain / trait) × child gender, with 95 % bootstrap CIs.
+    Positive = daughter-stereotyped, Negative = son-stereotyped.
+    """
+    dim_labels = {"pmi_role_score":   "Role\n(communal vs agentic)",
+                  "pmi_domain_score": "Domain\n(family vs career)",
+                  "pmi_trait_score":  "Trait\n(feminine vs masculine)"}
+    cols = list(dim_labels.keys())
+    missing = [c for c in cols if c not in df.columns]
+    if missing:
+        return
+
+    fig, axes = plt.subplots(1, 3, figsize=(13, 4), sharey=False)
+    rng = np.random.default_rng(0)
+
+    for ax, col in zip(axes, cols):
+        records = []
+        for label in ("daughter", "son"):
+            vals = df[df["child_label"] == label][col].dropna().values
+            if len(vals) < 2:
+                continue
+            mean = vals.mean()
+            boots = [rng.choice(vals, len(vals)).mean() for _ in range(N_BOOT)]
+            lo, hi = np.percentile(boots, [2.5, 97.5])
+            records.append({"label": label, "mean": mean,
+                             "lo": lo, "hi": hi})
+        if not records:
+            continue
+        rdf = pd.DataFrame(records)
+        colors = [PALETTE_GENDER[r["label"]] for _, r in rdf.iterrows()]
+        ax.bar(rdf["label"], rdf["mean"], color=colors,
+               yerr=[rdf["mean"] - rdf["lo"], rdf["hi"] - rdf["mean"]],
+               capsize=6, error_kw={"elinewidth": 1.5})
+        ax.axhline(0, color="black", linewidth=0.8, linestyle="--", alpha=0.5)
+        ax.set_title(dim_labels[col], fontsize=10, fontweight="bold")
+        ax.set_ylabel("PMI-weighted score\n(+ = daughter-stereotyped)", fontsize=9)
+        ax.set_xticklabels(["Daughter", "Son"], fontsize=10)
+
+    fig.suptitle("PMI-Weighted Bias Scores by Dimension (95 % bootstrap CI)",
+                 fontsize=13, fontweight="bold", y=1.02)
+    fig.tight_layout()
+    _save(fig, "fig8_pmi_dimensions", fig_dir)
+    print("  Saved fig8_pmi_dimensions")
+
+
+# Main
 
 def main() -> None:
     args    = parse_args()
@@ -847,14 +1068,28 @@ def main() -> None:
     print(f"\nAnalysing {len(df):,} stories "
           f"({df['child_label'].value_counts().to_dict()})")
 
-    # 2. Lexicon scoring
+    # 2. Lexicon scoring (raw counts + legacy composite indices)
     print("\n Lexicon analysis")
     scored = score_lexicon(df)
     scored.to_csv(res_dir / "story_level_lexicon.csv", index=False)
     print(f"  Story-level scores saved ({len(scored):,} rows)")
 
+    # 2b. PMI-weighted scoring
+    pmi_scored = None
+    if not args.skip_pmi:
+        print("\n PMI-weighted analysis")
+        pmi_weights = compute_pmi_weights(scored)
+        print(f"  PMI weights computed for {len(pmi_weights):,} tokens "
+              f"(min_count=5)")
+        pmi_scored = score_pmi(scored, pmi_weights)
+        pmi_scored.to_csv(res_dir / "story_level_pmi.csv", index=False)
+        print(f"  PMI scores saved  ({len(pmi_scored):,} rows, "
+              f"dims: {PMI_METRICS})")
+    else:
+        print("\n PMI analysis skipped (--skip-pmi) ")
+
     # 3. Statistical tests — child gender effect per model
-    print("\n Statistical tests ")
+    print("\n Statistical tests (legacy lexicon)")
     tests_model   = pairwise_tests(scored, "model_key",         CORE_METRICS, args.n_bootstrap)
     tests_region  = pairwise_tests(scored, "country_region",    CORE_METRICS, args.n_bootstrap)
     tests_person  = pairwise_tests(scored, "person_gender_role",CORE_METRICS, args.n_bootstrap)
@@ -870,13 +1105,39 @@ def main() -> None:
           f"region: {tests_region['sig_fdr'].sum()}, "
           f"person: {tests_person['sig_fdr'].sum()}")
 
-    # 4. Regression decomposition
+    # 3b. Statistical tests — PMI metrics
+    pmi_tests_model = pd.DataFrame()
+    if pmi_scored is not None:
+        print("\n Statistical tests (PMI-weighted)")
+        pmi_tests_model   = pairwise_tests(pmi_scored, "model_key",         PMI_METRICS, args.n_bootstrap)
+        pmi_tests_region  = pairwise_tests(pmi_scored, "country_region",    PMI_METRICS, args.n_bootstrap)
+        pmi_tests_person  = pairwise_tests(pmi_scored, "person_gender_role",PMI_METRICS, args.n_bootstrap)
+        pmi_tests_overall = pairwise_tests(
+            pmi_scored.assign(_all="all"), "_all", PMI_METRICS, args.n_bootstrap
+        )
+        pmi_tests_model.to_csv(res_dir  / "pmi_tests_by_model.csv",        index=False)
+        pmi_tests_region.to_csv(res_dir / "pmi_tests_by_region.csv",       index=False)
+        pmi_tests_person.to_csv(res_dir / "pmi_tests_by_person_role.csv",  index=False)
+        pmi_tests_overall.to_csv(res_dir / "pmi_tests_overall.csv",        index=False)
+        print(f"  Significant (FDR) — model: {pmi_tests_model['sig_fdr'].sum()}, "
+              f"region: {pmi_tests_region['sig_fdr'].sum()}, "
+              f"person: {pmi_tests_person['sig_fdr'].sum()}")
+
+    # 4. Regression decomposition (legacy + PMI)
     print("\n Regression analysis ")
     reg = run_regressions(scored)
     if not reg.empty:
         reg.to_csv(res_dir / "regression_is_daughter.csv", index=False)
         print(reg[["metric", "coef_is_daughter", "p_is_daughter", "adj_r_squared"]]
               .round(4).to_string(index=False))
+    if pmi_scored is not None:
+        pmi_reg = run_regressions(pmi_scored)
+        if not pmi_reg.empty:
+            pmi_reg = pmi_reg[pmi_reg["metric"].isin(PMI_METRICS)]
+            pmi_reg.to_csv(res_dir / "pmi_regression_is_daughter.csv", index=False)
+            if not pmi_reg.empty:
+                print(pmi_reg[["metric", "coef_is_daughter", "p_is_daughter",
+                               "adj_r_squared"]].round(4).to_string(index=False))
 
     # 5. Optional semantic analysis
     sem_scored = None
@@ -909,6 +1170,13 @@ def main() -> None:
         fig_regression_forest(reg, fig_dir)
     if sem_scored is not None:
         fig_semantic_overview(sem_scored, fig_dir)
+    if pmi_scored is not None:
+        fig_pmi_dimensions(pmi_scored, fig_dir)
+        if not pmi_tests_model.empty:
+            fig_effect_heatmap(pmi_tests_model, "model_key",
+                               "fig9_pmi_heatmap_model",
+                               "PMI-weighted Cohen's d (daughter − son) by Model × Dimension  (* = FDR p<0.05)",
+                               fig_dir)
 
     # 7. Summary
     print("GENDER BIAS ANALYSIS: COMPLETE")
