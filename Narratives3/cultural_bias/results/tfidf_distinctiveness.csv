@@ -1,36 +1,3 @@
-country,region,cosine_sim,distinctiveness,n_stories
-China,East/SE Asia,0.7539,0.2461,286
-Ghana,Sub-Saharan Africa,0.8332,0.1668,283
-Russia,Europe/Oceania,0.8521,0.1479,284
-Vietnam,East/SE Asia,0.8676,0.1324,281
-Japan,East/SE Asia,0.8712,0.1288,284
-Germany,Europe/Oceania,0.8755,0.1245,279
-Saudi Arabia,MENA,0.8771,0.1229,284
-South Korea,East/SE Asia,0.8786,0.1214,281
-Italy,Europe/Oceania,0.8788,0.1212,285
-United Arab Emirates,MENA,0.8806,0.1194,282
-France,Europe/Oceania,0.8816,0.1184,285
-Argentina,Latin America,0.8848,0.1152,286
-Egypt,MENA,0.8878,0.1122,282
-Poland,Europe/Oceania,0.8886,0.1114,285
-Colombia,Latin America,0.8947,0.1053,285
-Greece,Europe/Oceania,0.9057,0.0943,286
-Spain,Europe/Oceania,0.907,0.093,283
-Mexico,Latin America,0.9076,0.0924,285
-Turkey,MENA,0.9096,0.0904,286
-Sri Lanka,South Asia,0.9105,0.0895,286
-Morocco,MENA,0.9125,0.0875,284
-India,South Asia,0.913,0.087,287
-Thailand,East/SE Asia,0.9164,0.0836,286
-Brazil,Latin America,0.917,0.083,281
-Australia,Europe/Oceania,0.9222,0.0778,286
-South Africa,Sub-Saharan Africa,0.9223,0.0777,284
-Kenya,Sub-Saharan Africa,0.923,0.077,279
-Pakistan,South Asia,0.9256,0.0744,284
-Philippines,East/SE Asia,0.9281,0.0719,284
-Ethiopia,Sub-Saharan Africa,0.9319,0.0681,284
-Iran,MENA,0.932,0.068,285
-Nigeria,Sub-Saharan Africa,0.9368,0.0632,282
-Canada,North America,0.9375,0.0625,283
-United States,North America,0.9409,0.0591,285
-Indonesia,East/SE Asia,0.9435,0.0565,284
+version https://git-lfs.github.com/spec/v1
+oid sha256:91985ed163d1694603819bc9022ecf52422605eb1fed5f3dd1bab7ac7ab8c693
+size 1626

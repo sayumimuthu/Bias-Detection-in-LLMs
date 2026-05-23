@@ -1,30 +1,32 @@
-"""
-
-Expanded bias-detection story generation using locally-hosted Ollama models.
-
-Design: 12 models × 35 countries × 12 storytellers × 2 child genders
-Target: 10,080 stories
-
-"""
-
 import json
 import re
 import time
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 import requests
 import pandas as pd
+import openai
+import anthropic
+from groq import Groq
 
-# Configuration 
+# Configuration
 
 OLLAMA_HOST    = os.getenv("OLLAMA_HOST", "http://127.0.0.1:11434")
 CHAT_URL       = f"{OLLAMA_HOST}/api/chat"
 
+OPENAI_API_KEY    = os.getenv("OPENAI_API_KEY")
+GROQ_API_KEY      = os.getenv("GROQ_API_KEY")
+ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
+
+openai_client    = openai.OpenAI(api_key=OPENAI_API_KEY)       if OPENAI_API_KEY    else None
+groq_client      = Groq(api_key=GROQ_API_KEY)                  if GROQ_API_KEY      else None
+anthropic_client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY) if ANTHROPIC_API_KEY else None
+
 MIN_WORDS      = 100
 MAX_WORDS      = 200
-WORD_TOLERANCE = 8           # accept [92, 208] to avoid excessive retries
+WORD_TOLERANCE = 20           
 MAX_RETRIES    = 3
 CHECKPOINT_EVERY = 25        # save checkpoint every N new stories
 
@@ -34,18 +36,30 @@ OUTPUT_DIR.mkdir(exist_ok=True)
 # Model Registry
 
 MODELS = {
-    "ollama-llama31-8b":    {"name": "llama3.1:8b",          "family": "llama",    "params": "8B",   "year": 2024, "timeout": 90},
-    "ollama-llama32-1b":    {"name": "llama3.2:1b",          "family": "llama",    "params": "1B",   "year": 2024, "timeout": 60},
-    "ollama-llama32-3b":    {"name": "llama3.2:3b",          "family": "llama",    "params": "3B",   "year": 2024, "timeout": 60},
-    "ollama-llama3-70b":    {"name": "llama3:70b",           "family": "llama",    "params": "70B",  "year": 2024, "timeout": 300},
-    "ollama-mistral-nemo":  {"name": "mistral-nemo:latest",  "family": "mistral",  "params": "12B",  "year": 2024, "timeout": 90},
-    "ollama-mistral-7b":    {"name": "mistral:instruct",     "family": "mistral",  "params": "7B",   "year": 2024, "timeout": 90},
-    "ollama-qwen25-7b":     {"name": "qwen2.5:7b",           "family": "qwen",     "params": "7B",   "year": 2024, "timeout": 90},
-    "ollama-qwen25-3b":     {"name": "qwen2.5:3b",           "family": "qwen",     "params": "3B",   "year": 2024, "timeout": 60},
-    "ollama-gemma2-2b":     {"name": "gemma2:2b",            "family": "gemma",    "params": "2B",   "year": 2024, "timeout": 60},
-    "ollama-gemma3-12b":    {"name": "gemma3:12b",           "family": "gemma",    "params": "12B",  "year": 2025, "timeout": 90},
-    "ollama-gemma3-27b":    {"name": "gemma3:27b",           "family": "gemma",    "params": "27B",  "year": 2025, "timeout": 180},
-    "ollama-gptoss-20b":    {"name": "gpt-oss:20b",          "family": "gpt-oss",  "params": "20B",  "year": 2025, "timeout": 120},
+    # Ollama (local) 
+    "ollama-llama31-8b":    {"provider": "ollama", "name": "llama3.1:8b",          "family": "llama",    "params": "8B",   "year": 2024, "timeout": 90},
+    "ollama-llama32-1b":    {"provider": "ollama", "name": "llama3.2:1b",          "family": "llama",    "params": "1B",   "year": 2024, "timeout": 60},
+    "ollama-llama32-3b":    {"provider": "ollama", "name": "llama3.2:3b",          "family": "llama",    "params": "3B",   "year": 2024, "timeout": 60},
+    "ollama-llama3-70b":    {"provider": "ollama", "name": "llama3:70b",           "family": "llama",    "params": "70B",  "year": 2024, "timeout": 300},
+    "ollama-mistral-nemo":  {"provider": "ollama", "name": "mistral-nemo:latest",  "family": "mistral",  "params": "12B",  "year": 2024, "timeout": 90},
+    "ollama-mistral-7b":    {"provider": "ollama", "name": "mistral:instruct",     "family": "mistral",  "params": "7B",   "year": 2024, "timeout": 90},
+    "ollama-qwen25-7b":     {"provider": "ollama", "name": "qwen2.5:7b",           "family": "qwen",     "params": "7B",   "year": 2024, "timeout": 90},
+    "ollama-qwen25-3b":     {"provider": "ollama", "name": "qwen2.5:3b",           "family": "qwen",     "params": "3B",   "year": 2024, "timeout": 60},
+    "ollama-gemma2-2b":     {"provider": "ollama", "name": "gemma2:2b",            "family": "gemma",    "params": "2B",   "year": 2024, "timeout": 60},
+    "ollama-gemma3-12b":    {"provider": "ollama", "name": "gemma3:12b",           "family": "gemma",    "params": "12B",  "year": 2025, "timeout": 90},
+    "ollama-gemma3-27b":    {"provider": "ollama", "name": "gemma3:27b",           "family": "gemma",    "params": "27B",  "year": 2025, "timeout": 180},
+    "ollama-gptoss-20b":    {"provider": "ollama", "name": "gpt-oss:20b",          "family": "gpt-oss",  "params": "20B",  "year": 2025, "timeout": 120},
+    # OpenAI 
+    "openai-gpt4o":              {"provider": "openai",     "name": "gpt-4o",                                    "family": "gpt",      "params": "?",   "year": 2024, "timeout": 60},
+    "openai-gpt41":              {"provider": "openai",     "name": "gpt-4.1",                                   "family": "gpt",      "params": "?",   "year": 2025, "timeout": 60},
+    
+    # Groq 
+    #"groq-llama33-70b":          {"provider": "groq",       "name": "llama-3.3-70b-versatile",                  "family": "llama",    "params": "70B", "year": 2024, "timeout": 60},
+    #"groq-llama4-scout":         {"provider": "groq",       "name": "meta-llama/llama-4-scout-17b-16e-instruct","family": "llama",    "params": "17B", "year": 2025, "timeout": 60},
+    
+    # Anthropic 
+    "anthropic-haiku45":         {"provider": "anthropic",  "name": "claude-haiku-4-5-20251001",                "family": "claude",   "params": "?",   "year": 2025, "timeout": 60},
+    "anthropic-sonnet46":        {"provider": "anthropic",  "name": "claude-sonnet-4-6",                        "family": "claude",   "params": "?",   "year": 2025, "timeout": 60},
 }
 
 # Experimental Design 
@@ -107,7 +121,47 @@ def count_words(text: str) -> int:
 def within_range(wc: int) -> bool:
     return (MIN_WORDS - WORD_TOLERANCE) <= wc <= (MAX_WORDS + WORD_TOLERANCE)
 
-# Ollama API Call 
+# API Calls
+
+def call_openai(model_name: str, prompt: str) -> str:
+    if openai_client is None:
+        raise RuntimeError("OPENAI_API_KEY is not set")
+    response = openai_client.chat.completions.create(
+        model=model_name,
+        messages=[
+            {"role": "system", "content": SYSTEM_MSG},
+            {"role": "user",   "content": prompt},
+        ],
+        temperature=0.85,
+        max_tokens=600,
+    )
+    return response.choices[0].message.content.strip()
+
+def call_groq(model_name: str, prompt: str) -> str:
+    if groq_client is None:
+        raise RuntimeError("GROQ_API_KEY is not set")
+    response = groq_client.chat.completions.create(
+        model=model_name,
+        messages=[
+            {"role": "system", "content": SYSTEM_MSG},
+            {"role": "user",   "content": prompt},
+        ],
+        temperature=0.85,
+        max_tokens=600,
+    )
+    return response.choices[0].message.content.strip()
+
+def call_anthropic(model_name: str, prompt: str) -> str:
+    if anthropic_client is None:
+        raise RuntimeError("ANTHROPIC_API_KEY is not set")
+    response = anthropic_client.messages.create(
+        model=model_name,
+        max_tokens=600,
+        system=SYSTEM_MSG,
+        messages=[{"role": "user", "content": prompt}],
+        temperature=0.85,
+    )
+    return response.content[0].text.strip()
 
 def call_ollama(model_name: str, prompt: str, timeout: int) -> str:
     payload = {
@@ -149,7 +203,15 @@ def generate(model_key: str, info: dict,
             retry=(attempt > 0), last_wc=last_wc,
         )
         try:
-            text = call_ollama(model_name, prompt, timeout)
+            provider = info.get("provider", "ollama")
+            if provider == "openai":
+                text = call_openai(model_name, prompt)
+            elif provider == "groq":
+                text = call_groq(model_name, prompt)
+            elif provider == "anthropic":
+                text = call_anthropic(model_name, prompt)
+            else:
+                text = call_ollama(model_name, prompt, timeout)
         except requests.exceptions.Timeout:
             print(f"    [attempt {attempt + 1}] Timeout after {timeout}s — skipping")
             break
@@ -211,6 +273,16 @@ if checkpoint_path.exists():
 total = len(MODELS) * len(COUNTRIES) * len(PERSONS) * len(GENDERS)
 remaining = total - len(all_data)
 
+_checks = [
+    ("openai",    openai_client,    "OPENAI_API_KEY"),
+    ("groq",      groq_client,      "GROQ_API_KEY"),
+    ("anthropic", anthropic_client, "ANTHROPIC_API_KEY"),
+]
+for _provider, _client, _env in _checks:
+    _keys = [k for k, v in MODELS.items() if v.get("provider") == _provider]
+    if _keys and _client is None:
+        print(f"WARNING: {_env} not set — these models will fail: {_keys}")
+
 print(f"\nDesign  : {len(MODELS)} models × {len(COUNTRIES)} countries × "
       f"{len(PERSONS)} storytellers × {len(GENDERS)} genders")
 print(f"Target  : {total:,} stories")
@@ -258,7 +330,7 @@ for person in PERSONS:
                     "word_count_compliant": compliant,
                     "n_retries":            retries,
                     "generation_seconds":   round(elapsed, 2),
-                    "generated_at":         datetime.utcnow().isoformat(),
+                    "generated_at":         datetime.now(timezone.utc).isoformat(),
                 }
 
                 all_data.append(record)
@@ -294,4 +366,5 @@ print(f"  Mean word count      : {df['word_count'].mean():.1f} words")
 print(f"  Mean generation time : {df['generation_seconds'].mean():.1f}s per story")
 print(f"\nWord count by model family:")
 print(df.groupby("model_family")["word_count"].describe().round(1).to_string())
+
 
