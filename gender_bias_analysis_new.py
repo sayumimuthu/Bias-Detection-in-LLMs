@@ -304,6 +304,8 @@ def parse_args() -> argparse.Namespace:
                    help="Skip semantic embedding analysis")
     p.add_argument("--skip-pmi", action="store_true",
                    help="Skip PMI-weighted scoring")
+    p.add_argument("--skip-legacy-figs", action="store_true",
+                   help="Skip figures 1-7 (legacy lexicon); output only PMI figures")
     return p.parse_args()
 
 # Data loading 
@@ -501,7 +503,11 @@ def score_pmi(df: pd.DataFrame,
     for fem, masc, col in PMI_DIMENSIONS:
         fem_s  = out["_toks"].apply(lambda t, l=fem:  _pmi_lex(t, l))
         masc_s = out["_toks"].apply(lambda t, l=masc: _pmi_lex(t, l))
-        out[f"{col}_score"]    = fem_s - masc_s
+        # fem_s is positive when feminine words are daughter-associated;
+        # masc_s is negative when masculine words are son-associated.
+        # Addition lets them work in opposition: + = daughter-stereotyped,
+        # − = son-stereotyped. 
+        out[f"{col}_score"]    = fem_s + masc_s
         out[f"{col}_fem_raw"]  = fem_s
         out[f"{col}_masc_raw"] = masc_s
 
@@ -579,7 +585,7 @@ def pairwise_tests(df: pd.DataFrame,
             if len(d) < 2 or len(s) < 2:
                 continue
             t, p    = stats.ttest_ind(d, s, equal_var=False)
-            cd      = _cohens_d(s, d)          # d − s (positive → daughters higher)
+            cd      = _cohens_d(s, d)          # d − s (positive: daughters higher)
             cliff   = _cliffs_delta(s, d)
             bm, blo, bhi = _bootstrap_ci(s, d, n=n_boot)
             rows.append({
@@ -1003,53 +1009,334 @@ def fig_semantic_overview(df: pd.DataFrame, fig_dir: Path) -> None:
     print("  Saved fig7_semantic_overview")
 
 
-# Figure 8: PMI dimension scores
+# PMI Figures 
 
-def fig_pmi_dimensions(df: pd.DataFrame, fig_dir: Path) -> None:
+_DIM_INFO: list[tuple[str, str, str, str]] = [
+    # (score_col,          fem_lex,           masc_lex,            short_label)
+    ("pmi_role_score",   "communal",        "agentic",          "Role\n(communal vs agentic)"),
+    ("pmi_domain_score", "family",          "career",           "Domain\n(family vs career)"),
+    ("pmi_trait_score",  "feminine_traits", "masculine_traits", "Trait\n(fem. vs masc. traits)"),
+]
+
+
+# Figure 8: PMI score distributions 
+
+def fig_pmi_distributions(df: pd.DataFrame, fig_dir: Path) -> None:
     """
-    Three-panel bar chart: mean PMI-weighted score per dimension
-    (role / domain / trait) × child gender, with 95 % bootstrap CIs.
-    Positive = daughter-stereotyped, Negative = son-stereotyped.
+    3-panel KDE plot showing full PMI score distributions for daughter vs son
+    stories, one panel per bias dimension.
+
     """
-    dim_labels = {"pmi_role_score":   "Role\n(communal vs agentic)",
-                  "pmi_domain_score": "Domain\n(family vs career)",
-                  "pmi_trait_score":  "Trait\n(feminine vs masculine)"}
-    cols = list(dim_labels.keys())
-    missing = [c for c in cols if c not in df.columns]
-    if missing:
+    cols = [d[0] for d in _DIM_INFO]
+    if any(c not in df.columns for c in cols):
         return
 
-    fig, axes = plt.subplots(1, 3, figsize=(13, 4), sharey=False)
-    rng = np.random.default_rng(0)
+    fig, axes = plt.subplots(1, 3, figsize=(14, 5))
+    for ax, (col, _, _, label) in zip(axes, _DIM_INFO):
+        for gender in ("daughter", "son"):
+            vals = df[df["child_label"] == gender][col].dropna()
+            color = PALETTE_GENDER[gender]
+            sns.kdeplot(vals, ax=ax, color=color, fill=True, alpha=0.30,
+                        linewidth=2, label=gender.capitalize())
+            ax.axvline(vals.mean(), color=color, linewidth=1.8,
+                       linestyle="--", alpha=0.85)
+        ax.axvline(0, color="black", linewidth=0.9, linestyle=":", alpha=0.55)
+        ax.set_xlabel("PMI score  (+ = daughter-stereotyped)", fontsize=9)
+        ax.set_ylabel("Density", fontsize=9)
+        ax.set_title(label, fontsize=11, fontweight="bold")
 
-    for ax, col in zip(axes, cols):
+    axes[0].legend(fontsize=10, framealpha=0.85)
+    fig.suptitle(
+        "PMI-Weighted Bias Score Distributions: Daughter vs Son Stories\n"
+        "(dashed lines = group means; dotted = neutral zero)",
+        fontsize=12, fontweight="bold",
+    )
+    fig.tight_layout()
+    _save(fig, "fig8_pmi_distributions", fig_dir)
+    print("  Saved fig8_pmi_distributions")
+
+
+# Figure 9: Top discriminative words 
+
+def fig_pmi_top_words(pmi_weights: dict[str, float],
+                      fig_dir: Path, top_n: int = 15) -> None:
+    """
+    For each PMI dimension, horizontal bar chart of the top-N
+    daughter-associated (high PMI) and top-N son-associated (low PMI) words
+    drawn from the two lexicons that make up that dimension.
+
+    This makes the PMI scores interpretable: "which words actually drive
+    the bias signal on each axis?"
+    """
+    matchers = {name: _build_lex_matcher(lex) for name, lex in LEXICONS.items()}
+
+    fig, axes = plt.subplots(1, 3, figsize=(17, 7))
+    for ax, (_, fem_lex, masc_lex, label) in zip(axes, _DIM_INFO):
         records = []
-        for label in ("daughter", "son"):
-            vals = df[df["child_label"] == label][col].dropna().values
-            if len(vals) < 2:
-                continue
-            mean = vals.mean()
-            boots = [rng.choice(vals, len(vals)).mean() for _ in range(N_BOOT)]
-            lo, hi = np.percentile(boots, [2.5, 97.5])
-            records.append({"label": label, "mean": mean,
-                             "lo": lo, "hi": hi})
+        for lex_name in (fem_lex, masc_lex):
+            m = matchers[lex_name]
+            for w, pmi_val in pmi_weights.items():
+                if m(w):
+                    records.append({"word": w, "pmi": pmi_val})
+
         if not records:
             continue
-        rdf = pd.DataFrame(records)
-        colors = [PALETTE_GENDER[r["label"]] for _, r in rdf.iterrows()]
-        ax.bar(rdf["label"], rdf["mean"], color=colors,
-               yerr=[rdf["mean"] - rdf["lo"], rdf["hi"] - rdf["mean"]],
-               capsize=6, error_kw={"elinewidth": 1.5})
-        ax.axhline(0, color="black", linewidth=0.8, linestyle="--", alpha=0.5)
-        ax.set_title(dim_labels[col], fontsize=10, fontweight="bold")
-        ax.set_ylabel("PMI-weighted score\n(+ = daughter-stereotyped)", fontsize=9)
-        ax.set_xticklabels(["Daughter", "Son"], fontsize=10)
+        rdf = pd.DataFrame(records).drop_duplicates("word")
+        top_d = rdf.nlargest(top_n, "pmi")
+        top_s = rdf.nsmallest(top_n, "pmi")
+        combined = pd.concat([top_s, top_d]).sort_values("pmi")
 
-    fig.suptitle("PMI-Weighted Bias Scores by Dimension (95 % bootstrap CI)",
-                 fontsize=13, fontweight="bold", y=1.02)
+        colors = [
+            PALETTE_GENDER["daughter"] if p > 0 else PALETTE_GENDER["son"]
+            for p in combined["pmi"]
+        ]
+        ax.barh(combined["word"], combined["pmi"], color=colors, edgecolor="none")
+        ax.axvline(0, color="black", linewidth=0.9, linestyle="--", alpha=0.7)
+        ax.set_xlabel("PMI(word, daughter)", fontsize=9)
+        ax.set_title(label, fontsize=10, fontweight="bold")
+        ax.tick_params(axis="y", labelsize=7.5)
+
+    from matplotlib.patches import Patch
+    fig.legend(
+        handles=[Patch(color=PALETTE_GENDER["daughter"], label="Daughter-associated"),
+                 Patch(color=PALETTE_GENDER["son"],      label="Son-associated")],
+        loc="lower center", ncol=2, fontsize=10, framealpha=0.9,
+        bbox_to_anchor=(0.5, -0.04),
+    )
+    fig.suptitle(
+        "Top Discriminative Words per PMI Dimension\n"
+        "(words from the two lexicons that make up each axis)",
+        fontsize=12, fontweight="bold",
+    )
     fig.tight_layout()
-    _save(fig, "fig8_pmi_dimensions", fig_dir)
-    print("  Saved fig8_pmi_dimensions")
+    _save(fig, "fig9_pmi_top_words", fig_dir)
+    print("  Saved fig9_pmi_top_words")
+
+
+# Figure 10: Model-level bias gaps 
+
+def fig_pmi_model_gaps(pmi_tests: pd.DataFrame, fig_dir: Path) -> None:
+    """
+    For each LLM, horizontal diverging bars show the daughter − son gap on
+    each PMI dimension with 95 % bootstrap CIs.
+
+    Right of zero = daughters receive more stereotypically feminine language.
+    Left of zero  = sons receive more stereotypically masculine language.
+    Asterisk marks FDR-significant differences (p_fdr < 0.05).
+    """
+    dim_cols = {d[0]: d[3] for d in _DIM_INFO}
+    sub = pmi_tests[pmi_tests["metric"].isin(dim_cols)].copy()
+    if sub.empty or "model_key" not in sub.columns:
+        return
+
+    models = sorted(sub["model_key"].unique())
+    fig, axes = plt.subplots(1, 3, figsize=(15, max(4, len(models) * 0.55 + 1.5)),
+                             sharey=True)
+
+    for ax, (col, label) in zip(axes, dim_cols.items()):
+        mdata = sub[sub["metric"] == col].set_index("model_key").reindex(models)
+        gap = mdata["gap_d_minus_s"].fillna(0)
+        lo  = mdata["boot_ci_low"].fillna(0)
+        hi  = mdata["boot_ci_high"].fillna(0)
+        y   = np.arange(len(models))
+
+        colors = [PALETTE_GENDER["daughter"] if g > 0 else PALETTE_GENDER["son"]
+                  for g in gap]
+        ax.barh(y, gap,
+                xerr=[np.abs(gap - lo), np.abs(hi - gap)],
+                color=colors, capsize=3, error_kw={"elinewidth": 1, "alpha": 0.6})
+        ax.axvline(0, color="black", linewidth=0.9, linestyle="--", alpha=0.7)
+        ax.set_yticks(y)
+        ax.set_yticklabels(models, fontsize=8)
+        ax.set_xlabel("Daughter − Son mean PMI score", fontsize=9)
+        ax.set_title(label, fontsize=10, fontweight="bold")
+
+        for i, (mdl, row) in enumerate(mdata.iterrows()):
+            if row.get("sig_fdr", False):
+                x_pos = row["boot_ci_high"] if row["gap_d_minus_s"] >= 0 \
+                        else row["boot_ci_low"]
+                ax.text(x_pos, i, " *", va="center", ha="left",
+                        fontsize=11, color="black", fontweight="bold")
+
+    from matplotlib.patches import Patch
+    fig.legend(
+        handles=[Patch(color=PALETTE_GENDER["daughter"],
+                       label="Daughters more stereotyped (→)"),
+                 Patch(color=PALETTE_GENDER["son"],
+                       label="Sons more stereotyped (←)")],
+        loc="lower center", ncol=2, fontsize=9, framealpha=0.9,
+        bbox_to_anchor=(0.5, -0.06),
+    )
+    fig.suptitle(
+        "Gender Bias Gap by LLM and Dimension  (95 % CI, * = FDR p < 0.05)\n"
+        "Daughter − Son PMI score: right = daughters more stereotyped",
+        fontsize=12, fontweight="bold",
+    )
+    fig.tight_layout()
+    _save(fig, "fig10_pmi_model_gaps", fig_dir)
+    print("  Saved fig10_pmi_model_gaps")
+
+
+# Figure 11: Region × Dimension heatmap 
+
+def fig_pmi_region_heatmap(pmi_tests_region: pd.DataFrame,
+                           fig_dir: Path) -> None:
+    """
+    Heatmap of Cohen's d (daughter − son) per world region × PMI dimension.
+    Reveals which type of gender bias (role / domain / trait) is strongest
+    in stories set in each region.  Cells marked * = FDR significant.
+    """
+    dim_cols = {d[0]: d[3].replace("\n", " ") for d in _DIM_INFO}
+    sub = pmi_tests_region[pmi_tests_region["metric"].isin(dim_cols)].copy()
+    if sub.empty or "country_region" not in sub.columns:
+        return
+
+    sub["dim_label"] = sub["metric"].map(dim_cols)
+    pivot = sub.pivot(index="country_region", columns="dim_label",
+                      values="cohens_d").reindex(
+        [r for r in REGION_ORDER if r in sub["country_region"].unique()]
+    )
+    sig = sub.pivot(index="country_region", columns="dim_label",
+                    values="sig_fdr").reindex(pivot.index)
+    annot = pivot.round(2).astype(str)
+    annot[sig == True] = annot[sig == True] + " *"   # noqa: E712
+
+    fig, ax = plt.subplots(figsize=(9, max(4, len(pivot) * 0.65)))
+    sns.heatmap(
+        pivot, annot=annot, fmt="s",
+        cmap="RdBu_r", center=0, vmin=-1.0, vmax=1.0,
+        linewidths=0.5, ax=ax,
+        cbar_kws={"label": "Cohen's d  (positive = daughters higher)"},
+    )
+    ax.set_title(
+        "PMI-Weighted Gender Bias by World Region and Dimension\n"
+        "(* = FDR p < 0.05;  positive = daughter stories more stereotyped)",
+        fontsize=11, fontweight="bold",
+    )
+    ax.set_xlabel("Bias dimension", fontsize=10)
+    ax.set_ylabel("World region", fontsize=10)
+    plt.xticks(rotation=25, ha="right", fontsize=9)
+    plt.yticks(rotation=0,  fontsize=9)
+    _save(fig, "fig11_pmi_region_heatmap", fig_dir)
+    print("  Saved fig11_pmi_region_heatmap")
+
+
+# Figure 12: Per-model PMI distributions 
+
+def fig_pmi_distributions_by_model(df: pd.DataFrame, fig_dir: Path) -> None:
+    """
+    Split-violin PMI score distributions by model: one subplot per bias
+    dimension (stacked vertically).  Each model position has a single violin
+    body split down the middle: left half = daughter stories, right half = son.
+    Inner quartile lines show medians and IQR.
+    """
+    cols_present = [d[0] for d in _DIM_INFO if d[0] in df.columns]
+    if not cols_present or "model_key" not in df.columns:
+        return
+
+    models = sorted(df["model_key"].unique())
+    n_dim  = len(cols_present)
+    fig, axes = plt.subplots(n_dim, 1,
+                             figsize=(max(10, len(models) * 1.1), n_dim * 4),
+                             sharex=True)
+    if n_dim == 1:
+        axes = [axes]
+
+    for ax, (col, _, _, label) in zip(axes, _DIM_INFO):
+        if col not in df.columns:
+            continue
+        sns.violinplot(
+            data=df, x="model_key", y=col,
+            hue="child_label", hue_order=["daughter", "son"],
+            order=models, palette=PALETTE_GENDER,
+            inner="quartile", density_norm="width",
+            linewidth=0.7, split=True, ax=ax, legend=False,
+        )
+        ax.axhline(0, color="black", linewidth=0.8, linestyle="--", alpha=0.5)
+        ax.set_ylabel(f"PMI score\n{label.split(chr(10))[0]}", fontsize=9)
+        ax.set_xlabel("")
+        ax.set_title(label, fontsize=10, fontweight="bold")
+        ax.tick_params(axis="x", rotation=30, labelsize=8)
+
+    axes[-1].set_xlabel("Model", fontsize=10)
+
+    from matplotlib.patches import Patch
+    fig.legend(
+        handles=[Patch(color=PALETTE_GENDER["daughter"], label="Daughter"),
+                 Patch(color=PALETTE_GENDER["son"],      label="Son")],
+        loc="upper right", fontsize=10, framealpha=0.9,
+    )
+    fig.suptitle(
+        "PMI Bias Score Distributions by Model\n"
+        "(split violin — left half = daughter, right half = son; "
+        "lines = median & IQR)",
+        fontsize=12, fontweight="bold",
+    )
+    fig.tight_layout()
+    _save(fig, "fig12_pmi_by_model", fig_dir)
+    print("  Saved fig12_pmi_by_model")
+
+
+# Figure 13: PMI bias gap vs model size 
+
+def fig_pmi_model_size(df: pd.DataFrame, fig_dir: Path) -> None:
+    """
+    Line plot: daughter − son PMI gap as a function of model size group,
+    one line per bias dimension, with 95 % bootstrap CIs.
+    """
+    if "model_size_group" not in df.columns:
+        return
+
+    size_order   = ["small", "medium", "large", "xlarge"]
+    dim_colors   = ["#C0415A", "#3A6BAD", "#3E9A55"]
+    dim_markers  = ["o", "s", "^"]
+
+    rng = np.random.default_rng(0)
+    fig, ax = plt.subplots(figsize=(8, 5))
+
+    for (col, _, _, label), color, marker in zip(_DIM_INFO, dim_colors, dim_markers):
+        if col not in df.columns:
+            continue
+        gaps, lo_errs, hi_errs, x_ticks = [], [], [], []
+        for grp in size_order:
+            sub = df[df["model_size_group"] == grp]
+            d   = sub[sub["child_label"] == "daughter"][col].dropna().values
+            s   = sub[sub["child_label"] == "son"][col].dropna().values
+            if len(d) < 2 or len(s) < 2:
+                continue
+            gap   = d.mean() - s.mean()
+            boots = [rng.choice(d, len(d)).mean() - rng.choice(s, len(s)).mean()
+                     for _ in range(N_BOOT)]
+            lo, hi = np.percentile(boots, [2.5, 97.5])
+            gaps.append(gap); lo_errs.append(gap - lo)
+            hi_errs.append(hi - gap); x_ticks.append(grp)
+
+        if not gaps:
+            continue
+        x = np.arange(len(x_ticks))
+        ax.errorbar(x, gaps, yerr=[lo_errs, hi_errs],
+                    fmt=marker + "-", color=color, capsize=5,
+                    linewidth=2, markersize=8,
+                    label=label.split("\n")[0])
+
+    ax.axhline(0, color="black", linewidth=0.8, linestyle="--", alpha=0.5)
+    # re-draw x-ticks at only the groups that had data
+    present = [g for g in size_order
+               if any(df[df["model_size_group"] == g]["child_label"].isin(
+                   ["daughter", "son"]))]
+    ax.set_xticks(np.arange(len(present)))
+    ax.set_xticklabels(present, fontsize=11)
+    ax.set_xlabel("Model size group", fontsize=11)
+    ax.set_ylabel("Daughter − Son mean PMI score\n(95 % bootstrap CI)", fontsize=10)
+    ax.set_title(
+        "Does Model Size Predict Gender Stereotyping?\n"
+        "(positive = daughters receive more stereotyped language)",
+        fontsize=12, fontweight="bold",
+    )
+    ax.legend(fontsize=10, framealpha=0.85)
+    fig.tight_layout()
+    _save(fig, "fig13_pmi_model_size", fig_dir)
+    print("  Saved fig13_pmi_model_size")
 
 
 # Main
@@ -1139,7 +1426,7 @@ def main() -> None:
                 print(pmi_reg[["metric", "coef_is_daughter", "p_is_daughter",
                                "adj_r_squared"]].round(4).to_string(index=False))
 
-    # 5. Optional semantic analysis
+    # 5. Semantic analysis
     sem_scored = None
     if not args.skip_semantic:
         print("\n Semantic analysis ")
@@ -1153,30 +1440,41 @@ def main() -> None:
         print("\n Semantic analysis skipped (--skip-semantic) ")
 
     # 6. Figures
-    print("\n Generating figures ")
-    fig_main_result(scored, fig_dir)
-    fig_effect_heatmap(tests_model,  "model_key",
-                       "fig2_effect_heatmap_model",
-                       "Cohen's d (daughter − son) by Model × Metric  (* = FDR p<0.05)",
-                       fig_dir)
-    fig_effect_heatmap(tests_region, "country_region",
-                       "fig2b_effect_heatmap_region",
-                       "Cohen's d by World Region × Metric  (* = FDR p<0.05)",
-                       fig_dir)
-    fig_regional(scored, fig_dir)
-    fig_storyteller(scored, fig_dir)
-    fig_model_size(scored, fig_dir)
-    if not reg.empty:
-        fig_regression_forest(reg, fig_dir)
-    if sem_scored is not None:
-        fig_semantic_overview(sem_scored, fig_dir)
+    print("\n Generating figures... ")
+
+    if not args.skip_legacy_figs:
+        fig_main_result(scored, fig_dir)
+        fig_effect_heatmap(tests_model,  "model_key",
+                           "fig2_effect_heatmap_model",
+                           "Cohen's d (daughter − son) by Model × Metric  (* = FDR p<0.05)",
+                           fig_dir)
+        fig_effect_heatmap(tests_region, "country_region",
+                           "fig2b_effect_heatmap_region",
+                           "Cohen's d by World Region × Metric  (* = FDR p<0.05)",
+                           fig_dir)
+        fig_regional(scored, fig_dir)
+        fig_storyteller(scored, fig_dir)
+        fig_model_size(scored, fig_dir)
+        if not reg.empty:
+            fig_regression_forest(reg, fig_dir)
+        if sem_scored is not None:
+            fig_semantic_overview(sem_scored, fig_dir)
+
     if pmi_scored is not None:
-        fig_pmi_dimensions(pmi_scored, fig_dir)
+        # Fig 8: full score distributions (KDE) 
+        fig_pmi_distributions(pmi_scored, fig_dir)
+        # Fig 9: top discriminative words 
+        fig_pmi_top_words(pmi_weights, fig_dir)
+        # Fig 10: per-model bias gaps 
         if not pmi_tests_model.empty:
-            fig_effect_heatmap(pmi_tests_model, "model_key",
-                               "fig9_pmi_heatmap_model",
-                               "PMI-weighted Cohen's d (daughter − son) by Model × Dimension  (* = FDR p<0.05)",
-                               fig_dir)
+            fig_pmi_model_gaps(pmi_tests_model, fig_dir)
+        # Fig 11: region × dimension heatmap 
+        if not pmi_tests_region.empty:
+            fig_pmi_region_heatmap(pmi_tests_region, fig_dir)
+        # Fig 12: per-model split violins 
+        fig_pmi_distributions_by_model(pmi_scored, fig_dir)
+        # Fig 13: bias gap vs model size 
+        fig_pmi_model_size(pmi_scored, fig_dir)
 
     # 7. Summary
     print("GENDER BIAS ANALYSIS: COMPLETE")
@@ -1187,11 +1485,15 @@ def main() -> None:
     if "person" in scored.columns:
         print(f"  Storytellers     : {scored['person'].nunique()}")
 
-    d_mean = scored[scored["child_label"] == "daughter"]["stereotype_score"].mean()
-    s_mean = scored[scored["child_label"] == "son"]["stereotype_score"].mean()
-    print(f"\n  Daughter stereotype score : {d_mean:+.3f}")
-    print(f"  Son stereotype score      : {s_mean:+.3f}")
-    print(f"  Gap (d − s)               : {d_mean - s_mean:+.3f}")
+    if pmi_scored is not None:
+        print("\n  PMI bias scores (mean ± std):")
+        for col, _, _, label in _DIM_INFO:
+            d_m = pmi_scored[pmi_scored["child_label"] == "daughter"][col]
+            s_m = pmi_scored[pmi_scored["child_label"] == "son"][col]
+            print(f"  {label.split(chr(10))[0]:30s}  "
+                  f"daughter={d_m.mean():+.3f}±{d_m.std():.3f}  "
+                  f"son={s_m.mean():+.3f}±{s_m.std():.3f}  "
+                  f"gap={d_m.mean()-s_m.mean():+.3f}")
     print(f"\n  Results  : {res_dir}")
     print(f"  Figures  : {fig_dir}")
 
