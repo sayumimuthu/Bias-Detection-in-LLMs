@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 import argparse
+import math
 import re
 import warnings
+from collections import Counter
 from pathlib import Path
 
 import matplotlib
@@ -31,8 +33,9 @@ from gender_bias_analysis_new import (
 DEFAULT_OUT = Path("Narratives3/cultural_bias")
 TOKEN_RE    = re.compile(r"\b[a-z]+\b")
 PER         = 1000
+MFD_PATH    = Path(__file__).parent / "mfd2.dic"
 
-# CLI 
+# CLI
 
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser()
@@ -42,110 +45,169 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--skip-tfidf",   action="store_true",  help="Skip TF-IDF distinctiveness")
     return p.parse_args()
 
+# MFD 2.0 loader 
+
+def load_mfd(path: Path) -> dict[str, set[str]]:
+    """
+    Parse an MFD 2.0 LIWC-format .dic file.
+    """
+    text = path.read_text(encoding="utf-8", errors="replace")
+    sections = text.split("%")
+   
+
+    # Parse header: "1\tcare.virtue" etc. 
+    cat_map: dict[str, str] = {}     # "1" → "care.virtue"
+    for line in sections[1].splitlines():
+        line = line.strip()
+        if "\t" in line:
+            num, name = line.split("\t", 1)
+            cat_map[num.strip()] = name.strip()
+
+    # Parse word entries 
+    foundation_words: dict[str, set[str]] = {
+        name: set() for name in cat_map.values()
+    }
+    for line in sections[2].splitlines():
+        line = line.strip()
+        if not line or "\t" not in line:
+            continue
+        cols = line.split("\t")
+        word = cols[0].strip().lower()
+        if " " in word:          # skip multi-word phrases
+            continue
+        for cat_num in cols[1:]:
+            cat_num = cat_num.strip()
+            if cat_num in cat_map:
+                foundation_words[cat_map[cat_num]].add(word)
+
+    return foundation_words
+
+
 # Cultural lexicons 
-# Sources: Hofstede et al. (2010); Triandis (1995) Individualism & Collectivism;
-#          Minkov (2011). Categories are mutually exclusive.
 
-CULTURAL_LEXICONS: dict[str, set[str]] = {
+def _build_cultural_lexicons() -> dict[str, set[str]]:
+    """
+    Build cultural lexicons, preferring MFD 2.0 over hand-crafted lists.
+    """
+    # Liberty supplement: words absent from MFD 2.0 that belong
+    # to the missing 6th foundation (Haidt 2012, Ch.8).
+    _liberty_supplement: set[str] = {
+        "freedom", "liberty", "autonomy", "independent", "independently",
+        "independence", "individual", "individually", "privacy", "private",
+        "self-reliant", "self-determination", "personal", "personally",
+        "sovereign", "sovereignty", "rights", "free", "freely", "liberate",
+        "liberated", "liberation", "empower", "empowered", "empowerment",
+        "choose", "choice", "choices", "chosen", "initiative", "ambition",
+        "aspire", "aspiration", "pursue", "unique", "uniquely", "uniqueness",
+    }
 
-    # Group orientation, interdependence, duty to collective
-    # (High collectivism = low IDV)
-    "collectivism": {
-        "community", "together", "harmony", "duty", "loyalty", "sacrifice",
-        "unity", "collective", "clan", "cooperation", "kinship",
-        "obligation", "belonging", "bond", "solidarity", "communal",
-        "village", "mutual", "tribe", "togetherness", "interdependence",
-        "common", "fellowship",
-    },
-
-    # Self-orientation, personal freedom, private goals
-    # (High individualism = high IDV)
-    "individualism": {
-        "individual", "freedom", "independence", "personal", "ambition",
-        "unique", "private", "autonomy", "pursue", "independently",
-        "self-reliant", "choose", "aspire", "initiative",
-    },
-
-    # Deference to power, hierarchy, authority figures
-    # (High PDI)
-    "authority": {
-        "obey", "command", "rank", "hierarchy", "rule", "superior",
-        "reverence", "submit", "obedience", "discipline", "elder",
-        "lord", "authority", "master", "subordinate",
-    },
-
-    # Equality, questioning hierarchy, democratic norms
-    # (Low PDI)
-    "egalitarian": {
-        "equal", "fair", "debate", "democratic", "challenge",
-        "peer", "voice", "rights", "question", "negotiate",
-    },
-
-    # Presence of religious / spiritual framing
-    "religion": {
-        "pray", "prayer", "god", "faith", "bless", "divine",
-        "sacred", "holy", "temple", "mosque", "church", "spirit",
-        "worship", "heaven", "blessing", "spiritual", "miracle",
-    },
-
-    # Cultural heritage, ancestral wisdom, ceremonies
-    "tradition": {
+    _tradition_fallback: set[str] = {
         "tradition", "custom", "ancestor", "heritage", "ceremony",
         "folklore", "myth", "legend", "ritual", "celebration",
         "festival", "ancient", "generations", "wisdom",
-    },
-}
+    }
 
-# Hofstede scores for all 35 study countries:
-# PDI = Power Distance Index (high = more hierarchy)
-# IDV = Individualism (high = more individualistic; low = more collectivist)
-# Source: Hofstede, Hofstede & Minkov (2010).
-# Values marked (*) are estimates from Minkov (2011) / regional neighbours
-# where the original survey did not include the country directly.
+    if MFD_PATH.exists():
+        mfd = load_mfd(MFD_PATH)
+        # individualism = MFD care+fairness (universal moral vocabulary)
+        #               + Liberty supplement (self-orientation vocabulary)
+        individualism = (
+            mfd.get("care.virtue",    set()) |
+            mfd.get("fairness.virtue", set()) |
+            _liberty_supplement
+        )
+        lexicons = {
+            "collectivism":  mfd.get("loyalty.virtue",  set()) | mfd.get("authority.virtue", set()),
+            "individualism": individualism,
+            "religion":      mfd.get("sanctity.virtue", set()),
+            "tradition":     _tradition_fallback,
+        }
+        print(
+            f"[MFD 2.0] lexicons loaded — "
+            f"collectivism={len(lexicons['collectivism'])} "
+            f"(loyalty.v ∪ authority.v)  |  "
+            f"individualism={len(lexicons['individualism'])} "
+            f"(care.v ∪ fairness.v ∪ liberty-supplement)  |  "
+            f"religion={len(lexicons['religion'])} "
+            f"(sanctity.v)  |  "
+            f"tradition={len(lexicons['tradition'])} (hand-crafted)"
+        )
+        return lexicons
 
-HOFSTEDE: dict[str, dict[str, int]] = {
+    # Fallback: original hand-crafted lists 
+    print("[lexicons] mfd2.0.dic not found — using hand-crafted fallback lists")
+    return {
+        "collectivism": {
+            "community", "together", "harmony", "duty", "loyalty", "sacrifice",
+            "unity", "collective", "clan", "cooperation", "kinship",
+            "obligation", "belonging", "bond", "solidarity", "communal",
+            "village", "mutual", "tribe", "togetherness", "interdependence",
+            "common", "fellowship",
+        },
+        "individualism": {
+            "individual", "freedom", "independence", "personal", "ambition",
+            "unique", "private", "autonomy", "pursue", "independently",
+            "self-reliant", "choose", "aspire", "initiative",
+        },
+        "religion": {
+            "pray", "prayer", "god", "faith", "bless", "divine",
+            "sacred", "holy", "temple", "mosque", "church", "spirit",
+            "worship", "heaven", "blessing", "spiritual", "miracle",
+        },
+        "tradition": _tradition_fallback,
+    }
+
+
+CULTURAL_LEXICONS: dict[str, set[str]] = _build_cultural_lexicons()
+
+
+
+# GCI scores 
+
+GCI_SCORES: dict[str, float] = {
     # Americas
-    "United States":        {"PDI": 40, "IDV": 91},
-    "Canada":               {"PDI": 39, "IDV": 80},
-    "Mexico":               {"PDI": 81, "IDV": 30},
-    "Brazil":               {"PDI": 69, "IDV": 38},
-    "Argentina":            {"PDI": 49, "IDV": 46},
-    "Colombia":             {"PDI": 67, "IDV": 13},
+    "United States": -1.18,
+    "Canada":        -1.10,
+    "Mexico":         0.09,
+    "Brazil":        -0.06,
+    "Argentina":     -0.37,
+    "Colombia":       0.15,
     # MENA
-    "United Arab Emirates": {"PDI": 90, "IDV": 25},  # (*)
-    "Saudi Arabia":         {"PDI": 95, "IDV": 25},  # (*)
-    "Iran":                 {"PDI": 58, "IDV": 41},
-    "Egypt":                {"PDI": 70, "IDV": 25},  # (*)
-    "Turkey":               {"PDI": 66, "IDV": 37},
-    "Morocco":              {"PDI": 70, "IDV": 46},
+    "United Arab Emirates": -0.14,
+    "Saudi Arabia":          0.41,
+    "Iran":                  0.14,
+    "Egypt":                 0.79,
+    "Turkey":                0.04,
+    "Morocco":               0.96,
     # Sub-Saharan Africa
-    "Nigeria":              {"PDI": 80, "IDV": 20},
-    "Kenya":                {"PDI": 70, "IDV": 27},  # (*)
-    "Ethiopia":             {"PDI": 64, "IDV": 20},  # (*)
-    "South Africa":         {"PDI": 49, "IDV": 65},
-    "Ghana":                {"PDI": 80, "IDV": 15},  # (*)
+    "Nigeria":       0.70,
+    "Kenya":         0.50,
+    "Ethiopia":      0.74,
+    "South Africa":  -0.10,
+    "Ghana":          0.30,
     # South Asia
-    "India":                {"PDI": 77, "IDV": 48},
-    "Sri Lanka":            {"PDI": 80, "IDV": 35},  # (*)
-    "Pakistan":             {"PDI": 55, "IDV": 14},
+    "India":         0.25,
+    "Sri Lanka":     0.75,
+    "Pakistan":      0.70,
     # East / SE Asia
-    "Japan":                {"PDI": 54, "IDV": 46},
-    "China":                {"PDI": 80, "IDV": 20},
-    "South Korea":          {"PDI": 60, "IDV": 18},
-    "Indonesia":            {"PDI": 78, "IDV": 14},
-    "Thailand":             {"PDI": 64, "IDV": 20},
-    "Vietnam":              {"PDI": 70, "IDV": 20},
-    "Philippines":          {"PDI": 94, "IDV": 32},
+    "Japan":        -1.18,
+    "China":        -0.13,
+    "South Korea":  -0.74,
+    "Indonesia":     0.67,
+    "Thailand":     -0.14,
+    "Vietnam":       0.12,
+    "Philippines":   0.67,
     # Europe / Oceania
-    "Russia":               {"PDI": 93, "IDV": 39},
-    "Germany":              {"PDI": 35, "IDV": 67},
-    "Greece":               {"PDI": 60, "IDV": 35},
-    "Italy":                {"PDI": 50, "IDV": 76},
-    "France":               {"PDI": 68, "IDV": 71},
-    "Spain":                {"PDI": 57, "IDV": 51},
-    "Poland":               {"PDI": 68, "IDV": 60},
-    "Australia":            {"PDI": 36, "IDV": 90},
+    "Russia":        -0.73,
+    "Germany":       -1.35,
+    "Greece":        -0.62,
+    "Italy":         -0.73,
+    "France":        -1.17,
+    "Spain":         -0.90,
+    "Poland":        -0.50,
+    "Australia":     -1.17,
 }
+
 
 REGION_PALETTE = dict(zip(REGION_ORDER, sns.color_palette("tab10", len(REGION_ORDER))))
 
@@ -178,7 +240,6 @@ def score_cultural(df: pd.DataFrame) -> pd.DataFrame:
         return (ra - rb) / (ra + rb + EPS)
 
     out["idv_proxy"] = idx("individualism", "collectivism")
-    out["pdi_proxy"] = idx("authority",     "egalitarian")
 
     # Absolute cultural richness score (sum of religion + tradition, normalised)
     out["cultural_richness"] = (
@@ -188,14 +249,102 @@ def score_cultural(df: pd.DataFrame) -> pd.DataFrame:
     out = out.drop(columns=["_toks"])
     return out
 
+
+# PMI-weighted cultural scoring
+
+# Condition split: stories from countries with GCI ≥ corpus median are labelled 1
+# (more collectivistic).  PMI then encodes which words are over-represented in
+# high-GCI (collectivistic) vs low-GCI (individualistic) stories.
+
+def compute_cultural_pmi(
+    df: pd.DataFrame,
+    condition_col: str,
+    min_count: int = 5,
+) -> dict[str, float]:
+    """
+    Compute PMI(w, condition=1) for every token in the corpus.
+
+    PMI(w, cond) = log[ P(w, cond) / (P(w) × P(cond)) ]
+
+    Positive: word over-represented in condition=1 stories 
+    Negative: word over-represented in condition=0 stories 
+
+    Words with fewer than min_count total occurrences are excluded to reduce noise.
+    """
+    pos_counts: Counter = Counter()
+    neg_counts: Counter = Counter()
+
+    for _, row in df.iterrows():
+        toks = _tokenize(row["story"])
+        if row[condition_col] == 1:
+            pos_counts.update(toks)
+        else:
+            neg_counts.update(toks)
+
+    n_pos  = sum(pos_counts.values())
+    n_neg  = sum(neg_counts.values())
+    n      = n_pos + n_neg
+    p_cond = n_pos / n
+    _eps   = 1e-9
+
+    pmi: dict[str, float] = {}
+    for w in set(pos_counts) | set(neg_counts):
+        c_total = pos_counts[w] + neg_counts[w]
+        if c_total < min_count:
+            continue
+        p_w     = c_total / n
+        p_w_pos = pos_counts[w] / n       # joint P(w, cond=1)
+        if p_w_pos > 0:
+            pmi[w] = math.log(p_w_pos / (p_w * p_cond))
+        else:
+            pmi[w] = math.log(1.0 / (n * p_w * p_cond + _eps))
+    return pmi
+
+
+def score_pmi_cultural(
+    df: pd.DataFrame,
+    pmi_collectivism: dict[str, float],
+) -> pd.DataFrame:
+    """
+    PMI-weighted collectivism score for each story.
+
+    pmi_collectivism_score = Σ PMI(w, high_GCI) for w ∈ story ∩ (individualism ∪ collectivism)
+                             / n_tokens × 1000
+
+    Collectivism words have positive PMI(w, high_GCI); individualism words
+    have negative PMI(w, high_GCI).
+
+    Positive pmi_collectivism_score: story linguistically resembles a high-GCI culture.
+    Negative pmi_collectivism_score: story linguistically resembles a low-GCI / individualistic culture.
+    """
+    out      = df.copy()
+    toks_col = out["story"].apply(_tokenize)
+
+    collect_lex = CULTURAL_LEXICONS["individualism"] | CULTURAL_LEXICONS["collectivism"]
+
+    def _pmi_score(tokens: list[str],
+                   lex: set[str],
+                   weights: dict[str, float]) -> float:
+        n = max(len(tokens), 1)
+        return sum(weights.get(w, 0.0) for w in tokens if w in lex) / n * PER
+
+    out["pmi_collectivism_score"] = toks_col.apply(
+        lambda t: _pmi_score(t, collect_lex, pmi_collectivism)
+    )
+    return out
+
+
 # Country-level aggregation 
 
-PROXIES = ["idv_proxy", "pdi_proxy", "cultural_richness",
-           f"religion_per{PER}", f"tradition_per{PER}"]
+PROXIES = [
+    "idv_proxy", "cultural_richness",
+    f"religion_per{PER}", f"tradition_per{PER}",
+    "pmi_collectivism_score",          # PMI-weighted collectivism (GCI-split)
+]
 
 
 def country_summary(df: pd.DataFrame) -> pd.DataFrame:
-    """Mean ± std of cultural proxies per country, joined with Hofstede scores."""
+    """Mean ± std of cultural proxies per country, joined with GCI scores."""
     agg = (
         df.groupby("country")[PROXIES]
         .agg(["mean", "std"])
@@ -204,10 +353,11 @@ def country_summary(df: pd.DataFrame) -> pd.DataFrame:
     agg.columns = ["_".join(c) for c in agg.columns]
     agg = agg.reset_index()
 
-    # Join Hofstede
-    hof = pd.DataFrame(HOFSTEDE).T.reset_index()
-    hof.columns = ["country", "hofstede_PDI", "hofstede_IDV"]
-    agg = agg.merge(hof, on="country", how="left")
+    # Join GCI scores
+    gci = pd.DataFrame(
+        list(GCI_SCORES.items()), columns=["country", "gci_score"]
+    )
+    agg = agg.merge(gci, on="country", how="left")
 
     # Join region
     if "country_region" in df.columns:
@@ -219,31 +369,34 @@ def country_summary(df: pd.DataFrame) -> pd.DataFrame:
 
     return agg
 
-# Hofstede correlation 
+# GCI correlation
 
-def hofstede_correlation(
+def gci_correlation(
     summary: pd.DataFrame,
     n_boot: int = N_BOOT,
 ) -> pd.DataFrame:
     """
-    For each (proxy, Hofstede dimension) pair:
-      Spearman ρ, p-value, bootstrap 95 % CI (fisher z-transform).
+    Spearman ρ between each story-level proxy and country-level GCI score.
+    Bootstrap 95% CI via Fisher z-transform.
+
+    idv_proxy is expected to correlate negatively with GCI (IDV high = individualistic,
+    GCI high = collectivistic — opposite directions).
+    pmi_collectivism_score is expected to correlate positively with GCI.
     """
     pairs = [
-        ("idv_proxy_mean", "hofstede_IDV", "idv_proxy",  "IDV"),
-        ("pdi_proxy_mean", "hofstede_PDI", "pdi_proxy",  "PDI"),
+        ("idv_proxy_mean",             "gci_score", "idv_proxy",             "GCI"),
+        ("pmi_collectivism_score_mean","gci_score", "pmi_collectivism_score", "GCI (PMI)"),
     ]
     rows = []
-    for proxy_col, hofstede_col, proxy_label, hof_label in pairs:
-        sub = summary[[proxy_col, hofstede_col]].dropna()
+    for proxy_col, gci_col, proxy_label, gci_label in pairs:
+        sub = summary[[proxy_col, gci_col]].dropna()
         if len(sub) < 4:
             continue
         x = sub[proxy_col].values
-        y = sub[hofstede_col].values
+        y = sub[gci_col].values
 
         rho, p = stats.spearmanr(x, y)
 
-        # Bootstrap CI via Fisher z-transform
         rng    = np.random.default_rng(42)
         n      = len(x)
         z_boot = []
@@ -257,12 +410,12 @@ def hofstede_correlation(
         ci_hi = float(np.tanh(z_hi))
 
         rows.append({
-            "proxy":      proxy_label,
-            "hofstede":   hof_label,
-            "spearman_r": round(float(rho), 4),
-            "p_value":    round(float(p),   6),
-            "ci_low":     round(ci_lo, 4),
-            "ci_high":    round(ci_hi, 4),
+            "proxy":       proxy_label,
+            "external":    gci_label,
+            "spearman_r":  round(float(rho), 4),
+            "p_value":     round(float(p),   6),
+            "ci_low":      round(ci_lo, 4),
+            "ci_high":     round(ci_hi, 4),
             "n_countries": len(sub),
         })
     return pd.DataFrame(rows)
@@ -331,53 +484,43 @@ def tfidf_distinctiveness(df: pd.DataFrame) -> pd.DataFrame:
         })
     return pd.DataFrame(rows).sort_values("distinctiveness", ascending=False)
 
-# Figure C1/C2: Hofstede scatter plots 
 
-def fig_hofstede_scatter(
+
+def _scatter_panel(
+    ax: plt.Axes,
     summary: pd.DataFrame,
     proxy_col: str,
-    hofstede_col: str,
+    ext_col: str,
     rho: float,
     p_val: float,
-    fname: str,
-    xlabel: str,
     ylabel: str,
-    title: str,
-    fig_dir: Path,
+    show_legend: bool = False,
 ) -> None:
-    """
-    Scatter of lexical proxy vs Hofstede score, one point per country.
-    Points coloured by region; country name labels; OLS regression line.
-    """
-    sub = summary[[proxy_col, hofstede_col, "country", "region"]].dropna()
+    """Draw a single scatter panel (country points, OLS line, correlation box)."""
+    sub = summary[[proxy_col, ext_col, "country", "region"]].dropna()
     if sub.empty:
         return
 
-    fig, ax = plt.subplots(figsize=(9, 7))
-
-    regions = sub["region"].unique()
     for region in REGION_ORDER:
-        if region not in regions:
-            continue
         mask = sub["region"] == region
+        if not mask.any():
+            continue
         ax.scatter(
-            sub.loc[mask, hofstede_col],
+            sub.loc[mask, ext_col],
             sub.loc[mask, proxy_col],
             color=REGION_PALETTE.get(region, "#999"),
-            label=region, s=70, zorder=3, alpha=0.85,
+            label=region, s=65, zorder=3, alpha=0.85,
         )
 
-    # Country labels (offset to reduce overlap)
     for _, row in sub.iterrows():
         ax.annotate(
             row["country"],
-            (row[hofstede_col], row[proxy_col]),
+            (row[ext_col], row[proxy_col]),
             fontsize=6.5, alpha=0.75,
             xytext=(3, 3), textcoords="offset points",
         )
 
-    # OLS regression line
-    x_arr = sub[hofstede_col].values.astype(float)
+    x_arr = sub[ext_col].values.astype(float)
     y_arr = sub[proxy_col].values.astype(float)
     m, b  = np.polyfit(x_arr, y_arr, 1)
     x_line = np.linspace(x_arr.min(), x_arr.max(), 100)
@@ -391,40 +534,102 @@ def fig_hofstede_scatter(
         "n.s."
     )
     ax.text(
-        0.04, 0.95,
+        0.04, 0.96,
         f"Spearman ρ = {rho:+.3f} {sig_label}  (n={len(sub)})",
-        transform=ax.transAxes, fontsize=10,
+        transform=ax.transAxes, fontsize=9.5,
         verticalalignment="top",
-        bbox=dict(boxstyle="round,pad=0.3", fc="white", alpha=0.8),
+        bbox=dict(boxstyle="round,pad=0.3", fc="white", alpha=0.85),
+    )
+    ax.axhline(0, color="black", linewidth=0.6, linestyle=":", alpha=0.5)
+    ax.axvline(0, color="black", linewidth=0.6, linestyle=":", alpha=0.5)  # GCI mean = 0
+    ax.set_ylabel(ylabel, fontsize=10)
+
+    if show_legend:
+        ax.legend(title="Region", fontsize=7.5, loc="lower right",
+                  framealpha=0.85, ncol=2)
+
+
+# Figure C1: GCI comparison (lexical IDV proxy vs PMI collectivism score) 
+
+def fig_gci_comparison(
+    summary: pd.DataFrame,
+    gci_corr: pd.DataFrame,
+    fig_dir: Path,
+) -> None:
+    """
+    Side-by-side scatter of lexical IDV proxy (left) and PMI collectivism score
+    (right) both plotted against GCI (Pelham et al. 2022).
+
+    Left panel  : raw lexical signed ratio (individualism − collectivism).
+                  Expected direction: negative ρ with GCI (IDV ↑ = individualistic,
+                  GCI ↑ = collectivistic).
+    Right panel : PMI-weighted score trained on GCI median split.
+                  Expected direction: positive ρ with GCI.
+
+    X-axis reference line at GCI = 0 (global standardised mean).
+    """
+    def _get_rho(proxy_label, ext_label):
+        row = gci_corr[
+            (gci_corr["proxy"] == proxy_label) &
+            (gci_corr["external"] == ext_label)
+        ]
+        if row.empty:
+            return 0.0, 1.0
+        return float(row["spearman_r"].iloc[0]), float(row["p_value"].iloc[0])
+
+    rho_lex, p_lex = _get_rho("idv_proxy",             "GCI")
+    rho_pmi, p_pmi = _get_rho("pmi_collectivism_score", "GCI (PMI)")
+
+    xlabel = "GCI score (Pelham et al. 2022)\nhigher = more collectivistic"
+
+    fig, (ax_lex, ax_pmi) = plt.subplots(1, 2, figsize=(16, 7), sharey=False)
+
+    _scatter_panel(ax_lex, summary, "idv_proxy_mean", "gci_score",
+                   rho_lex, p_lex,
+                   ylabel="Lexical IDV proxy\n(individ. − collect. signed ratio)",
+                   show_legend=True)
+    ax_lex.set_xlabel(xlabel, fontsize=10)
+    ax_lex.set_title(
+        "Lexical individualism proxy\n(signed word-count ratio, no corpus weighting)",
+        fontsize=11, fontweight="bold",
     )
 
-    ax.set_xlabel(xlabel, fontsize=11)
-    ax.set_ylabel(ylabel, fontsize=11)
-    ax.set_title(title, fontsize=12, fontweight="bold")
-    ax.legend(title="Region", fontsize=8, loc="lower right",
-              framealpha=0.85, ncol=2)
+    _scatter_panel(ax_pmi, summary, "pmi_collectivism_score_mean", "gci_score",
+                   rho_pmi, p_pmi,
+                   ylabel="PMI collectivism score\n(Σ PMI(w, high-GCI) per 1000 tok.)",
+                   show_legend=False)
+    ax_pmi.set_xlabel(xlabel, fontsize=10)
+    ax_pmi.set_title(
+        "PMI-weighted collectivism score\n(corpus-driven word weights, GCI median split)",
+        fontsize=11, fontweight="bold",
+    )
 
-    ax.axhline(0, color="black", linewidth=0.6, linestyle=":", alpha=0.5)
-    ax.axvline(50, color="black", linewidth=0.6, linestyle=":", alpha=0.5)
-
-    _save(fig, fname, fig_dir)
-    print(f"  Saved {fname}")
+    fig.suptitle(
+        "Do LLM Stories Reflect Collectivism? Lexical proxy vs PMI score vs GCI\n"
+        "One point per country — GCI: Pelham, Hardin, Murray, Shimizu & Vandello (2022)",
+        fontsize=13, fontweight="bold",
+    )
+    fig.tight_layout()
+    _save(fig, "fig_c1_gci_comparison", fig_dir)
+    print(f"  Saved fig_c1_gci_comparison  "
+          f"(ρ_lexical={rho_lex:+.3f}, ρ_pmi={rho_pmi:+.3f})")
 
 # Figure C3: Cultural dimension heatmap 
 
 def fig_cultural_heatmap(summary: pd.DataFrame, fig_dir: Path) -> None:
     """
     Heatmap: country × cultural dimension, sorted by region.
-    Shows which regions score high on collectivism, authority, religion, tradition.
+    Shows which regions score high on collectivism, religion, and tradition.
     Values are z-score normalised per column for comparability.
     """
-    dims = ["idv_proxy_mean", "pdi_proxy_mean",
-            f"religion_per{PER}_mean", f"tradition_per{PER}_mean"]
+    dims = ["idv_proxy_mean",
+            f"religion_per{PER}_mean", f"tradition_per{PER}_mean",
+            "pmi_collectivism_score_mean"]
     labels = {
-        "idv_proxy_mean":             "IDV proxy\n(individ.−collect.)",
-        "pdi_proxy_mean":             "PDI proxy\n(auth.−egalit.)",
-        f"religion_per{PER}_mean":    "Religion\n(per 1000 tok.)",
-        f"tradition_per{PER}_mean":   "Tradition\n(per 1000 tok.)",
+        "idv_proxy_mean":                  "IDV proxy\n(individ.−collect.)",
+        f"religion_per{PER}_mean":         "Religion\n(per 1000 tok.)",
+        f"tradition_per{PER}_mean":        "Tradition\n(per 1000 tok.)",
+        "pmi_collectivism_score_mean":     "PMI collect.\nscore",
     }
 
     # Sort countries by region then name
@@ -533,29 +738,50 @@ def main() -> None:
     res_dir.mkdir(parents=True, exist_ok=True)
     fig_dir.mkdir(parents=True, exist_ok=True)
 
-    # 1. Load and score 
-    raw     = load_data(args.input)
-    df      = enrich(raw)
-    scored  = score_cultural(df)
+    # 1. Load and score (lexical + PMI)
+    raw    = load_data(args.input)
+    df     = enrich(raw)
+    scored = score_cultural(df)
     print(f"\nAnalysing {len(scored):,} stories across "
           f"{scored['country'].nunique()} countries, "
           f"{scored['model_family'].nunique()} model families")
 
-    scored.to_csv(res_dir / "story_level_cultural.csv", index=False)
-    print(f"  Story-level scores saved ({len(scored):,} rows)")
+    # 1b. PMI-weighted collectivism scoring (GCI median split)
+    print("\n PMI-weighted collectivism scoring (GCI median split)")
 
-    # 2. Country-level summary 
+    gci_vals = [GCI_SCORES.get(c) for c in scored["country"]]
+    scored["gci_score"] = gci_vals
+    known_gci = [v for v in GCI_SCORES.values()]
+    gci_median = float(np.median(known_gci))
+
+    scored["is_high_gci"] = (
+        scored["gci_score"]
+        .apply(lambda x: 1 if pd.notna(x) and x >= gci_median else 0)
+        .astype(int)
+    )
+    print(f"  GCI median split: ≥{gci_median:.2f} = high-collectivism  "
+          f"({scored['is_high_gci'].sum():,} high-GCI stories)")
+
+    pmi_collect_weights = compute_cultural_pmi(scored, "is_high_gci")
+    print(f"  PMI collectivism vocab: {len(pmi_collect_weights):,} tokens")
+
+    scored = score_pmi_cultural(scored, pmi_collect_weights)
+    scored.to_csv(res_dir / "story_level_cultural.csv", index=False)
+    print(f"  Story-level scores saved ({len(scored):,} rows, "
+          f"added: pmi_collectivism_score)")
+
+    # 2. Country-level summary
     print("\n Country summary ")
     summary = country_summary(scored)
     summary.to_csv(res_dir / "country_summary.csv", index=False)
-    print(summary[["country", "region", "idv_proxy_mean", "pdi_proxy_mean",
-                   "hofstede_IDV", "hofstede_PDI"]].round(3).to_string(index=False))
+    print(summary[["country", "region", "idv_proxy_mean",
+                   "pmi_collectivism_score_mean", "gci_score"]].round(3).to_string(index=False))
 
-    # 3. Hofstede correlation 
-    print("\n Hofstede correlations ")
-    hof_corr = hofstede_correlation(summary, n_boot=args.n_bootstrap)
-    hof_corr.to_csv(res_dir / "hofstede_correlation.csv", index=False)
-    print(hof_corr.to_string(index=False))
+    # 3. GCI correlation
+    print("\n GCI correlations ")
+    gci_corr = gci_correlation(summary, n_boot=args.n_bootstrap)
+    gci_corr.to_csv(res_dir / "gci_correlation.csv", index=False)
+    print(gci_corr.to_string(index=False))
 
     # 4. Model homogeneity ")
     hom = model_homogeneity(scored)
@@ -577,56 +803,36 @@ def main() -> None:
     else:
         print("\n TF-IDF skipped (--skip-tfidf) ")
 
-    # 6. Figures 
+    # 6. Figures
     print("\n Generating figures ")
 
-    # Extract correlation stats for annotation
-    def _get_corr(proxy, dim):
-        row = hof_corr[(hof_corr["proxy"] == proxy) & (hof_corr["hofstede"] == dim)]
-        if row.empty:
-            return 0.0, 1.0
-        return float(row["spearman_r"].iloc[0]), float(row["p_value"].iloc[0])
-
-    rho_idv, p_idv = _get_corr("idv_proxy", "IDV")
-    rho_pdi, p_pdi = _get_corr("pdi_proxy", "PDI")
-
-    fig_hofstede_scatter(
-        summary,
-        proxy_col="idv_proxy_mean", hofstede_col="hofstede_IDV",
-        rho=rho_idv, p_val=p_idv,
-        fname="fig_c1_hofstede_idv",
-        xlabel="Hofstede IDV score  (higher = more individualistic culture)",
-        ylabel="IDV proxy  (higher = more individualism vocabulary in stories)",
-        title="Do LLM Stories Reflect Cultural Individualism?\n"
-              "Lexical IDV proxy vs Hofstede IDV score per country",
-        fig_dir=fig_dir,
-    )
-
-    fig_hofstede_scatter(
-        summary,
-        proxy_col="pdi_proxy_mean", hofstede_col="hofstede_PDI",
-        rho=rho_pdi, p_val=p_pdi,
-        fname="fig_c2_hofstede_pdi",
-        xlabel="Hofstede PDI score  (higher = more hierarchical culture)",
-        ylabel="PDI proxy  (higher = more authority vocabulary in stories)",
-        title="Do LLM Stories Reflect Cultural Power Distance?\n"
-              "Lexical PDI proxy vs Hofstede PDI score per country",
-        fig_dir=fig_dir,
-    )
+    # Fig C1: lexical IDV proxy (left) vs PMI collectivism score (right) vs GCI
+    fig_gci_comparison(summary, gci_corr, fig_dir)
 
     fig_cultural_heatmap(summary, fig_dir)
     fig_homogeneity(hom, fig_dir)
 
-    # 7. Summary 
+    # Pull correlation stats for summary printout
+    def _get_corr(proxy, ext):
+        row = gci_corr[(gci_corr["proxy"] == proxy) & (gci_corr["external"] == ext)]
+        if row.empty:
+            return 0.0, 1.0
+        return float(row["spearman_r"].iloc[0]), float(row["p_value"].iloc[0])
 
+    rho_lex, p_lex = _get_corr("idv_proxy",             "GCI")
+    rho_pmi, p_pmi = _get_corr("pmi_collectivism_score", "GCI (PMI)")
+
+    # 7. Summary
     print("CULTURAL BIAS ANALYSIS: COMPLETE")
 
-    print(f"  Stories analysed   : {len(scored):,}")
-    print(f"  Countries          : {scored['country'].nunique()}")
-    print(f"  Hofstede IDV  ρ    : {rho_idv:+.3f}  (p={p_idv:.4f})")
-    print(f"  Hofstede PDI  ρ    : {rho_pdi:+.3f}  (p={p_pdi:.4f})")
+    print(f"  Stories analysed : {len(scored):,}")
+    print(f"  Countries        : {scored['country'].nunique()}")
+    print()
+    print(f"  {'Metric':<30}  {'GCI ρ':>8}  {'GCI p':>8}")
+    print(f"  {'Lexical IDV proxy':<30}  {rho_lex:>+8.3f}  {p_lex:>8.4f}")
+    print(f"  {'PMI collectivism score':<30}  {rho_pmi:>+8.3f}  {p_pmi:>8.4f}")
     if not hom.empty:
-        print(f"  Most flattened     : {hom.iloc[0]['country']}")
+        print(f"  Most flattened   : {hom.iloc[0]['country']}")
     print(f"\n  Results : {res_dir}")
     print(f"  Figures  : {fig_dir}")
 
