@@ -27,13 +27,7 @@ from gender_bias_analysis_new import (
 )
 
 
-DEFAULT_OUT   = Path("Narratives3/intersectionality")
-FOCAL_METRICS = [
-    "stereotype_score",
-    "trait_bias_index",
-    "role_bias_index",
-    "marker_bias_index",
-]
+DEFAULT_OUT = Path("Narratives3/intersectionality")
 
 # CLI 
 def parse_args() -> argparse.Namespace:
@@ -109,7 +103,7 @@ def run_interaction_ols(df: pd.DataFrame) -> pd.DataFrame:
                 "person_gender_role", "log_wc"]
     df = df.dropna(subset=required)
 
-    available = [m for m in FOCAL_METRICS if m in df.columns]
+    available = [m for m in PMI_METRICS if m in df.columns]
     rows: list[dict] = []
 
     for metric in available:
@@ -162,18 +156,21 @@ def run_interaction_ols(df: pd.DataFrame) -> pd.DataFrame:
 
 def fig_interaction_forest(ols: pd.DataFrame, fig_dir: Path) -> None:
     """
-    Faceted forest plot: one panel per focal metric.
-    Shows is_daughter:region interaction coefficients (vs North America baseline).
+    Faceted forest plot — one panel per PMI dimension.
+    Shows is_daughter × region interaction coefficients (vs North America baseline).
     Positive = daughters receive a stronger stereotype in that region.
     """
     interactions = ols[ols["interaction"]].copy()
     if interactions.empty:
-        print("  fig_i1 skipped: no interaction terms found")
+        print("  fig_i1 skipped — no interaction terms found")
         return
 
-    metrics_present = [m for m in FOCAL_METRICS if m in interactions["metric"].unique()]
+    metrics_present = [m for m in PMI_METRICS if m in interactions["metric"].unique()]
     n_panels        = len(metrics_present)
     regions_present = [r for r in REGION_ORDER if r in interactions["region"].values]
+
+    # Map PMI metric name → readable label from _DIM_INFO
+    dim_labels = {col: lbl.replace("\n", " ") for col, *_, lbl in _DIM_INFO}
 
     fig, axes = plt.subplots(
         1, n_panels,
@@ -195,7 +192,7 @@ def fig_interaction_forest(ols: pd.DataFrame, fig_dir: Path) -> None:
         ci_hi  = sub["ci_high"].fillna(0).values.astype(float)
         sigs   = sub["sig_fdr"].fillna(False).values
 
-        colors = ["#7BC7E0" if c > 0 else "#D5A45B" for c in coefs]
+        colors = ["#E07B8C" if c > 0 else "#5B9BD5" for c in coefs]
         ax.barh(
             y, coefs,
             xerr=[coefs - ci_lo, ci_hi - coefs],
@@ -205,7 +202,7 @@ def fig_interaction_forest(ols: pd.DataFrame, fig_dir: Path) -> None:
         ax.axvline(0, color="black", linewidth=0.8, linestyle="--", alpha=0.6)
         ax.set_yticks(y)
         ax.set_yticklabels(regions_present, fontsize=9)
-        ax.set_title(metric.replace("_", " ").title(), fontsize=10, fontweight="bold")
+        ax.set_title(dim_labels.get(metric, metric), fontsize=10, fontweight="bold")
         ax.set_xlabel("Interaction coef. vs N. America", fontsize=8)
 
         for i, (sig, ch) in enumerate(zip(sigs, ci_hi)):
@@ -214,7 +211,7 @@ def fig_interaction_forest(ols: pd.DataFrame, fig_dir: Path) -> None:
                         va="center", fontsize=11, color="black")
 
     fig.suptitle(
-        "Cultural Moderation: is_daughter × Region Interaction\n"
+        "Cultural Moderation: is_daughter × Region Interaction — PMI Bias Scores\n"
         "Positive = daughters more stereotyped vs North America baseline"
         "  (* = FDR p<0.05)",
         fontsize=11, fontweight="bold", y=1.02,
@@ -227,116 +224,151 @@ def fig_interaction_forest(ols: pd.DataFrame, fig_dir: Path) -> None:
 
 def fig_gap_heatmap(df: pd.DataFrame, fig_dir: Path) -> None:
     """
-    Heatmap of gender gap (daughter − son on stereotype_score)
-    per (region × model_family).  * = bootstrap 95 % CI excludes 0.
+    3-panel heatmap of gender gap (daughter − son) per (region × model_family),
+    one panel per PMI dimension.  * = bootstrap 95 % CI excludes 0.
     """
     families = sorted(df["model_family"].dropna().unique())
+    rng      = np.random.default_rng(42)
+    dim_labels = {col: lbl.replace("\n", " ") for col, *_, lbl in _DIM_INFO}
 
-    gap_mat = pd.DataFrame(np.nan, index=REGION_ORDER, columns=families)
-    sig_mat = pd.DataFrame(False,  index=REGION_ORDER, columns=families)
-
-    for region in REGION_ORDER:
-        for fam in families:
-            sub = df[(df["country_region"] == region) & (df["model_family"] == fam)]
-            d   = sub[sub["child_label"] == "daughter"]["stereotype_score"].dropna().values
-            s   = sub[sub["child_label"] == "son"]["stereotype_score"].dropna().values
-            if len(d) < 3 or len(s) < 3:
-                continue
-            gap = float(d.mean() - s.mean())
-            rng = np.random.default_rng(42)
-            boots = [
-                rng.choice(d, len(d)).mean() - rng.choice(s, len(s)).mean()
-                for _ in range(500)
-            ]
-            lo, hi = np.percentile(boots, [2.5, 97.5])
-            gap_mat.loc[region, fam] = gap
-            sig_mat.loc[region, fam] = bool(lo > 0 or hi < 0)
-
-    # Build annotation matrix
-    annot = pd.DataFrame("", index=REGION_ORDER, columns=families)
-    for r in REGION_ORDER:
-        for f in families:
-            v = gap_mat.loc[r, f]
-            if pd.notna(v):
-                star = "*" if bool(sig_mat.loc[r, f]) else ""
-                annot.loc[r, f] = f"{float(v):.2f}{star}"
-
-    fig, ax = plt.subplots(
-        figsize=(max(7, len(families) * 0.95 + 1), len(REGION_ORDER) * 0.7 + 1.8)
+    fig, axes = plt.subplots(
+        1, 3,
+        figsize=(max(7, len(families) * 0.95 + 1) * 3, len(REGION_ORDER) * 0.7 + 2.5),
+        sharey=True,
     )
-    sns.heatmap(
-        gap_mat.astype(float), annot=annot, fmt="s",
-        cmap="RdBu_r", center=0,
-        linewidths=0.5, ax=ax, mask=gap_mat.isna(),
-        cbar_kws={"label": "Stereotype gap (daughter − son)"},
+
+    for ax, (col, _, _, dim_lbl) in zip(axes, _DIM_INFO):
+        if col not in df.columns:
+            ax.set_visible(False)
+            continue
+
+        gap_mat = pd.DataFrame(np.nan,  index=REGION_ORDER, columns=families)
+        sig_mat = pd.DataFrame(False,   index=REGION_ORDER, columns=families)
+
+        for region in REGION_ORDER:
+            for fam in families:
+                sub = df[(df["country_region"] == region) & (df["model_family"] == fam)]
+                d   = sub[sub["child_label"] == "daughter"][col].dropna().values
+                s   = sub[sub["child_label"] == "son"][col].dropna().values
+                if len(d) < 3 or len(s) < 3:
+                    continue
+                gap    = float(d.mean() - s.mean())
+                boots  = [
+                    rng.choice(d, len(d)).mean() - rng.choice(s, len(s)).mean()
+                    for _ in range(500)
+                ]
+                lo, hi = np.percentile(boots, [2.5, 97.5])
+                gap_mat.loc[region, fam] = gap
+                sig_mat.loc[region, fam] = bool(lo > 0 or hi < 0)
+
+        annot = pd.DataFrame("", index=REGION_ORDER, columns=families)
+        for r in REGION_ORDER:
+            for f in families:
+                v = gap_mat.loc[r, f]
+                if pd.notna(v):
+                    star = "*" if bool(sig_mat.loc[r, f]) else ""
+                    annot.loc[r, f] = f"{float(v):.2f}{star}"
+
+        sns.heatmap(
+            gap_mat.astype(float), annot=annot, fmt="s",
+            cmap="RdBu_r", center=0,
+            linewidths=0.5, ax=ax, mask=gap_mat.isna(),
+            cbar_kws={"label": "PMI gap (daughter − son)"},
+        )
+        ax.set_title(dim_lbl, fontsize=11, fontweight="bold")
+        ax.set_xlabel("Model Family", fontsize=10)
+        if ax is axes[0]:
+            ax.set_ylabel("World Region", fontsize=10)
+        plt.sca(ax)
+        plt.xticks(rotation=30, ha="right", fontsize=8)
+        plt.yticks(rotation=0, fontsize=8)
+
+    fig.suptitle(
+        "PMI Gender Bias Gap Across Culture × Model Family\n"
+        "(* = 95 % bootstrap CI excludes 0)",
+        fontsize=13, fontweight="bold",
     )
-    ax.set_title(
-        "Gender Bias Across Culture × Model Family\n(* = 95 % bootstrap CI excludes 0)",
-        fontsize=12, fontweight="bold",
-    )
-    ax.set_xlabel("Model Family", fontsize=11)
-    ax.set_ylabel("World Region", fontsize=11)
-    plt.xticks(rotation=30, ha="right", fontsize=9)
-    plt.yticks(rotation=0, fontsize=9)
+    fig.tight_layout()
     _save(fig, "fig_i2_gap_heatmap", fig_dir)
     print("  Saved fig_i2_gap_heatmap")
 
 # Figure I3: Simple slopes (regional moderation) 
 
 def fig_simple_slopes(
-    region_gap: pd.DataFrame,
+    region_gaps: dict[str, pd.DataFrame],
     fig_dir: Path,
 ) -> None:
     """
-    Horizontal bar chart of gender gap per region, sorted by magnitude.
-    Annotated with Cohen's d. Primary moderation figure.
+    3-panel horizontal bar chart — one panel per PMI dimension.
+    Each panel shows the daughter−son gap per world region, sorted by magnitude,
+    annotated with Cohen's d.
     """
-    if region_gap.empty or "country_region" not in region_gap.columns:
-        print("  fig_i3 skipped — empty region gap table")
+    if not region_gaps:
+        print("  fig_i3 skipped — empty region gap tables")
         return
 
-    plot_df = region_gap.sort_values("gap", ascending=True).reset_index(drop=True)
-    y       = np.arange(len(plot_df))
-    colors  = ["#7BC7E0" if g > 0 else "#D5A45B" for g in plot_df["gap"].fillna(0)]
+    dim_labels = {col: lbl.replace("\n", " ") for col, *_, lbl in _DIM_INFO}
+    present    = [(col, lbl) for col, *_, lbl in _DIM_INFO if col in region_gaps]
+    if not present:
+        return
 
-    fig, ax = plt.subplots(figsize=(10, max(4, len(plot_df) * 0.65)))
+    # Use region order from the first available gap table
+    first_df   = next(iter(region_gaps.values()))
+    n_regions  = len(first_df)
 
-    ax.barh(
-        y, plot_df["gap"],
-        xerr=[plot_df["gap"] - plot_df["ci_low"], plot_df["ci_high"] - plot_df["gap"]],
-        height=0.6, color=colors,
-        capsize=5, error_kw={"elinewidth": 1.5},
+    fig, axes = plt.subplots(
+        1, len(present),
+        figsize=(10 * len(present), max(4, n_regions * 0.65)),
+        sharey=True,
     )
-    ax.axvline(0, color="black", linewidth=0.9, linestyle="--", alpha=0.6)
-    ax.set_yticks(y)
-    ax.set_yticklabels(plot_df["country_region"].fillna(""), fontsize=10)
-    ax.set_xlabel(
-        "Stereotype gap  (daughter − son)\n(positive = daughters more stereotyped)",
-        fontsize=10,
-    )
-    ax.set_title(
-        "Cultural Moderation of Gender Bias — Simple Slopes per World Region\n"
-        "(95 % bootstrap CI, FDR-corrected significance)",
-        fontsize=12, fontweight="bold",
-    )
+    if len(present) == 1:
+        axes = [axes]
 
-    # Right-side annotation: Cohen's d + significance star
-    xmax = ax.get_xlim()[1]
-    ax.set_xlim(right=xmax * 1.35)
-    for i, row in enumerate(plot_df.itertuples()):
-        cd  = getattr(row, "cohens_d", np.nan)
-        sig = getattr(row, "sig_fdr",  False)
-        if pd.notna(cd):
-            lbl = f"d = {cd:+.2f}{'*' if sig else ''}"
-            ax.text(xmax * 1.05, i, lbl, va="center", fontsize=8.5, color="#444")
+    for ax, (col, dim_lbl) in zip(axes, present):
+        gap_df  = region_gaps[col]
+        plot_df = gap_df.sort_values("gap", ascending=True).reset_index(drop=True)
+        y       = np.arange(len(plot_df))
+        colors  = ["#E07B8C" if g > 0 else "#5B9BD5" for g in plot_df["gap"].fillna(0)]
 
-    ax.legend(
+        ax.barh(
+            y, plot_df["gap"],
+            xerr=[plot_df["gap"] - plot_df["ci_low"], plot_df["ci_high"] - plot_df["gap"]],
+            height=0.6, color=colors,
+            capsize=5, error_kw={"elinewidth": 1.5},
+        )
+        ax.axvline(0, color="black", linewidth=0.9, linestyle="--", alpha=0.6)
+        ax.set_yticks(y)
+        if ax is axes[0]:
+            ax.set_yticklabels(plot_df["country_region"].fillna(""), fontsize=10)
+        ax.set_xlabel(
+            "PMI gap  (daughter − son)\n(positive = daughters more stereotyped)",
+            fontsize=10,
+        )
+        ax.set_title(dim_lbl, fontsize=11, fontweight="bold")
+
+        xmax = ax.get_xlim()[1]
+        ax.set_xlim(right=xmax * 1.35)
+        for i, row in enumerate(plot_df.itertuples()):
+            cd  = getattr(row, "cohens_d", np.nan)
+            sig = getattr(row, "sig_fdr",  False)
+            if pd.notna(cd):
+                ax.text(xmax * 1.05, i,
+                        f"d = {cd:+.2f}{'*' if sig else ''}",
+                        va="center", fontsize=8.5, color="#444")
+
+    axes[0].legend(
         handles=[
-            Patch(color="#7BC7E0", label="Daughters more stereotyped"),
-            Patch(color="#D5A45B", label="Sons more stereotyped"),
+            Patch(color="#E07B8C", label="Daughters more stereotyped"),
+            Patch(color="#5B9BD5", label="Sons more stereotyped"),
         ],
         loc="lower right", fontsize=9,
     )
+    fig.suptitle(
+        "Cultural Moderation of PMI Gender Bias — Simple Slopes per World Region\n"
+        "(95 % bootstrap CI, FDR-corrected significance)",
+        fontsize=13, fontweight="bold",
+    )
+    fig.tight_layout()
     _save(fig, "fig_i3_simple_slopes", fig_dir)
     print("  Saved fig_i3_simple_slopes")
 
@@ -344,11 +376,16 @@ def fig_simple_slopes(
 
 def fig_country_heatmap(df: pd.DataFrame, fig_dir: Path) -> None:
     """
-    Fine-grained heatmap: gender gap at country granularity × model_family.
-    Rows sorted by region so regional clusters are visible; thick lines mark
-    region boundaries; region labels added on the right axis.
+    Fine-grained heatmap: mean PMI gender gap (averaged across all three
+    PMI dimensions) at country × model_family granularity.
+    Rows sorted by region; thick lines mark region boundaries.
     """
     if "country" not in df.columns:
+        return
+
+    pmi_cols_present = [col for col, *_ in _DIM_INFO if col in df.columns]
+    if not pmi_cols_present:
+        print("  fig_i4 skipped — no PMI columns in dataframe")
         return
 
     country_to_region = (
@@ -358,7 +395,6 @@ def fig_country_heatmap(df: pd.DataFrame, fig_dir: Path) -> None:
         .to_dict()
     )
 
-    # Sort countries: by region order, then alphabetically within region
     countries_sorted: list[str] = []
     region_sizes:     list[int] = []
     for region in REGION_ORDER:
@@ -373,10 +409,14 @@ def fig_country_heatmap(df: pd.DataFrame, fig_dir: Path) -> None:
     for country in countries_sorted:
         for fam in families:
             sub = df[(df["country"] == country) & (df["model_family"] == fam)]
-            d   = sub[sub["child_label"] == "daughter"]["stereotype_score"].dropna().values
-            s   = sub[sub["child_label"] == "son"]["stereotype_score"].dropna().values
-            if len(d) >= 2 and len(s) >= 2:
-                data.loc[country, fam] = float(d.mean() - s.mean())
+            gaps = []
+            for col in pmi_cols_present:
+                d = sub[sub["child_label"] == "daughter"][col].dropna().values
+                s = sub[sub["child_label"] == "son"][col].dropna().values
+                if len(d) >= 2 and len(s) >= 2:
+                    gaps.append(float(d.mean() - s.mean()))
+            if gaps:
+                data.loc[country, fam] = float(np.mean(gaps))
 
     fig, ax = plt.subplots(
         figsize=(max(6, len(families) * 0.95 + 1), max(8, n_c * 0.44 + 2))
@@ -384,16 +424,14 @@ def fig_country_heatmap(df: pd.DataFrame, fig_dir: Path) -> None:
     sns.heatmap(
         data.astype(float), cmap="RdBu_r", center=0, linewidths=0.25,
         ax=ax, mask=data.isna(),
-        cbar_kws={"label": "Stereotype gap (daughter − son)"},
+        cbar_kws={"label": "Mean PMI gap (daughter − son)"},
         xticklabels=True, yticklabels=True,
     )
 
-    # Region boundary lines
     cumulative = np.cumsum(region_sizes)
     for boundary in cumulative[:-1]:
         ax.axhline(boundary, color="black", linewidth=1.5, alpha=0.8)
 
-    # Region labels on right
     ax2 = ax.twinx()
     ax2.set_ylim(ax.get_ylim())
     ax2.set_yticks([])
@@ -406,8 +444,11 @@ def fig_country_heatmap(df: pd.DataFrame, fig_dir: Path) -> None:
                      va="center", fontsize=7.5, color="#333")
         cum += size
 
-    ax.set_title("Country × Model Family: Gender Stereotype Gap",
-                 fontsize=12, fontweight="bold")
+    ax.set_title(
+        "Country × Model Family: Mean PMI Gender Bias Gap\n"
+        "(averaged across role, domain, and trait dimensions)",
+        fontsize=12, fontweight="bold",
+    )
     ax.set_xlabel("Model Family", fontsize=11)
     ax.set_ylabel("Country (grouped by region)", fontsize=11)
     plt.xticks(rotation=30, ha="right", fontsize=9)
@@ -417,86 +458,6 @@ def fig_country_heatmap(df: pd.DataFrame, fig_dir: Path) -> None:
     print("  Saved fig_i4_country_heatmap")
 
 # Analysis: Narrator × child gender (in-group leniency test) 
-
-def run_narrator_child_interaction(
-    df: pd.DataFrame,
-    n_boot: int = N_BOOT,
-) -> tuple[pd.DataFrame, dict]:
-    """
-    2×2 analysis: narrator gender role (female / male) × child gender.
-
-    Returns:
-    cell_stats : DataFrame with mean ± bootstrap CI for each of 4 cells
-    ols_result : dict with interaction coefficient from OLS
-    """
-    import statsmodels.formula.api as smf
-
-    sub = df[df["person_gender_role"].isin(["female", "male"])].copy()
-    if len(sub) < 20:
-        print("  Narrator×child skipped — not enough gendered-narrator stories")
-        return pd.DataFrame(), {}
-
-    sub["narrator_is_female"] = (sub["person_gender_role"] == "female").astype(int)
-    sub["log_wc"] = np.log1p(sub["word_count"].fillna(0).clip(lower=1))
-
-    # Cell statistics 
-    rows: list[dict] = []
-    for narrator_role in ("female", "male"):
-        for child_label in ("daughter", "son"):
-            cell = sub[
-                (sub["person_gender_role"] == narrator_role) &
-                (sub["child_label"] == child_label)
-            ]
-            vals = cell["stereotype_score"].dropna().values
-            if len(vals) < 2:
-                continue
-            rng   = np.random.default_rng(42)
-            boots = [rng.choice(vals, len(vals)).mean() for _ in range(n_boot)]
-            rows.append({
-                "narrator_role": narrator_role,
-                "child_label":   child_label,
-                "dyad_type": (
-                    "same-gender"
-                    if (narrator_role == "female" and child_label == "daughter") or
-                       (narrator_role == "male"   and child_label == "son")
-                    else "cross-gender"
-                ),
-                "mean":    float(vals.mean()),
-                "ci_low":  float(np.percentile(boots, 2.5)),
-                "ci_high": float(np.percentile(boots, 97.5)),
-                "n":       int(len(vals)),
-            })
-    cell_stats = pd.DataFrame(rows)
-
-    # OLS interaction test 
-    ols_result: dict = {}
-    required = ["stereotype_score", "is_daughter", "narrator_is_female",
-                "model_family", "country_region", "log_wc"]
-    sub_clean = sub[required].dropna()
-    if len(sub_clean) >= 50:
-        try:
-            fit = smf.ols(
-                "stereotype_score ~ is_daughter * narrator_is_female"
-                " + C(model_family, Treatment('llama'))"
-                " + C(country_region, Treatment('North America'))"
-                " + log_wc",
-                data=sub_clean,
-            ).fit()
-            ci       = fit.conf_int()
-            int_term = "is_daughter:narrator_is_female"
-            if int_term in fit.params:
-                ols_result = {
-                    "interaction_coef":    float(fit.params[int_term]),
-                    "interaction_ci_low":  float(ci.loc[int_term, 0]),
-                    "interaction_ci_high": float(ci.loc[int_term, 1]),
-                    "interaction_p":       float(fit.pvalues[int_term]),
-                    "r_squared":           float(fit.rsquared),
-                }
-        except Exception as e:
-            print(f"  OLS narrator×child failed: {e}")
-
-    return cell_stats, ols_result
-
 
 def run_pmi_narrator_interaction(
     df: pd.DataFrame,
@@ -588,113 +549,6 @@ def run_pmi_narrator_interaction(
             print(f"  OLS narrator×child (PMI) failed for {metric}: {e}")
 
     return cell_stats, ols_results
-
-
-# Figure I5: Narrator × child gender 2×2 plot 
-
-def fig_narrator_child_2x2(
-    cell_stats: pd.DataFrame,
-    ols_result: dict,
-    fig_dir: Path,
-) -> None:
-    """
-    Two-panel figure:
-      Left: interaction line plot (x = child gender, lines = narrator role)
-               Parallel lines → no interaction; crossing → in-group leniency.
-      Right: stereotype gap (daughter − son) by narrator role with CI.
-               Smaller gap for female narrator → in-group leniency confirmed.
-    """
-    if cell_stats.empty:
-        print("  fig_i5 skipped — no cell stats")
-        return
-
-    palette = {"female": "#7BC7E0", "male": "#D5A45B"}
-    child_order = ["daughter", "son"]
-    x_pos = {c: i for i, c in enumerate(child_order)}
-
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
-
-    # Panel 1: Interaction line plot 
-    for narrator_role, color in palette.items():
-        sub = (cell_stats[cell_stats["narrator_role"] == narrator_role]
-               .set_index("child_label")
-               .reindex(child_order))
-        x  = [x_pos[c] for c in child_order]
-        y  = sub["mean"].values.astype(float)
-        lo = sub["ci_low"].values.astype(float)
-        hi = sub["ci_high"].values.astype(float)
-
-        ax1.plot(x, y, "o-", color=color, linewidth=2.2, markersize=9,
-                 label=f"{narrator_role.capitalize()} narrator", zorder=3)
-        ax1.fill_between(x, lo, hi, color=color, alpha=0.12, zorder=2)
-        ax1.errorbar(x, y, yerr=[y - lo, hi - y],
-                     fmt="none", color=color, capsize=5, elinewidth=1.5)
-
-        # Label same-gender dyads
-        same_child = "daughter" if narrator_role == "female" else "son"
-        xi = x_pos[same_child]
-        yi = sub.loc[same_child, "mean"] if same_child in sub.index else np.nan
-        if pd.notna(yi):
-            ax1.annotate("same-gender\ndyad", (xi, yi),
-                         xytext=(xi + 0.08, yi + 0.02),
-                         fontsize=7.5, color=color, alpha=0.8)
-
-    ax1.set_xticks(list(x_pos.values()))
-    ax1.set_xticklabels(["Daughter stories", "Son stories"], fontsize=11)
-    ax1.set_ylabel("Mean stereotype score", fontsize=11)
-    ax1.axhline(0, color="black", linewidth=0.7, linestyle="--", alpha=0.5)
-    ax1.set_title("Narrator × Child Gender Interaction\n(95 % bootstrap CI)",
-                  fontsize=11, fontweight="bold")
-    ax1.legend(fontsize=10, framealpha=0.85)
-
-    if ols_result:
-        coef = ols_result.get("interaction_coef", 0.0)
-        p    = ols_result.get("interaction_p", 1.0)
-        sig  = "***" if p < 0.001 else "**" if p < 0.01 else "*" if p < 0.05 else "n.s."
-        ax1.text(0.04, 0.04,
-                 f"OLS interaction coef = {coef:+.3f} {sig}",
-                 transform=ax1.transAxes, fontsize=9,
-                 bbox=dict(boxstyle="round,pad=0.3", fc="white", alpha=0.8))
-
-    # Panel 2: Gender gap by narrator role 
-    gap_rows = []
-    for narrator_role, color in palette.items():
-        sub = (cell_stats[cell_stats["narrator_role"] == narrator_role]
-               .set_index("child_label"))
-        if "daughter" in sub.index and "son" in sub.index:
-            d = sub.loc["daughter"]
-            s = sub.loc["son"]
-            gap = float(d["mean"]) - float(s["mean"])
-            # Propagate CI error in quadrature
-            err = float(np.sqrt(
-                ((d["mean"] - d["ci_low"]) ** 2 +
-                 (s["mean"] - s["ci_low"]) ** 2)
-            ))
-            gap_rows.append({"narrator": narrator_role, "gap": gap,
-                              "err": err, "color": color})
-
-    if gap_rows:
-        gdf = pd.DataFrame(gap_rows)
-        ax2.bar(gdf["narrator"].str.capitalize(), gdf["gap"],
-                color=gdf["color"].tolist(), width=0.45,
-                yerr=gdf["err"], capsize=7, error_kw={"elinewidth": 1.5})
-        ax2.axhline(0, color="black", linewidth=0.8, linestyle="--", alpha=0.6)
-        ax2.set_ylabel("Stereotype gap  (daughter − son)", fontsize=11)
-        ax2.set_xlabel("Narrator gender role", fontsize=11)
-        ax2.set_title(
-            "Gender Bias Gap by Narrator Role\n"
-            "(smaller gap = narrator moderates own-gender stereotyping?)",
-            fontsize=11, fontweight="bold",
-        )
-        for i, row in gdf.iterrows():
-            ax2.text(i, row["gap"] + row["err"] + 0.005,
-                     f"{row['gap']:+.3f}", ha="center", fontsize=10,
-                     fontweight="bold", color=row["color"])
-
-    plt.tight_layout()
-    _save(fig, "fig_i5_narrator_child_2x2", fig_dir)
-    print("  Saved fig_i5_narrator_child_2x2")
-
 
 # Figure I6: PMI narrator × child —> overall (avg across models) 
 
@@ -804,9 +658,7 @@ def fig_pmi_narrator_by_model(
 
     For each model, two bars show the daughter−son PMI gap.
 
-    Reveals which models have narrator-moderated bias: if one bar is
-    systematically larger than the other, that model amplifies stereotyping
-    depending on who tells the story.
+    Reveals which models have narrator-moderated bias
 
     Models are sorted by the average gap across narrator roles.
     """
@@ -915,7 +767,7 @@ def main() -> None:
     res_dir.mkdir(parents=True, exist_ok=True)
     fig_dir.mkdir(parents=True, exist_ok=True)
 
-    # 1. Load, enrich, score (legacy lexicon + PMI)
+    # 1. Load, enrich, score (lexicon needed for word_count covariates + PMI)
     raw    = load_data(args.input)
     df     = enrich(raw)
     scored = score_lexicon(df)
@@ -925,86 +777,89 @@ def main() -> None:
     print("\n PMI-weighted scoring")
     pmi_weights = compute_pmi_weights(scored)
     pmi_scored  = score_pmi(scored, pmi_weights)
-    print(f"  PMI weights: {len(pmi_weights):,} tokens  |  "
-          f"PMI columns: {PMI_METRICS}")
+    print(f"  PMI weights: {len(pmi_weights):,} tokens  |  PMI columns: {PMI_METRICS}")
 
-    # 2. Interaction OLS 
-    print("\n Interaction OLS ")
-    ols = run_interaction_ols(scored)
+    # 2. Interaction OLS (PMI metrics × region)
+    print("\n Interaction OLS (PMI) ")
+    ols = run_interaction_ols(pmi_scored)
     if not ols.empty:
-        ols.to_csv(res_dir / "interaction_ols.csv", index=False)
-        ss_int = ols[(ols["metric"] == "stereotype_score") & ols["interaction"]]
-        if not ss_int.empty:
-            print(ss_int[["region", "coef", "ci_low", "ci_high", "p_fdr", "sig_fdr"]]
+        ols.to_csv(res_dir / "pmi_interaction_ols.csv", index=False)
+        for metric in PMI_METRICS:
+            sub_int = ols[(ols["metric"] == metric) & ols["interaction"]]
+            if not sub_int.empty:
+                print(f"\n  {metric}:")
+                print(sub_int[["region", "coef", "ci_low", "ci_high", "p_fdr", "sig_fdr"]]
+                      .round(4).to_string(index=False))
+
+    # 3. Regional moderation — one gap table per PMI dimension
+    print("\n Regional moderation (PMI) ")
+    region_gaps: dict[str, pd.DataFrame] = {}
+    for col, *_, dim_lbl in _DIM_INFO:
+        if col not in pmi_scored.columns:
+            continue
+        gap_df = _gap_table(pmi_scored, "country_region", val_col=col,
+                             n_boot=args.n_bootstrap)
+        region_gaps[col] = gap_df
+        if not gap_df.empty:
+            gap_df.to_csv(res_dir / f"pmi_region_moderation_{col}.csv", index=False)
+            print(f"\n  {col}:")
+            print(gap_df[["country_region", "gap", "ci_low", "ci_high",
+                           "cohens_d", "cliffs_delta", "p_fdr", "sig_fdr"]]
                   .round(4).to_string(index=False))
 
-    # 3. Regional moderation table 
-    print("\n Regional moderation (stereotype_score) ")
-    region_gap = _gap_table(scored, "country_region", n_boot=args.n_bootstrap)
-    if not region_gap.empty:
-        region_gap.to_csv(res_dir / "region_moderation.csv", index=False)
-        print(region_gap[
-            ["country_region", "gap", "ci_low", "ci_high",
-             "cohens_d", "cliffs_delta", "p_fdr", "sig_fdr"]
-        ].round(4).to_string(index=False))
+    # 4. Gap tables (region × model_family, country × model_family) using mean PMI
+    print("\n Gap tables (mean PMI across dimensions) ")
+    pmi_cols = [col for col, *_ in _DIM_INFO if col in pmi_scored.columns]
 
-    # 4. Gap tables (region×model, country×model) 
-    print("\n Gap tables ")
     rm_rows: list[dict] = []
     for region in REGION_ORDER:
-        for fam in scored["model_family"].dropna().unique():
-            sub = scored[(scored["country_region"] == region) &
-                         (scored["model_family"] == fam)]
-            d   = sub[sub["child_label"] == "daughter"]["stereotype_score"].dropna().values
-            s   = sub[sub["child_label"] == "son"]["stereotype_score"].dropna().values
-            if len(d) >= 2 and len(s) >= 2:
+        for fam in pmi_scored["model_family"].dropna().unique():
+            sub  = pmi_scored[(pmi_scored["country_region"] == region) &
+                              (pmi_scored["model_family"]   == fam)]
+            gaps = []
+            for col in pmi_cols:
+                d = sub[sub["child_label"] == "daughter"][col].dropna().values
+                s = sub[sub["child_label"] == "son"][col].dropna().values
+                if len(d) >= 2 and len(s) >= 2:
+                    gaps.append(float(d.mean() - s.mean()))
+            if gaps:
                 rm_rows.append({
                     "region":       region,
                     "model_family": fam,
-                    "gap":          float(d.mean() - s.mean()),
-                    "cohens_d":     _cohens_d(s, d),
-                    "n_daughter":   int(len(d)),
-                    "n_son":        int(len(s)),
+                    "mean_pmi_gap": float(np.mean(gaps)),
+                    "n_dimensions": len(gaps),
                 })
     gap_rm = pd.DataFrame(rm_rows)
-    gap_rm.to_csv(res_dir / "gap_by_region_model.csv", index=False)
+    gap_rm.to_csv(res_dir / "pmi_gap_by_region_model.csv", index=False)
 
     cm_rows: list[dict] = []
-    if "country" in scored.columns:
-        for country in scored["country"].unique():
-            region_of = scored.loc[scored["country"] == country, "country_region"].iloc[0]
-            for fam in scored["model_family"].dropna().unique():
-                sub = scored[(scored["country"] == country) &
-                             (scored["model_family"] == fam)]
-                d   = sub[sub["child_label"] == "daughter"]["stereotype_score"].dropna().values
-                s   = sub[sub["child_label"] == "son"]["stereotype_score"].dropna().values
-                if len(d) >= 2 and len(s) >= 2:
+    if "country" in pmi_scored.columns:
+        for country in pmi_scored["country"].unique():
+            region_of = pmi_scored.loc[
+                pmi_scored["country"] == country, "country_region"
+            ].iloc[0]
+            for fam in pmi_scored["model_family"].dropna().unique():
+                sub  = pmi_scored[(pmi_scored["country"]      == country) &
+                                  (pmi_scored["model_family"] == fam)]
+                gaps = []
+                for col in pmi_cols:
+                    d = sub[sub["child_label"] == "daughter"][col].dropna().values
+                    s = sub[sub["child_label"] == "son"][col].dropna().values
+                    if len(d) >= 2 and len(s) >= 2:
+                        gaps.append(float(d.mean() - s.mean()))
+                if gaps:
                     cm_rows.append({
                         "country":      country,
                         "region":       region_of,
                         "model_family": fam,
-                        "gap":          float(d.mean() - s.mean()),
-                        "cohens_d":     _cohens_d(s, d),
+                        "mean_pmi_gap": float(np.mean(gaps)),
                     })
     gap_cm = pd.DataFrame(cm_rows)
-    gap_cm.to_csv(res_dir / "gap_by_country_model.csv", index=False)
+    gap_cm.to_csv(res_dir / "pmi_gap_by_country_model.csv", index=False)
     print(f"  Region × model cells  : {len(gap_rm)}")
     print(f"  Country × model cells : {len(gap_cm)}")
 
-    # 5. Narrator × child gender (legacy stereotype_score: in-group leniency)
-    print("\n Narrator × Child gender (legacy stereotype_score) ")
-    cell_stats, ols_narrator = run_narrator_child_interaction(scored, n_boot=args.n_bootstrap)
-    if not cell_stats.empty:
-        cell_stats.to_csv(res_dir / "narrator_child_cells.csv", index=False)
-        print(cell_stats[["narrator_role", "child_label", "dyad_type",
-                           "mean", "ci_low", "ci_high", "n"]].round(4).to_string(index=False))
-    if ols_narrator:
-        pd.DataFrame([ols_narrator]).to_csv(res_dir / "narrator_child_ols.csv", index=False)
-        coef = ols_narrator.get("interaction_coef", 0)
-        p    = ols_narrator.get("interaction_p", 1)
-        print(f"  Interaction coef (is_daughter×narrator_is_female): {coef:+.4f}  p={p:.4f}")
-
-    # 5b. Narrator × child gender (PMI: all three dimensions)
+    # 5. Narrator × child gender (PMI — all three dimensions)
     print("\n Narrator × Child gender (PMI-weighted, three dimensions) ")
     pmi_cell_stats, pmi_ols_narrator = run_pmi_narrator_interaction(
         pmi_scored, n_boot=args.n_bootstrap
@@ -1014,9 +869,7 @@ def main() -> None:
         print(pmi_cell_stats[["metric", "narrator_role", "child_label", "dyad_type",
                                "mean", "ci_low", "ci_high", "n"]].round(4).to_string(index=False))
     if pmi_ols_narrator:
-        ols_rows = [
-            {"metric": m, **v} for m, v in pmi_ols_narrator.items()
-        ]
+        ols_rows = [{"metric": m, **v} for m, v in pmi_ols_narrator.items()]
         pd.DataFrame(ols_rows).to_csv(res_dir / "pmi_narrator_child_ols.csv", index=False)
         for metric, res in pmi_ols_narrator.items():
             coef = res["interaction_coef"]
@@ -1026,32 +879,30 @@ def main() -> None:
     # 6. Figures
     print("\n Generating figures ")
     fig_interaction_forest(ols, fig_dir)
-    fig_gap_heatmap(scored, fig_dir)
-    fig_simple_slopes(region_gap, fig_dir)
-    if "country" in scored.columns:
-        fig_country_heatmap(scored, fig_dir)
-    fig_narrator_child_2x2(cell_stats, ols_narrator, fig_dir)
-    # PMI narrator interactions (figs I6, I7)
+    fig_gap_heatmap(pmi_scored, fig_dir)
+    fig_simple_slopes(region_gaps, fig_dir)
+    if "country" in pmi_scored.columns:
+        fig_country_heatmap(pmi_scored, fig_dir)
     fig_pmi_narrator_interaction(pmi_cell_stats, pmi_ols_narrator, fig_dir)
     fig_pmi_narrator_by_model(pmi_scored, fig_dir)
 
     # 7. Summary
     print("INTERSECTIONALITY ANALYSIS: COMPLETE")
 
-    if not region_gap.empty:
-        top    = region_gap.loc[region_gap["gap"].abs().idxmax(), "country_region"]
-        bottom = region_gap.loc[region_gap["gap"].abs().idxmin(), "country_region"]
-        n_sig  = int(region_gap["sig_fdr"].sum())
-        print(f"  Largest  gender gap region : {top}")
-        print(f"  Smallest gender gap region : {bottom}")
-        print(f"  Regions sig at FDR<0.05    : {n_sig} / {len(region_gap)}")
+    first_gap = next(iter(region_gaps.values()), pd.DataFrame())
+    if not first_gap.empty:
+        top   = first_gap.loc[first_gap["gap"].abs().idxmax(), "country_region"]
+        bot   = first_gap.loc[first_gap["gap"].abs().idxmin(), "country_region"]
+        n_sig = int(first_gap["sig_fdr"].sum())
+        print(f"  Largest  PMI gap region : {top}")
+        print(f"  Smallest PMI gap region : {bot}")
+        print(f"  Regions sig at FDR<0.05 : {n_sig} / {len(first_gap)}")
     if not gap_cm.empty:
-        worst = gap_cm.loc[gap_cm["gap"].abs().idxmax()]
-        print(f"  Largest country×model gap  : {worst['country']} × {worst['model_family']}"
-              f"  (gap={worst['gap']:+.3f})")
+        worst = gap_cm.loc[gap_cm["mean_pmi_gap"].abs().idxmax()]
+        print(f"  Largest country×model gap : {worst['country']} × {worst['model_family']}"
+              f"  (mean_pmi_gap={worst['mean_pmi_gap']:+.3f})")
     print(f"\n  Results  : {res_dir}")
     print(f"  Figures  : {fig_dir}")
-
 
 if __name__ == "__main__":
     main()
