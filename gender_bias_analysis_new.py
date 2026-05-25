@@ -30,7 +30,7 @@ TOKEN_RE    = re.compile(r"\b[a-z]+\b")
 
 DEFAULT_INPUT     = "Narratives3/clean_stories_for_analysis.csv"
 DEFAULT_INPUT_ALT = "Narratives3/biasednarratives.jsonl"
-DEFAULT_OUT       = Path("Narratives3/bias_analysis")
+DEFAULT_OUT       = Path("Narratives3/bias_analysis/results_pmi")
 DEFAULT_EMBED     = "all-mpnet-base-v2"
 
 # Group mappings 
@@ -182,7 +182,7 @@ LEXICONS: dict[str, set[str]] = {
         "ancestor", "baby", "babysit", "caregiver", "chore", "cook",
         "domestic", "family", "grandchild", "grandmother", "grandfather",
         "hearth", "home", "household", "kitchen", "marriage", "parent",
-        "relative", "sibling", "tradition", "wedding",
+        "relative", "sibling", "tradition", "wedding", "parents"
     },
 
     # Masculine traits: BSRI masculine-pole adjectives (Bem 1974)
@@ -259,20 +259,6 @@ SEMANTIC_CONCEPTS: dict[str, list[str]] = {
         "scientific research and technological innovation",
         "management, entrepreneurship, and leadership at work",
         "earning a salary and succeeding professionally",
-    ],
-    "feminine_stereotype": [
-        "a gentle, kind woman who nurtures and cares for others",
-        "a warm, compassionate girl devoted to family and feelings",
-        "a patient, tender female focused on relationships and home",
-        "an affectionate, understanding woman who supports those around her",
-        "a sensitive, soft-spoken girl who puts others before herself",
-    ],
-    "masculine_stereotype": [
-        "a strong, confident man who leads and achieves great things",
-        "an ambitious, competitive boy who succeeds through skill and courage",
-        "a fearless, rational male who solves problems independently",
-        "a bold, dominant hero who overcomes challenges through force of will",
-        "a decisive, self-reliant man driven by ambition and logic",
     ],
 }
 
@@ -532,6 +518,7 @@ PMI_DIMENSIONS: list[tuple[str, str, str]] = [
     ("feminine_traits", "masculine_traits", "pmi_trait"),
 ]
 PMI_METRICS = [f"{col}_score" for _, _, col in PMI_DIMENSIONS]
+SEM_METRICS = ["sem_trait_bias", "sem_role_bias", "sem_domain_bias"]
 
 
 def _cohens_d(a: np.ndarray, b: np.ndarray) -> float:
@@ -704,16 +691,10 @@ def score_semantic(df: pd.DataFrame, model_name: str) -> pd.DataFrame:
         return (out[f"sem_{a}"] - out[f"sem_{b}"]) / \
                (out[f"sem_{a}"] + out[f"sem_{b}"] + EPS)
 
-    out["sem_trait_bias"]    = sidx("masculine_traits", "feminine_traits")
-    out["sem_role_bias"]     = sidx("agentic_role",     "communal_role")
-    out["sem_domain_bias"]   = sidx("career_domain",    "family_domain")
-    out["sem_stereo_align"]  = sidx("masculine_stereotype", "feminine_stereotype")
-
-    sign = out["is_daughter"].map({1: -1, 0: 1})
-    out["sem_stereotype_score"] = sign * (
-        out["sem_trait_bias"] + out["sem_role_bias"] +
-        out["sem_domain_bias"] + out["sem_stereo_align"]
-    )
+    out["sem_trait_bias"]  = sidx("masculine_traits", "feminine_traits")
+    out["sem_role_bias"]   = sidx("agentic_role",     "communal_role")
+    out["sem_domain_bias"] = sidx("career_domain",    "family_domain")
+    
     return out
 
 
@@ -975,38 +956,116 @@ def fig_regression_forest(reg: pd.DataFrame, fig_dir: Path) -> None:
 
 # Figure 7: Semantic comparison 
 
+_SEM_DIM_INFO: list[tuple[str, str, str, str]] = [
+    # (score_col,        pole_A_label,    pole_B_label,    panel_title)
+    ("sem_trait_bias",  "Feminine traits", "Masculine traits",
+     "Trait Bias\n(masculine ↑  vs  feminine ↓)"),
+    ("sem_role_bias",   "Communal role",   "Agentic role",
+     "Role Bias\n(agentic ↑  vs  communal ↓)"),
+    ("sem_domain_bias", "Family domain",   "Career domain",
+     "Domain Bias\n(career ↑  vs  family ↓)"),
+]
+
+
 def fig_semantic_overview(df: pd.DataFrame, fig_dir: Path) -> None:
     """
-    Side-by-side mean similarity scores for daughter vs son stories
-    across all eight semantic concept groups.
+    3-panel violin plot of semantic bias indices (sem_trait_bias, sem_role_bias,
+    sem_domain_bias) for daughter vs son stories.
+    Positive values indicate masculine/agentic/career leaning; negative = feminine/communal/family.
     """
-    sem_cols = [c for c in df.columns if c.startswith("sem_") and
-                c not in {"sem_trait_bias", "sem_role_bias",
-                          "sem_domain_bias", "sem_stereo_align", "sem_stereotype_score"}]
-    if not sem_cols:
+    missing = [c for c, *_ in _SEM_DIM_INFO if c not in df.columns]
+    if missing:
         return
 
-    records = []
-    for col in sem_cols:
-        concept = col.replace("sem_", "")
-        for label in ("daughter", "son"):
-            vals = df[df["child_label"] == label][col].values
-            records.append({"concept": concept, "child_label": label,
-                             "mean": vals.mean()})
-    mdf = pd.DataFrame(records)
+    fig, axes = plt.subplots(1, 3, figsize=(13, 5), sharey=False)
+    fig.suptitle("Semantic Bias Indices: Daughter vs Son Stories",
+                 fontsize=13, fontweight="bold", y=1.01)
 
-    fig, ax = plt.subplots(figsize=(11, 4))
-    sns.barplot(data=mdf, x="concept", y="mean",
-                hue="child_label", hue_order=["daughter", "son"],
-                palette=PALETTE_GENDER, ax=ax)
-    ax.set_xlabel("Stereotype concept group", fontsize=11)
-    ax.set_ylabel("Mean cosine similarity", fontsize=11)
-    ax.set_title("Semantic Similarity to Stereotype Prototypes",
-                 fontsize=13, fontweight="bold")
-    plt.xticks(rotation=30, ha="right", fontsize=9)
-    ax.legend(title="Child gender", fontsize=10)
+    for ax, (col, _, _, title) in zip(axes, _SEM_DIM_INFO):
+        sub = df[["child_label", col]].dropna()
+        sns.violinplot(
+            data=sub, x="child_label", y=col,
+            order=["daughter", "son"],
+            palette=PALETTE_GENDER,
+            inner="quartile", density_norm="width", linewidth=0.8,
+            ax=ax,
+        )
+        ax.axhline(0, color="black", linewidth=0.8, linestyle="--", alpha=0.5)
+        d_mean = sub[sub["child_label"] == "daughter"][col].mean()
+        s_mean = sub[sub["child_label"] == "son"][col].mean()
+        ax.set_title(title, fontsize=10)
+        ax.set_xlabel("")
+        ax.set_ylabel("Signed bias index (−1 to +1)", fontsize=9)
+        ax.text(0.5, 0.97,
+                f"gap = {d_mean - s_mean:+.3f}",
+                transform=ax.transAxes, ha="center", va="top",
+                fontsize=9, color="dimgray")
+
+    fig.tight_layout()
     _save(fig, "fig7_semantic_overview", fig_dir)
     print("  Saved fig7_semantic_overview")
+
+def fig_sem_pmi_comparison(sem_df: pd.DataFrame,
+                           pmi_df: pd.DataFrame,
+                           fig_dir: Path) -> None:
+    """
+    2×3 grid comparing semantic bias indices (top row) vs PMI bias scores
+    (bottom row) on the three parallel axes: trait, role, domain.
+    Each panel shows daughter vs son violin plots so the reader can judge
+    whether both methods agree on direction and magnitude.
+    """
+    pairs = [
+        # (sem_col,          pmi_col,           axis_label)
+        ("sem_trait_bias",  "pmi_trait_score",  "Trait"),
+        ("sem_role_bias",   "pmi_role_score",   "Role"),
+        ("sem_domain_bias", "pmi_domain_score", "Domain"),
+    ]
+
+    missing_sem = [s for s, *_ in pairs if s not in sem_df.columns]
+    missing_pmi = [p for _, p, _ in pairs if p not in pmi_df.columns]
+    if missing_sem or missing_pmi:
+        print(f"  fig_sem_pmi_comparison: missing columns {missing_sem + missing_pmi}, skipping")
+        return
+
+    fig, axes = plt.subplots(2, 3, figsize=(14, 8), sharey=False)
+    fig.suptitle("Semantic Bias Indices vs PMI Bias Scores\n"
+                 "(top: embedding similarity  ·  bottom: corpus PMI)",
+                 fontsize=13, fontweight="bold", y=1.02)
+
+    row_labels  = ["Semantic\n(cosine-similarity index)", "PMI\n(pointwise mutual information)"]
+    data_frames = [sem_df, pmi_df]
+    col_lists   = [(s, lbl) for s, _, lbl in pairs], [(p, lbl) for _, p, lbl in pairs]
+
+    for row_i, (row_lbl, df_row, cols) in enumerate(
+            zip(row_labels, data_frames, col_lists)):
+        for col_i, (metric, axis_lbl) in enumerate(cols):
+            ax = axes[row_i][col_i]
+            sub = df_row[["child_label", metric]].dropna()
+            sns.violinplot(
+                data=sub, x="child_label", y=metric,
+                order=["daughter", "son"],
+                palette=PALETTE_GENDER,
+                inner="quartile", density_norm="width", linewidth=0.8,
+                ax=ax,
+            )
+            ax.axhline(0, color="black", linewidth=0.8, linestyle="--", alpha=0.5)
+            d_mean = sub[sub["child_label"] == "daughter"][metric].mean()
+            s_mean = sub[sub["child_label"] == "son"][metric].mean()
+            gap    = d_mean - s_mean
+            ax.text(0.5, 0.97, f"gap = {gap:+.3f}",
+                    transform=ax.transAxes, ha="center", va="top",
+                    fontsize=9, color="dimgray")
+            if col_i == 0:
+                ax.set_ylabel(row_lbl, fontsize=9)
+            else:
+                ax.set_ylabel("")
+            ax.set_xlabel("")
+            if row_i == 0:
+                ax.set_title(f"{axis_lbl} dimension", fontsize=11, fontweight="bold")
+
+    fig.tight_layout()
+    _save(fig, "fig_sem_pmi_comparison", fig_dir)
+    print("  Saved fig_sem_pmi_comparison")
 
 
 # PMI Figures 
@@ -1428,14 +1487,25 @@ def main() -> None:
 
     # 5. Semantic analysis
     sem_scored = None
+    tests_sem  = pd.DataFrame()
     if not args.skip_semantic:
         print("\n Semantic analysis ")
         sem_scored = score_semantic(scored, args.embed_model)
         sem_scored.to_csv(res_dir / "story_level_semantic.csv", index=False)
-        sem_metrics = [c for c in sem_scored.columns if c.startswith("sem_")]
-        tests_sem = pairwise_tests(sem_scored, "model_key", sem_metrics, args.n_bootstrap)
-        tests_sem.to_csv(res_dir / "tests_semantic_by_model.csv", index=False)
-        print(f"  Significant (FDR): {tests_sem['sig_fdr'].sum()}")
+        tests_sem_model  = pairwise_tests(sem_scored, "model_key",          SEM_METRICS, args.n_bootstrap)
+        tests_sem_region = pairwise_tests(sem_scored, "country_region",     SEM_METRICS, args.n_bootstrap)
+        tests_sem_person = pairwise_tests(sem_scored, "person_gender_role", SEM_METRICS, args.n_bootstrap)
+        tests_sem_overall = pairwise_tests(
+            sem_scored.assign(_all="all"), "_all", SEM_METRICS, args.n_bootstrap
+        )
+        tests_sem_model.to_csv(res_dir  / "sem_tests_by_model.csv",       index=False)
+        tests_sem_region.to_csv(res_dir / "sem_tests_by_region.csv",      index=False)
+        tests_sem_person.to_csv(res_dir / "sem_tests_by_person_role.csv", index=False)
+        tests_sem_overall.to_csv(res_dir / "sem_tests_overall.csv",       index=False)
+        tests_sem = tests_sem_model
+        print(f"  Significant (FDR) — model: {tests_sem_model['sig_fdr'].sum()}, "
+              f"region: {tests_sem_region['sig_fdr'].sum()}, "
+              f"person: {tests_sem_person['sig_fdr'].sum()}")
     else:
         print("\n Semantic analysis skipped (--skip-semantic) ")
 
@@ -1459,6 +1529,9 @@ def main() -> None:
             fig_regression_forest(reg, fig_dir)
         if sem_scored is not None:
             fig_semantic_overview(sem_scored, fig_dir)
+
+    if sem_scored is not None and pmi_scored is not None:
+        fig_sem_pmi_comparison(sem_scored, pmi_scored, fig_dir)
 
     if pmi_scored is not None:
         # Fig 8: full score distributions (KDE) 

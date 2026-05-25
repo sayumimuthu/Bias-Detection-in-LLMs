@@ -21,10 +21,16 @@ warnings.filterwarnings("ignore")
 
 
 
-OUT_DIR     = Path("Narratives3/weat_analysis")
-CACHE_DIR   = OUT_DIR / "cache"
-RESULTS_DIR = OUT_DIR / "results"
-FIG_DIR     = OUT_DIR / "figures"
+# Paths 
+OUT_DIR      = Path("Narratives3/weat_analysis")
+CACHE_DIR    = OUT_DIR / "cache"
+# Combined (cross-model) outputs live under OUT_DIR/combined/
+COMBINED_DIR = OUT_DIR / "combined"
+RESULTS_DIR  = COMBINED_DIR / "results"
+FIG_DIR      = COMBINED_DIR / "figures"
+# Per-model outputs: OUT_DIR / <model_key> / weat_results.csv
+#                                           / word_associations.csv
+#                                           / fig_w5_word_rankings.{png,pdf}
 
 # Optional: surface bias results for correlation figure (fig_w4)
 STORY_LEVEL_CSV = Path("Narratives3/bias_analysis/results_pmi/results/story_level_lexicon.csv")
@@ -206,7 +212,7 @@ def get_device() -> torch.device:
     return torch.device("cpu")
 
 
-#Embedding Extraction
+# Embedding Extraction
 
 def embed_word_list(
     words: list[str],
@@ -297,8 +303,15 @@ def embed_word_list(
     return embeddings, valid_words
 
 
+
 def _embed_openai(words: list[str], embed_model: str) -> tuple[dict[int, np.ndarray], list[str]]:
-    """Embed words via OpenAI's embeddings API. Requires OPENAI_API_KEY."""
+    """Embed words via OpenAI's embeddings API. Requires OPENAI_API_KEY.
+
+    Sends all words in a single batched request (OpenAI supports up to 2048
+    inputs per call) so the entire word list costs one round-trip instead of
+    one per word.  Quota / billing errors raise immediately rather than
+    silently continuing through all 150+ words.
+    """
     try:
         import openai as _openai
     except ImportError:
@@ -309,49 +322,72 @@ def _embed_openai(words: list[str], embed_model: str) -> tuple[dict[int, np.ndar
         raise RuntimeError("OPENAI_API_KEY env var not set")
 
     client = _openai.OpenAI(api_key=api_key)
+
+    BATCH = 500  # well within OpenAI's 2048-input limit
     vecs: list[np.ndarray] = []
     valid_words: list[str] = []
 
-    for word in tqdm(words, desc="  OpenAI embed", leave=False):
+    for start in range(0, len(words), BATCH):
+        batch = words[start: start + BATCH]
         try:
-            resp = client.embeddings.create(model=embed_model, input=word)
-            vec = np.array(resp.data[0].embedding, dtype=np.float32)
-            vecs.append(vec)
-            valid_words.append(word)
+            resp = client.embeddings.create(model=embed_model, input=batch)
+            # resp.data is ordered to match input order
+            for item in sorted(resp.data, key=lambda x: x.index):
+                vecs.append(np.array(item.embedding, dtype=np.float32))
+            valid_words.extend(batch)
         except Exception as e:
-            print(f"    [warn] '{word}': {e}")
+            err = str(e)
+            # Quota / billing errors will affect every subsequent batch too —
+            # raise now so the caller can skip this model entirely.
+            if "insufficient_quota" in err or ("429" in err and "quota" in err.lower()):
+                raise RuntimeError(
+                    "OpenAI API quota exceeded — add credits at "
+                    "platform.openai.com/account/billing"
+                ) from e
+            print(f"    [warn] batch {start // BATCH + 1}: {e}")
 
     embeddings = {API_LAYER_IDX: np.stack(vecs)} if vecs else {}
     return embeddings, valid_words
 
 
 def _embed_voyage(words: list[str], embed_model: str) -> tuple[dict[int, np.ndarray], list[str]]:
-    """Embed words via Voyage AI's embeddings API. Requires VOYAGE_API_KEY."""
+    """Embed words via Voyage AI's embeddings API. Requires VOYAGE_API_KEY.
+
+    Sends all words in a single batched request (Voyage supports up to 128
+    inputs per call) and raises immediately on quota errors.
+    """
     try:
         import voyageai as _voyage
     except ImportError:
-        raise ImportError("pip install voyageai")
+        raise ImportError("pip install voyageai  (needed for Anthropic model WEAT via Voyage AI)")
 
     api_key = os.environ.get("VOYAGE_API_KEY")
     if not api_key:
         raise RuntimeError("VOYAGE_API_KEY env var not set")
 
     vo = _voyage.Client(api_key=api_key)
+
+    BATCH = 128  # Voyage AI's per-request limit
     vecs: list[np.ndarray] = []
     valid_words: list[str] = []
 
-    for word in tqdm(words, desc="  Voyage embed", leave=False):
+    for start in range(0, len(words), BATCH):
+        batch = words[start: start + BATCH]
         try:
-            resp = vo.embed([word], model=embed_model, input_type="document")
-            vec = np.array(resp.embeddings[0], dtype=np.float32)
-            vecs.append(vec)
-            valid_words.append(word)
+            resp = vo.embed(batch, model=embed_model, input_type="document")
+            for emb in resp.embeddings:
+                vecs.append(np.array(emb, dtype=np.float32))
+            valid_words.extend(batch)
         except Exception as e:
-            print(f"    [warn] '{word}': {e}")
+            err = str(e)
+            if "quota" in err.lower() or "429" in err or "billing" in err.lower():
+                raise RuntimeError(
+                    "Voyage AI quota exceeded — check your plan at dash.voyageai.com"
+                ) from e
+            print(f"    [warn] batch {start // BATCH + 1}: {e}")
 
     embeddings = {API_LAYER_IDX: np.stack(vecs)} if vecs else {}
     return embeddings, valid_words
-
 
 def load_or_compute_embeddings_api(
     model_key: str,
@@ -359,6 +395,10 @@ def load_or_compute_embeddings_api(
 ) -> tuple[dict[int, np.ndarray], list[str]]:
     """
     Load (or compute and cache) word embeddings for API-only models.
+
+    Uses the provider's embedding endpoint (OpenAI or Voyage AI) and stores
+    results under the sentinel layer index API_LAYER_IDX so they integrate
+    seamlessly with the HF-based results pipeline.
     """
     cache_path = CACHE_DIR / f"weat_embeddings_{model_key}.npz"
 
@@ -455,7 +495,7 @@ def load_or_compute_embeddings(
     return embeddings, valid_words
 
 
-#WEAT Mathematics
+# WEAT Mathematics
 
 def cosine_sim_matrix(query_vecs: np.ndarray, key_vecs: np.ndarray) -> np.ndarray:
     """
@@ -547,9 +587,7 @@ def run_weat(
     return d, p, scores_x, scores_y
 
 
-# ══════════════════════════════════════════════════════════════════════════════
-# PER-MODEL ANALYSIS LOOP
-# ══════════════════════════════════════════════════════════════════════════════
+# Per-Model Analysis
 
 def run_weat_for_model(
     model_key: str,
@@ -562,8 +600,8 @@ def run_weat_for_model(
     Load (or retrieve from cache) word embeddings for `model_key`, then run
     all three WEAT tests at each requested layer.
 
-    Returns
-    -------
+    Returns:
+  
     result_rows       : list of dicts — one per (test, layer) combination
                         columns: model_key, family, test_key, layer, d, p,
                                  n_X, n_Y, n_A, n_B
@@ -661,9 +699,7 @@ def run_weat_for_model(
     return result_rows, word_assoc_rows
 
 
-# ══════════════════════════════════════════════════════════════════════════════
-# PLOTTING
-# ══════════════════════════════════════════════════════════════════════════════
+# Plots
 
 sns.set_theme(style="whitegrid", font_scale=1.05)
 plt.rcParams.update({
@@ -673,38 +709,22 @@ plt.rcParams.update({
 })
 
 
-def savefig(fig: plt.Figure, name: str) -> None:
+def savefig(fig: plt.Figure, name: str, fig_dir: Path = FIG_DIR) -> None:
+    fig_dir.mkdir(parents=True, exist_ok=True)
     for ext in FIG_EXT:
-        path = FIG_DIR / f"{name}.{ext}"
+        path = fig_dir / f"{name}.{ext}"
         fig.savefig(path, dpi=FIG_DPI, bbox_inches="tight")
     plt.close(fig)
-    print(f"  → {FIG_DIR}/{name}.png")
+    print(f"  → {fig_dir}/{name}.png")
 
 
-# ── Figure W1: Effect Size Heatmap ─────────────────────────────────────────────
+# Figure W1: Effect Size Heatmap 
 
 def plot_effect_heatmap(results_df: pd.DataFrame) -> None:
     """
     Heatmap of WEAT effect size d across models (rows) and
     tests × layers (columns).
 
-    What to read
-    ────────────
-    Each cell contains the WEAT effect size d for one model on one test at
-    one embedding depth.  Red = positive d (target X more male-associated),
-    Blue = negative d (target X less male-associated than Y).
-
-    A star (*/**/***)  inside a cell signals p < 0.05 / 0.01 / 0.001.
-
-    The colour saturation reflects magnitude: deep red means a large
-    male-over-female association.
-
-    Expected pattern: all cells in the red half, because we hypothesise
-    career/agentic/masculine words are universally encoded closer to male
-    markers.  Any blue cells would be surprising and noteworthy.
-
-    The two column groups (Embedding layer vs Final layer) show whether the
-    transformer's processing amplifies or attenuates the raw association.
     """
     # Pivot: rows = model_key, cols = (test_short, layer)
     pivot = results_df.pivot_table(
@@ -727,7 +747,9 @@ def plot_effect_heatmap(results_df: pd.DataFrame) -> None:
     ]
     model_order = [m for m in model_order if m in pivot.index]
     pivot     = pivot.reindex(model_order)
-    sig_pivot = sig_pivot.reindex(model_order)
+    # Force sig_pivot to have exactly the same (rows × columns) shape as pivot
+    # so the annotation loop never goes out of bounds on a partial run.
+    sig_pivot = sig_pivot.reindex(index=model_order, columns=pivot.columns)
 
     # Shorten model labels for display
     short_labels = {
@@ -752,7 +774,7 @@ def plot_effect_heatmap(results_df: pd.DataFrame) -> None:
 
     # Annotate cells with d value + significance stars
     data_arr = pivot.astype(float).values
-    sig_arr  = sig_pivot.values
+    sig_arr  = sig_pivot.fillna("").values
     for row in range(data_arr.shape[0]):
         for col in range(data_arr.shape[1]):
             val = data_arr[row, col]
@@ -792,23 +814,12 @@ def plot_effect_heatmap(results_df: pd.DataFrame) -> None:
     savefig(fig, "fig_w1_effect_heatmap")
 
 
-# ── Figure W2: Effect Size Bars by Model Family ─────────────────────────────────
+# Figure W2: Effect Size Bars by Model Family 
 
 def plot_bars_by_family(results_df: pd.DataFrame) -> None:
     """
     Bar chart of mean WEAT d per model family, separately for each test.
     Error bars = ± 1 std across models in the family.
-
-    What to read
-    ────────────
-    Each panel is one WEAT test.  Within a panel, bars show the mean
-    effect size for each model family at the final embedding layer.
-
-    If all bars are positive and non-overlapping with zero, the association
-    is consistent across all architectures — not an artefact of one model.
-
-    Differences in bar height across families indicate that some architectures
-    have encoded stronger gender-concept associations during pre-training.
     """
     final_df = results_df[results_df["layer"].isin(["final", "api"])]
 
@@ -858,26 +869,13 @@ def plot_bars_by_family(results_df: pd.DataFrame) -> None:
     savefig(fig, "fig_w2_bars_by_family")
 
 
-# ── Figure W3: Significance Plot ────────────────────────────────────────────────
+# Figure W3: Significance Plot 
 
 def plot_pvalues(results_df: pd.DataFrame) -> None:
     """
     Dot plot of −log10(p-value) for every (model, test) combination at
     the final embedding layer.
 
-    What to read
-    ────────────
-    The dashed horizontal line marks the p = 0.05 threshold
-    (−log10(0.05) ≈ 1.30).  Any dot above this line is a statistically
-    significant association.
-
-    Because the permutation p-value is bounded by 1/N_PERMS at the low
-    end, we cap at −log10(1/5000) ≈ 3.7.
-
-    A model that fails to reach significance on Test C (sanity check) is
-    a red flag suggesting the embedding extraction produced degenerate
-    vectors.  All other tests being significant, while Test C is not, would
-    indicate something unusual about that model's tokenizer.
     """
     final_df = results_df[results_df["layer"].isin(["final", "api"])].copy()
     final_df["-log10_p"] = -np.log10(final_df["p"].clip(lower=1 / N_PERMS))
@@ -928,29 +926,13 @@ def plot_pvalues(results_df: pd.DataFrame) -> None:
     savefig(fig, "fig_w3_pvalues")
 
 
-# ── Figure W4: WEAT d vs Surface Stereotype Gap ─────────────────────────────────
+# Figure W4: WEAT d vs Surface Stereotype Gap 
 
 def plot_surface_correlation(results_df: pd.DataFrame) -> None:
     """
     Scatter plot: WEAT d (Test A, Career/Family, final layer) on the x-axis
     vs the surface-level gender stereotype gap on the y-axis.
 
-    One dot per model.  If the two quantities correlate, it means a model
-    with stronger internal career-male associations also writes more
-    gender-stereotyped stories.  This is the KEY bridge between the
-    representational level (WEAT) and the output level (surface analysis).
-
-    What to read
-    ────────────
-    Positive correlation → models whose embedding spaces are more male-biased
-    on the career dimension also produce stories with larger daughter-son
-    stereotype gaps.  This would confirm that representational bias flows
-    through to generated text.
-
-    No correlation → surface and representational bias are decoupled; a model
-    can write stereotyped text without a stereotyped embedding space (or vice
-    versa).  This would still be interesting — it would mean output-level
-    debiasing might succeed even without changing internal representations.
     """
     # Load surface stereotype gap per model
     gap_df: pd.DataFrame | None = None
@@ -1039,37 +1021,28 @@ def plot_surface_correlation(results_df: pd.DataFrame) -> None:
     savefig(fig, "fig_w4_surface_correlation")
 
 
-# ── Figure W5: Per-Word Association Rankings ────────────────────────────────────
+# Figure W5: Per-Word Association Rankings 
 
-def plot_word_rankings(word_assoc_df: pd.DataFrame, model_key: str) -> None:
+def plot_word_rankings(word_assoc_df: pd.DataFrame, model_key: str,
+                       fig_dir: Path = FIG_DIR) -> None:
     """
     Horizontal bar chart of individual word association scores s(w, A, B)
     for a chosen model at the final embedding layer.
 
-    What to read
-    ────────────
-    Each bar represents one word.  The x-axis is the association score:
-
-      s(w, A, B) = mean_cos(w, male markers) − mean_cos(w, female markers)
-
-    Positive (right, blue) = word is encoded closer to male space
-    Negative (left, pink)  = word is encoded closer to female space
-
-    This is the most granular figure: it shows WHICH specific words drive
-    the aggregate WEAT effect.  For example, if "engineer" has a large
-    positive score but "lawyer" is near zero, the career bias is not
-    uniform across career words.
-
-    The top-N and bottom-N words per test are shown for readability.
     """
-    subset = word_assoc_df[
-        (word_assoc_df["model_key"] == model_key) &
-        (word_assoc_df["layer"] == "final")
-    ]
+
+        # Prefer "final" layer; fall back to "api" for API-only models.
+    for layer_pref in ("final", "api"):
+        subset = word_assoc_df[
+            (word_assoc_df["model_key"] == model_key) &
+            (word_assoc_df["layer"] == layer_pref)
+        ]
+        if not subset.empty:
+            break
     if subset.empty:
         print(f"  [skip] fig_w5: no word association data for {model_key}")
         return
-
+    
     fig, axes = plt.subplots(1, 3, figsize=(18, 8))
     TOP_N = 15  # show top and bottom N words per test
 
@@ -1084,7 +1057,7 @@ def plot_word_rankings(word_assoc_df: pd.DataFrame, model_key: str) -> None:
         ]).drop_duplicates("word")
         display = display.sort_values("score")
 
-        colours = ["#E07B8C" if s < 0 else "#5B9BD5"
+        colours = ["#7BE0D2" if s < 0 else "#D5A05B"
                    for s in display["score"]]
 
         ax.barh(display["word"], display["score"], color=colours, edgecolor="white")
@@ -1101,33 +1074,16 @@ def plot_word_rankings(word_assoc_df: pd.DataFrame, model_key: str) -> None:
         fontsize=11, y=1.01,
     )
     fig.tight_layout()
-    savefig(fig, "fig_w5_word_rankings")
+    savefig(fig, "fig_w5_word_rankings", fig_dir=fig_dir)
 
 
-# ── Figure W6: Layer 0 vs Final Layer Comparison ────────────────────────────────
+# Figure W6: Layer 0 vs Final Layer Comparison 
 
 def plot_layer_comparison(results_df: pd.DataFrame) -> None:
     """
     Scatter plot comparing WEAT d at the embedding layer (layer 0) vs the
     final transformer layer, for every (model, test) combination.
 
-    What to read
-    ────────────
-    The diagonal dashed line represents "no change across depth" (d_final = d_layer0).
-
-    Points ABOVE the diagonal: the association is STRONGER at the final layer
-    than at the raw embedding layer.  The model's transformer blocks have
-    amplified the gender-concept link through their processing.
-
-    Points BELOW the diagonal: the association is WEAKER at depth.  The model's
-    attention mechanism has partially attenuated or redistributed the bias.
-
-    Points near the origin: the association is weak at both depths.
-
-    Points far from the origin on both axes: the association is strong and
-    consistent regardless of depth — a particularly robust structural bias.
-
-    Colour encodes the WEAT test; marker shape encodes model family.
     """
     if "embedding" not in results_df["layer"].values or \
        "final"     not in results_df["layer"].values:
@@ -1198,9 +1154,7 @@ def plot_layer_comparison(results_df: pd.DataFrame) -> None:
     savefig(fig, "fig_w6_layer_comparison")
 
 
-# ══════════════════════════════════════════════════════════════════════════════
-# CLI + MAIN
-# ══════════════════════════════════════════════════════════════════════════════
+# CLI
 
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(
@@ -1231,6 +1185,29 @@ def parse_args() -> argparse.Namespace:
     )
     return p.parse_args()
 
+def _matches_only(model_key: str, only: str | None) -> bool:
+    """
+    Return True if model_key should be included given the --only filter.
+    """
+    if only is None:
+        return True
+    only = only.lower()
+    # Match on model family 
+    if only in MODEL_FAMILY.get(model_key, "").lower():
+        return True
+    # Match on key with provider prefix removed
+    stripped = (model_key
+                .replace("ollama-", "")
+                .replace("openai-", "")
+                .replace("anthropic-", ""))
+    if only in stripped.lower():
+        return True
+    # Exact match on the provider word (e.g. --only openai, --only anthropic).
+    # Must be exact, not substring, to avoid "llama" matching "ollama".
+    provider = model_key.split("-")[0]
+    return only == provider.lower()
+
+# Main
 
 def main() -> None:
     args = parse_args()
@@ -1251,27 +1228,41 @@ def main() -> None:
     results_csv     = RESULTS_DIR / "weat_results.csv"
     word_assoc_csv  = RESULTS_DIR / "word_associations.csv"
 
-    # ── Run WEAT per model ────────────────────────────────────────────────────
+    # Run WEAT per model 
     if not args.plots_only:
         device = get_device()
         print(f"Device: {device}\n")
 
         model_items = [
             (k, v) for k, v in HF_MODEL_MAP.items()
-            if args.only is None or args.only.lower() in k.lower()
+            if _matches_only(k, args.only)
         ]
         # Append API-based models (hf_id is None; routing handled inside
         # load_or_compute_embeddings via API_EMBED_MODEL_MAP)
         model_items += [
             (k, None) for k in API_EMBED_MODEL_MAP
-            if args.only is None or args.only.lower() in k.lower()
+            if _matches_only(k, args.only)
         ]
+
+        # Load any results already saved from previous partial runs so we
+        # never lose data from earlier --only sessions when we save below.
+        existing_results: list[pd.DataFrame] = []
+        existing_assoc:   list[pd.DataFrame] = []
+        if results_csv.exists():
+            prev = pd.read_csv(results_csv)
+            # Only keep rows for models NOT being re-run this session so that
+            # a fresh re-run of a specific model always replaces stale data.
+            run_keys = {k for k, _ in model_items}
+            existing_results.append(prev[~prev["model_key"].isin(run_keys)])
+        if word_assoc_csv.exists():
+            prev_wa = pd.read_csv(word_assoc_csv)
+            run_keys = {k for k, _ in model_items}
+            existing_assoc.append(prev_wa[~prev_wa["model_key"].isin(run_keys)])
 
         all_results:    list[dict] = []
         all_word_assoc: list[dict] = []
 
         for model_key, hf_id in model_items:
-            print(f"\n{'─'*60}")
             provider_str = hf_id if hf_id else API_EMBED_MODEL_MAP[model_key]["embed_model"]
             print(f"  {model_key}  ({provider_str})")
 
@@ -1283,19 +1274,33 @@ def main() -> None:
                 all_results.extend(rows)
                 all_word_assoc.extend(word_rows)
 
+                # Per-model folder 
+                model_dir = OUT_DIR / model_key
+                model_dir.mkdir(parents=True, exist_ok=True)
+                pd.DataFrame(rows).to_csv(
+                    model_dir / "weat_results.csv", index=False)
+                if word_rows:
+                    wa_df = pd.DataFrame(word_rows)
+                    wa_df.to_csv(
+                        model_dir / "word_associations.csv", index=False)
+                    plot_word_rankings(wa_df, model_key, fig_dir=model_dir)
+                print(f"  Saved: {model_dir}/")
+
             except Exception as e:
                 err = str(e)
                 print(f"  [ERROR]  {err[:120]}")
                 if any(x in err for x in ("401", "403", "gated", "access", "token")):
-                    print(f"  Gated model — run:  export HF_TOKEN=hf_<token>")
+                    print(f"  Gated model - run:  export HF_TOKEN=hf_<token>")
                 print("  Skipping.\n")
 
         if all_results:
-            pd.DataFrame(all_results).to_csv(results_csv, index=False)
-            pd.DataFrame(all_word_assoc).to_csv(word_assoc_csv, index=False)
-            print(f"\nSaved results → {results_csv}")
+            combined        = pd.concat(existing_results  + [pd.DataFrame(all_results)],   ignore_index=True)
+            combined_assoc  = pd.concat(existing_assoc    + [pd.DataFrame(all_word_assoc)], ignore_index=True)
+            combined.to_csv(results_csv,    index=False)
+            combined_assoc.to_csv(word_assoc_csv, index=False)
+            print(f"\nSaved results: {results_csv}  ({len(combined)} rows, {combined['model_key'].nunique()} models)")
 
-    # ── Load results for plotting ──────────────────────────────────────────────
+    # Load results for plotting 
     if not results_csv.exists():
         print("No results to plot.  Run without --plots-only first.")
         return
@@ -1313,7 +1318,6 @@ def main() -> None:
             lambda x: "embedding" if x == 0 else "final"
         )
 
-    print(f"\n{'='*60}")
     print("Generating figures …")
 
     # Determine model to use for word ranking figure
@@ -1330,10 +1334,10 @@ def main() -> None:
     plot_layer_comparison(results_df)
 
     print(f"\nAll figures saved to  {FIG_DIR}/")
-    print("\nSummary of results:")
+    print("\nSummary of results (final + api layers):")
     summary = (
-        results_df[results_df["layer"] == "final"]
-        .groupby(["test_short", "family"])[["d", "p"]]
+        results_df[results_df["layer"].isin(["final", "api"])]
+        .groupby(["test_short", "family", "layer"])[["d", "p"]]
         .mean()
         .round(3)
     )
