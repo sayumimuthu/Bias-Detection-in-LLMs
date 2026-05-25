@@ -22,7 +22,7 @@ OUT_DIR    = Path("Narratives3/hidden_states_by_model")
 BATCH_SIZE = 8     # 2 is safe for 7B models; use 1 if OOM persists on 12B+
 MAX_LENGTH = 512   # stories are ~150 words / ~200 tokens 
 
-# model_key → HuggingFace model ID 
+# model_key: HuggingFace model ID 
 HF_MODEL_MAP: dict[str, str] = {
     # Open models (no token needed) 
     "ollama-qwen25-3b":    "Qwen/Qwen2.5-3B-Instruct",

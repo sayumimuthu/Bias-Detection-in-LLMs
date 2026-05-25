@@ -29,11 +29,17 @@ FIG_DPI      = 150
 RANDOM_STATE = 42
 
 
-GEN_COLORS = {"female": "#E91E8C", "male": "#1E88E5"}
+GEN_COLORS = {"female": "#1EE9C4", "male": "#E58F1E"}
 FAM_COLORS = {
-    "llama":   "#4C72B0", "mistral": "#DD8452",
-    "qwen":    "#55A868", "gemma":   "#C44E52", "gpt-oss": "#8172B2",
+    "llama":     "#4C72B0",
+    "mistral":   "#DD8452",
+    "qwen":      "#55A868",
+    "gemma":     "#C44E52",
+    "gpt-oss":   "#8172B2",   # open-source GPT-style models (e.g. ollama-gptoss)
+    "gpt":       "#9C59A0",   # OpenAI API models — no hidden states extractable
+    "anthropic": "#E05A2B",   # Anthropic API models — no hidden states extractable
 }
+
 REG_COLORS = {
     "North America": "#4C72B0", "Latin America": "#DD8452",
     "MENA": "#55A868", "Sub-Saharan Africa": "#C44E52",
