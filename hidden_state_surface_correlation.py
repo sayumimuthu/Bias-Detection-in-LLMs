@@ -18,7 +18,8 @@ warnings.filterwarnings("ignore")
 
 
 HS_DIR   = Path("Narratives3/hidden_states_by_model")
-SEM_CSV  = Path("Narratives3/bias_analysis/results/story_level_semantic.csv")
+PMI_CSV  = Path("Narratives3/gender bias pmi results/results/story_level_pmi.csv")
+SEM_CSV  = Path("Narratives3/gender bias pmi results/results/story_level_semantic.csv")
 CUL_CSV  = Path("Narratives3/cultural_bias/results/story_level_cultural.csv")
 OUT_DIR  = Path("Narratives3/hidden_state_surface_corr")
 
@@ -26,24 +27,37 @@ FIG_DPI      = 150
 RANDOM_STATE = 42
 
 # Surface scores to correlate against: (column_name, readable_label)
+# PMI scores are the primary comparison: corpus-calibrated, directional.
+# Positive PMI score = story uses vocabulary over-represented in daughter stories
+# (communal roles, family domain, feminine traits).
+# The legacy signed-ratio scores are kept for comparison.
 GENDER_SCORES: list[tuple[str, str]] = [
-    ("stereotype_score",  "Lexical Stereotype Score"),
-    ("trait_bias_index",  "Trait Bias Index"),
-    ("role_bias_index",   "Role Bias Index"),
-    ("domain_bias_index", "Domain Bias Index"),
-    ("marker_bias_index", "Marker Bias Index"),
-    ("sem_stereotype_score", "Semantic Stereotype Score"),
-    ("sem_trait_bias",    "Semantic Trait Bias"),
-    ("sem_role_bias",     "Semantic Role Bias"),
-    ("sem_domain_bias",   "Semantic Domain Bias"),
-    ("sem_stereo_align",  "Semantic Stereo Alignment"),
+    # PMI-weighted scores 
+    ("pmi_role_score",   "PMI Role Score"),
+    ("pmi_domain_score", "PMI Domain Score"),
+    ("pmi_trait_score",  "PMI Trait Score"),
+    # Legacy lexical signed-ratio scores
+    ("stereotype_score", "Lexical Stereotype Score"),
+    ("trait_bias_index", "Trait Bias Index"),
+    ("role_bias_index",  "Role Bias Index"),
+    ("domain_bias_index","Domain Bias Index"),
+    ("marker_bias_index","Marker Bias Index"),
+    # Semantic embedding scores
+    ("sem_trait_bias",   "Semantic Trait Bias"),
+    ("sem_role_bias",    "Semantic Role Bias"),
+    ("sem_domain_bias",  "Semantic Domain Bias"),
 ]
 
 CULTURAL_SCORES: list[tuple[str, str]] = [
-    ("idv_proxy",         "Individualism Proxy"),
+    ("idv_proxy",              "IDV Proxy (lexical)"),
     ("pmi_collectivism_score", "PMI Collectivism Score"),
-    ("cultural_richness", "Cultural Richness"),
+    ("cultural_richness",      "Cultural Richness"),
 ]
+
+# Primary score used for the scatter (plot 01) and layer-curve (plot 03).
+# pmi_role_score is the PMI-weighted communal/agentic role dimension 
+PRIMARY_SCORE     = "pmi_role_score"
+PRIMARY_SCORE_LBL = "PMI Role Score (communal vs agentic)"
 
 GEN_COLORS = {"female": "#1EE9C4", "male": "#E58F1E"}
 FAM_COLORS = {
@@ -95,15 +109,40 @@ def _safe_pearson(x: np.ndarray, y: np.ndarray) -> tuple[float, float]:
 
 def load_surface_scores() -> pd.DataFrame:
     """
-    Load and merge the semantic and cultural surface-level CSV files.
-    The semantic CSV already contains all lexical columns, so it is loaded first.
-    Cultural columns are joined on 'id'.
+    Load and merge all three surface-level score CSVs.
+
+    story_level_pmi.csv      — PMI-weighted gender scores (pmi_role_score,
+                               pmi_domain_score, pmi_trait_score) plus the
+                               legacy lexical signed-ratio scores.
+    story_level_semantic.csv — sentence-embedding cosine bias scores
+                               (sem_trait_bias, sem_role_bias, sem_domain_bias).
+    story_level_cultural.csv — cultural dimension scores (idv_proxy,
+                               pmi_collectivism_score, cultural_richness).
+
+    All three are joined on 'id'.  The PMI CSV is the base because it contains
+    all lexical columns; semantic and cultural columns are left-joined in.
     """
-    sem = pd.read_csv(SEM_CSV)
-    cul_cols = ["id"] + [c for c, _ in CULTURAL_SCORES]
-    cul = pd.read_csv(CUL_CSV, usecols=lambda c: c in cul_cols)
-    merged = sem.merge(cul, on="id", how="left")
+    wanted_gender  = {"id"} | {c for c, _ in GENDER_SCORES}
+    wanted_culture = {"id"} | {c for c, _ in CULTURAL_SCORES}
+
+    pmi = pd.read_csv(PMI_CSV, usecols=lambda c: c in wanted_gender | {"id",
+          "protagonist_gender", "model_key", "model_family"})
+
+    sem_cols = {"id"} | {c for c, _ in GENDER_SCORES
+                         if c.startswith("sem_")}
+    sem = pd.read_csv(SEM_CSV, usecols=lambda c: c in sem_cols)
+
+    cul = pd.read_csv(CUL_CSV, usecols=lambda c: c in wanted_culture)
+
+    merged = pmi.merge(sem, on="id", how="left") \
+                .merge(cul, on="id", how="left")
+
     print(f"  Surface scores: {len(merged):,} stories  ×  {len(merged.columns)} columns")
+    present = [c for c, _ in GENDER_SCORES + CULTURAL_SCORES if c in merged.columns]
+    missing = [c for c, _ in GENDER_SCORES + CULTURAL_SCORES if c not in merged.columns]
+    print(f"  Score columns found  : {present}")
+    if missing:
+        print(f"  Score columns missing: {missing}  (will appear as NaN)")
     return merged
 
 
@@ -210,7 +249,7 @@ def collect_layer_projections(model_key: str,
 
 def plot_scatter_surface_vs_hidden(combined: pd.DataFrame, out: Path) -> None:
     """
-    One panel per model. X = stereotype_score (surface lexical bias).
+    One panel per model. X = PMI role score (primary PMI-weighted surface bias).
     Y = hidden-state gender projection (final layer).
     Coloured by protagonist gender.  Pearson r in subplot title.
     """
@@ -223,12 +262,12 @@ def plot_scatter_surface_vs_hidden(combined: pd.DataFrame, out: Path) -> None:
                               squeeze=False)
 
     fig.suptitle(
-        "Surface Lexical Stereotype Score  vs  Hidden-State Gender Projection\n"
+        f"{PRIMARY_SCORE_LBL}  vs  Hidden-State Gender Projection\n"
         "(final transformer layer — computed by the model that generated the story)",
         fontsize=13, fontweight="bold",
     )
 
-    score_col = "stereotype_score"
+    score_col = PRIMARY_SCORE
     for idx, model_key in enumerate(models):
         ax   = axes[idx // ncols][idx % ncols]
         sub  = combined[combined["model_key"] == model_key].dropna(
@@ -251,7 +290,7 @@ def plot_scatter_surface_vs_hidden(combined: pd.DataFrame, out: Path) -> None:
         r_str = f"r = {r:.3f}  (p = {p:.2e})" if not np.isnan(r) else "r = n/a"
         ax.set_title(f"{model_key}\n{r_str}", fontsize=8, fontweight="bold",
                      color=color)
-        ax.set_xlabel("Lexical Stereotype Score", fontsize=8)
+        ax.set_xlabel(PRIMARY_SCORE_LBL, fontsize=8)
         ax.set_ylabel("Hidden-State Gender Projection", fontsize=8)
         ax.axhline(0, color="gray", linestyle="--", linewidth=0.6, alpha=0.5)
         ax.axvline(0, color="gray", linestyle="--", linewidth=0.6, alpha=0.5)
@@ -330,8 +369,9 @@ def plot_layer_correlation_curve(surface: pd.DataFrame,
                                   out: Path) -> None:
     """
     For each model, compute Pearson r between gender-axis projection and
-    stereotype_score at every transformer layer.
+    the primary PMI score at every transformer layer.
     Plot as one line per model: shows which depth best matches surface bias.
+    This is the KEY novel analysis bridging geometry with surface scores.
     """
     npy_files = sorted(HS_DIR.glob("hidden_states_*.npy"))
     fig, ax   = plt.subplots(figsize=(12, 5))
@@ -349,8 +389,9 @@ def plot_layer_correlation_curve(surface: pd.DataFrame,
         if layer_df is None:
             continue
 
-        score_col = "stereotype_score"
+        score_col = PRIMARY_SCORE
         if score_col not in layer_df.columns:
+            print(f"    [{mk}] column '{score_col}' missing — skipping layer curve")
             continue
 
         layers = sorted(layer_df["layer"].unique())
@@ -383,10 +424,10 @@ def plot_layer_correlation_curve(surface: pd.DataFrame,
 
     ax.axhline(0, color="black", linestyle="--", linewidth=0.8, alpha=0.5)
     ax.set_xlabel("Transformer Layer  (0 = token embedding)")
-    ax.set_ylabel("Pearson r\n(Hidden-State Projection  ×  Lexical Stereotype Score)")
+    ax.set_ylabel(f"Pearson r\n(Hidden-State Projection  ×  {PRIMARY_SCORE_LBL})")
     ax.set_title(
         "At Which Transformer Layer Does Hidden-State Geometry Best Match Surface Bias?\n"
-        "Each line = one model  |  Higher |r| = geometry and surface score agree more at that depth",
+        f"Surface signal: {PRIMARY_SCORE_LBL}  |  Higher |r| = geometry agrees more at that depth",
         fontweight="bold",
     )
     ax.legend(fontsize=7, loc="best", ncol=2, framealpha=0.8)
@@ -401,17 +442,18 @@ def plot_layer_correlation_curve(surface: pd.DataFrame,
 def plot_three_measures_comparison(combined: pd.DataFrame, out: Path) -> None:
     """
     Compare three independent ways of measuring gender bias:
-      1. Lexical stereotype_score   (surface word counting)
-      2. Semantic sem_stereotype_score (embedding cosine similarity)
+      1. PMI role score     (corpus-calibrated PMI — primary surface signal)
+      2. Semantic role bias (embedding cosine similarity)
       3. Hidden-state gender projection (geometric, from this extractor)
     Show distributions by protagonist gender as violin plots.
     If all three agree (female stories higher on all three), bias is robust.
     """
     measures = [
-        ("stereotype_score",         "Lexical\nStereotype Score"),
-        ("sem_stereotype_score",     "Semantic\nStereotype Score"),
+        (PRIMARY_SCORE,              f"PMI Role Score\n(corpus-calibrated)"),
+        ("sem_role_bias",            "Semantic\nRole Bias"),
         ("gender_projection_final",  "Hidden-State\nGender Projection"),
     ]
+
     available = [(col, lbl) for col, lbl in measures if col in combined.columns]
     n = len(available)
 
@@ -462,7 +504,7 @@ def plot_three_measures_comparison(combined: pd.DataFrame, out: Path) -> None:
 def plot_model_alignment_bar(combined: pd.DataFrame, out: Path) -> None:
     """
     Bar chart: for each model, show the Pearson r between the hidden-state
-    gender projection (final layer) and the lexical stereotype_score.
+    gender projection (final layer) and the primary PMI score.
     Sorted from highest to lowest.  Color = model family.
     Shows which models' internal geometry most closely mirrors their surface bias.
     """
@@ -471,9 +513,9 @@ def plot_model_alignment_bar(combined: pd.DataFrame, out: Path) -> None:
 
     for mk in models:
         sub = combined[combined["model_key"] == mk][
-            ["gender_projection_final", "stereotype_score"]].dropna()
+            ["gender_projection_final", PRIMARY_SCORE]].dropna()
         r, _ = _safe_pearson(sub["gender_projection_final"].values,
-                              sub["stereotype_score"].values)
+                              sub[PRIMARY_SCORE].values)
         rs.append(r)
         fam = combined.loc[combined["model_key"] == mk, "model_family"].iloc[0]
         colors.append(FAM_COLORS.get(fam, "gray"))
@@ -497,10 +539,10 @@ def plot_model_alignment_bar(combined: pd.DataFrame, out: Path) -> None:
     ax.axhline(0, color="black", linewidth=0.8)
     ax.set_xticks(range(len(labels)))
     ax.set_xticklabels(labels, rotation=30, ha="right", fontsize=8)
-    ax.set_ylabel("Pearson r  (Hidden Projection × Lexical Stereotype Score)")
+    ax.set_ylabel(f"Pearson r  (Hidden Projection × {PRIMARY_SCORE_LBL})")
     ax.set_title(
         "Which Model's Internal Geometry Best Mirrors Its Surface Language Bias?\n"
-        "Higher r = hidden-state gender separation tracks lexical stereotype score more closely",
+        f"Surface signal: {PRIMARY_SCORE_LBL}  |  Higher r = geometry tracks bias more closely",
         fontweight="bold",
     )
     ax.set_facecolor("#f8f8f8")

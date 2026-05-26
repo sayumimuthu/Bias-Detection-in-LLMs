@@ -691,9 +691,9 @@ def score_semantic(df: pd.DataFrame, model_name: str) -> pd.DataFrame:
         return (out[f"sem_{a}"] - out[f"sem_{b}"]) / \
                (out[f"sem_{a}"] + out[f"sem_{b}"] + EPS)
 
-    out["sem_trait_bias"]  = sidx("masculine_traits", "feminine_traits")
-    out["sem_role_bias"]   = sidx("agentic_role",     "communal_role")
-    out["sem_domain_bias"] = sidx("career_domain",    "family_domain")
+    out["sem_trait_bias"]  = sidx("feminine_traits", "masculine_traits")
+    out["sem_role_bias"]   = sidx("communal_role",   "agentic_role")
+    out["sem_domain_bias"] = sidx("family_domain",   "career_domain")
     
     return out
 
@@ -1398,6 +1398,269 @@ def fig_pmi_model_size(df: pd.DataFrame, fig_dir: Path) -> None:
     print("  Saved fig13_pmi_model_size")
 
 
+# Figure 14: PMI score heatmap: female (green) and male (orange) per model × dimension 
+
+def fig_pmi_model_dimension_heatmap(df: pd.DataFrame, fig_dir: Path) -> None:
+    """
+    Single combined table-style heatmap: models (rows) × [F, M] sub-columns
+    for each of 3 bias dimensions (Role, Domain, Trait).
+
+    F columns (green gradient): mean pmi_X_fem_raw per model.
+    M columns (orange gradient): mean pmi_X_masc_raw per model (original, negative values).
+    Color intensity = strength of signal; more-negative masc → darker orange.
+    No colorbar. Dimension names and F/M labels appear at the top.
+    """
+    from matplotlib.patches import Rectangle
+
+    _DIMS = [
+        ("pmi_role_fem_raw",   "pmi_role_masc_raw",   "Role"),
+        ("pmi_domain_fem_raw", "pmi_domain_masc_raw", "Domain"),
+        ("pmi_trait_fem_raw",  "pmi_trait_masc_raw",  "Trait"),
+    ]
+
+    for fem_col, masc_col, _ in _DIMS:
+        if fem_col not in df.columns or masc_col not in df.columns:
+            print(f"  fig14 skipped — missing {fem_col!r}")
+            return
+
+    models       = sorted(df["model_key"].unique())
+    model_labels = [m.replace("ollama-", "") for m in models]
+    n_models     = len(models)
+    n_dims       = len(_DIMS)
+
+    # Aggregate mean per model
+    fem_mat  = np.zeros((n_models, n_dims))
+    masc_mat = np.zeros((n_models, n_dims))
+    for j, (fem_col, masc_col, _) in enumerate(_DIMS):
+        for i, mdl in enumerate(models):
+            sub = df[df["model_key"] == mdl]
+            fem_mat[i, j]  = sub[fem_col].mean()
+            masc_mat[i, j] = sub[masc_col].mean()   # keep original negative values
+
+    # Normalise for color intensity (0 = lightest, 1 = darkest within each type)
+    f_min, f_max = fem_mat.min(),  fem_mat.max()
+    m_min, m_max = masc_mat.min(), masc_mat.max()
+
+    def _nf(v):   # fem: higher positive → darker green
+        return (v - f_min) / (f_max - f_min + EPS)
+
+    def _nm(v):   # masc: more negative → darker orange
+        return 1.0 - (v - m_min) / (m_max - m_min + EPS)
+
+    green_cmap  = plt.cm.Greens
+    orange_cmap = plt.cm.Oranges
+    INTENSITY_LO, INTENSITY_HI = 0.20, 0.82   # avoid too-light / too-dark extremes
+
+    # Layout constants (data-units = inches because xlim/ylim match figsize) 
+    cw      = 1.55   # cell width
+    ch      = 0.46   # cell height
+    lm      = 3.00   # left margin for model labels
+    gap     = 0.18   # horizontal gap between dimension groups
+    pad_b   = 0.18   # bottom padding
+    fm_h    = 0.36   # F/M header bar height
+    dim_h   = 0.44   # dimension title row height
+    pad_t   = 0.12   # top padding
+
+    content_h = n_models * ch
+    fig_h = pad_b + content_h + fm_h + dim_h + pad_t
+    fig_w = lm + n_dims * (2 * cw + gap) - gap + 0.22
+
+    fig, ax = plt.subplots(figsize=(fig_w, fig_h))
+    ax.set_xlim(0, fig_w)
+    ax.set_ylim(0, fig_h)
+    ax.set_aspect("auto")
+    ax.axis("off")
+
+    def _col_x(dim_idx: int, is_masc: bool) -> float:
+        return lm + dim_idx * (2 * cw + gap) + (cw if is_masc else 0)
+
+    
+    for i, mlabel in enumerate(model_labels):
+        y = pad_b + (n_models - 1 - i) * ch   # top model first
+
+        ax.text(lm - 0.10, y + ch / 2, mlabel,
+                ha="right", va="center", fontsize=18, fontweight="bold", color="black")
+
+        for j in range(n_dims):
+            xf = _col_x(j, False)
+            xm = _col_x(j, True)
+
+            # Feminine cell
+            fi   = INTENSITY_LO + (INTENSITY_HI - INTENSITY_LO) * _nf(fem_mat[i, j])
+            fc   = green_cmap(fi)
+            ax.add_patch(Rectangle((xf, y), cw, ch,
+                                   facecolor=fc, edgecolor="white", linewidth=0.5))
+            txt_c = "white" if fi > 0.58 else "black"
+            ax.text(xf + cw / 2, y + ch / 2 - 0.03, f"{fem_mat[i, j]:.2f}".replace("-", "- "),
+                    ha="center", va="center", fontsize=18, fontweight="bold", color=txt_c)
+
+            # Masculine cell 
+            mi   = INTENSITY_LO + (INTENSITY_HI - INTENSITY_LO) * _nm(masc_mat[i, j])
+            mc   = orange_cmap(mi)
+            ax.add_patch(Rectangle((xm, y), cw, ch,
+                                   facecolor=mc, edgecolor="white", linewidth=0.5))
+            txt_c = "white" if mi > 0.58 else "black"
+            ax.text(xm + cw / 2, y + ch / 2 - 0.03, f"{masc_mat[i, j]:.2f}".replace("-", "- "),
+                    ha="center", va="center", fontsize=18, fontweight="bold", color=txt_c)
+
+    # F / M labels 
+    y_fm = pad_b + content_h + 0.04
+    for j in range(n_dims):
+        xf = _col_x(j, False)
+        xm = _col_x(j, True)
+        ax.text(xf + cw / 2, y_fm + fm_h / 2, "F",
+                ha="center", va="center", fontsize=18, fontweight="bold", color="black")
+        ax.text(xm + cw / 2, y_fm + fm_h / 2, "M",
+                ha="center", va="center", fontsize=18, fontweight="bold", color="black")
+
+    # Dimension title row 
+    y_dim = y_fm + fm_h + 0.04
+    for j, (_, _, dlabel) in enumerate(_DIMS):
+        xf     = _col_x(j, False)
+        xm     = _col_x(j, True)
+        x_mid  = (xf + xm + cw) / 2
+        x_end  = xm + cw
+        ax.text(x_mid, y_dim + dim_h / 2, dlabel,
+                ha="center", va="center", fontsize=18, fontweight="bold", color="black")
+        ax.plot([xf, x_end], [y_dim, y_dim], color="black", linewidth=0.9)
+
+    fig.suptitle(
+        "PMI Scores by Model and Bias Dimension  "
+        "(F = feminine lexicon · M = masculine lexicon · darker = stronger signal)",
+        fontsize=9.5, fontweight="bold",
+    )
+    fig.subplots_adjust(top=0.94, bottom=0.02, left=0.02, right=0.98)
+    _save(fig, "fig14_pmi_model_dimension_heatmap", fig_dir)
+    print("  Saved fig14_pmi_model_dimension_heatmap")
+
+# Figure 15: Semantic score heatmap: feminine (green) and masculine (orange) per model × dimension 
+
+def fig_sem_model_dimension_heatmap(df: pd.DataFrame, fig_dir: Path) -> None:
+    """
+    Using semantic cosine-similarity scores.
+
+    F columns (green):  mean sem_X_feminine per model  (sem_feminine_traits,
+                        sem_communal_role, sem_family_domain).
+    M columns (orange): mean sem_X_masculine per model (sem_masculine_traits,
+                        sem_agentic_role,  sem_career_domain).
+    Positive sem_trait/role/domain_bias -> daughter-stereotyped
+    """
+    from matplotlib.patches import Rectangle
+
+    _DIMS = [
+        ("sem_feminine_traits", "sem_masculine_traits", "Trait"),
+        ("sem_communal_role",   "sem_agentic_role",     "Role"),
+        ("sem_family_domain",   "sem_career_domain",    "Domain"),
+    ]
+
+    for fem_col, masc_col, _ in _DIMS:
+        if fem_col not in df.columns or masc_col not in df.columns:
+            print(f"  fig15 skipped — missing {fem_col!r}")
+            return
+
+    models       = sorted(df["model_key"].unique())
+    model_labels = [m.replace("ollama-", "") for m in models]
+    n_models     = len(models)
+    n_dims       = len(_DIMS)
+
+    fem_mat  = np.zeros((n_models, n_dims))
+    masc_mat = np.zeros((n_models, n_dims))
+    for j, (fem_col, masc_col, _) in enumerate(_DIMS):
+        for i, mdl in enumerate(models):
+            sub = df[df["model_key"] == mdl]
+            fem_mat[i, j]  = sub[fem_col].mean()
+            masc_mat[i, j] = sub[masc_col].mean()
+
+    f_min, f_max = fem_mat.min(),  fem_mat.max()
+    m_min, m_max = masc_mat.min(), masc_mat.max()
+
+    def _nf(v):
+        return (v - f_min) / (f_max - f_min + EPS)
+
+    def _nm(v):
+        return (v - m_min) / (m_max - m_min + EPS)
+
+    green_cmap  = plt.cm.Greens
+    orange_cmap = plt.cm.Oranges
+    INTENSITY_LO, INTENSITY_HI = 0.20, 0.82
+
+    cw      = 1.55
+    ch      = 0.46
+    lm      = 3.00
+    gap     = 0.18
+    pad_b   = 0.18
+    fm_h    = 0.36
+    dim_h   = 0.44
+    pad_t   = 0.12
+
+    content_h = n_models * ch
+    fig_h = pad_b + content_h + fm_h + dim_h + pad_t
+    fig_w = lm + n_dims * (2 * cw + gap) - gap + 0.22
+
+    fig, ax = plt.subplots(figsize=(fig_w, fig_h))
+    ax.set_xlim(0, fig_w)
+    ax.set_ylim(0, fig_h)
+    ax.set_aspect("auto")
+    ax.axis("off")
+
+    def _col_x(dim_idx: int, is_masc: bool) -> float:
+        return lm + dim_idx * (2 * cw + gap) + (cw if is_masc else 0)
+
+    for i, mlabel in enumerate(model_labels):
+        y = pad_b + (n_models - 1 - i) * ch
+
+        ax.text(lm - 0.10, y + ch / 2, mlabel,
+                ha="right", va="center", fontsize=18, fontweight="bold", color="black")
+
+        for j in range(n_dims):
+            xf = _col_x(j, False)
+            xm = _col_x(j, True)
+
+            fi = INTENSITY_LO + (INTENSITY_HI - INTENSITY_LO) * _nf(fem_mat[i, j])
+            fc = green_cmap(fi)
+            ax.add_patch(Rectangle((xf, y), cw, ch,
+                                   facecolor=fc, edgecolor="white", linewidth=0.5))
+            ax.text(xf + cw / 2, y + ch / 2 - 0.03,
+                    f"{fem_mat[i, j]:.3f}".replace("-", "- "),
+                    ha="center", va="center", fontsize=18, fontweight="bold",
+                    color="white" if fi > 0.58 else "black")
+
+            mi = INTENSITY_LO + (INTENSITY_HI - INTENSITY_LO) * _nm(masc_mat[i, j])
+            mc = orange_cmap(mi)
+            ax.add_patch(Rectangle((xm, y), cw, ch,
+                                   facecolor=mc, edgecolor="white", linewidth=0.5))
+            ax.text(xm + cw / 2, y + ch / 2 - 0.03,
+                    f"{masc_mat[i, j]:.3f}".replace("-", "- "),
+                    ha="center", va="center", fontsize=18, fontweight="bold",
+                    color="white" if mi > 0.58 else "black")
+
+    y_fm = pad_b + content_h + 0.04
+    for j in range(n_dims):
+        xf = _col_x(j, False)
+        xm = _col_x(j, True)
+        ax.text(xf + cw / 2, y_fm + fm_h / 2, "F",
+                ha="center", va="center", fontsize=18, fontweight="bold", color="black")
+        ax.text(xm + cw / 2, y_fm + fm_h / 2, "M",
+                ha="center", va="center", fontsize=18, fontweight="bold", color="black")
+
+    y_dim = y_fm + fm_h + 0.04
+    for j, (_, _, dlabel) in enumerate(_DIMS):
+        xf    = _col_x(j, False)
+        xm    = _col_x(j, True)
+        x_mid = (xf + xm + cw) / 2
+        ax.text(x_mid, y_dim + dim_h / 2, dlabel,
+                ha="center", va="center", fontsize=18, fontweight="bold", color="black")
+        ax.plot([xf, xm + cw], [y_dim, y_dim], color="black", linewidth=0.9)
+
+    fig.suptitle(
+        "Semantic Similarity Scores by Model and Bias Dimension  "
+        "(F = feminine prototype · M = masculine prototype · darker = stronger signal)",
+        fontsize=9.5, fontweight="bold",
+    )
+    fig.subplots_adjust(top=0.94, bottom=0.02, left=0.02, right=0.98)
+    _save(fig, "fig15_sem_model_dimension_heatmap", fig_dir)
+    print("  Saved fig15_sem_model_dimension_heatmap")
+
 # Main
 
 def main() -> None:
@@ -1548,6 +1811,12 @@ def main() -> None:
         fig_pmi_distributions_by_model(pmi_scored, fig_dir)
         # Fig 13: bias gap vs model size 
         fig_pmi_model_size(pmi_scored, fig_dir)
+        # Fig 14: female (green) / male (orange) PMI heatmap: models × dimensions
+        fig_pmi_model_dimension_heatmap(pmi_scored, fig_dir)
+
+    if sem_scored is not None:
+        # Fig 15: feminine (green) / masculine (orange) semantic heatmap: models × dimensions
+        fig_sem_model_dimension_heatmap(sem_scored, fig_dir)
 
     # 7. Summary
     print("GENDER BIAS ANALYSIS: COMPLETE")
