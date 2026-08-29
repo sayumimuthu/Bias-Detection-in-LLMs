@@ -1,3 +1,246 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:d1d80aabb296f84872169950190cdecb6563da155378944713de32d30526749f
-size 11432
+country,region,model_family,mean_pmi_gap
+United States,North America,llama,3.075300971514244
+United States,North America,mistral,2.5454564275978537
+United States,North America,qwen,3.8786915422569037
+United States,North America,gemma,2.499076206996999
+United States,North America,gpt-oss,1.4623683578266353
+United States,North America,gpt,3.362316504106259
+United States,North America,claude,6.137160610102618
+Canada,North America,llama,2.9295686976555255
+Canada,North America,mistral,0.8875973380689964
+Canada,North America,qwen,2.2386605766430434
+Canada,North America,gemma,2.6224643948642394
+Canada,North America,gpt-oss,1.763466945385184
+Canada,North America,gpt,2.932652382282809
+Canada,North America,claude,3.9225948082124766
+Mexico,Latin America,llama,2.81979374679293
+Mexico,Latin America,mistral,1.6829673765141504
+Mexico,Latin America,qwen,1.473286900215886
+Mexico,Latin America,gemma,0.7580818458638596
+Mexico,Latin America,gpt-oss,0.8665187910509307
+Mexico,Latin America,gpt,1.0642425920943457
+Mexico,Latin America,claude,4.796468836176897
+Brazil,Latin America,llama,2.0471937234060884
+Brazil,Latin America,mistral,0.9027967164478635
+Brazil,Latin America,qwen,0.8875269417968171
+Brazil,Latin America,gemma,1.6358906888628233
+Brazil,Latin America,gpt-oss,0.0404868115888156
+Brazil,Latin America,gpt,1.839260839618703
+Brazil,Latin America,claude,3.996564758325882
+Argentina,Latin America,llama,1.2234142212363492
+Argentina,Latin America,mistral,2.821605838256527
+Argentina,Latin America,qwen,2.208168769023007
+Argentina,Latin America,gemma,2.612405547954172
+Argentina,Latin America,gpt-oss,2.457485159238549
+Argentina,Latin America,gpt,2.815440210832122
+Argentina,Latin America,claude,3.3274087461691404
+Colombia,Latin America,llama,1.9091777246916275
+Colombia,Latin America,mistral,1.4152851171371958
+Colombia,Latin America,qwen,2.1940879506717392
+Colombia,Latin America,gemma,1.0549253136799013
+Colombia,Latin America,gpt-oss,0.9095384920348083
+Colombia,Latin America,gpt,1.1491167400741487
+Colombia,Latin America,claude,2.5669130829656996
+United Arab Emirates,MENA,llama,2.348720723997772
+United Arab Emirates,MENA,mistral,2.4851970251554603
+United Arab Emirates,MENA,qwen,2.459518814896205
+United Arab Emirates,MENA,gemma,1.9901082487267008
+United Arab Emirates,MENA,gpt-oss,1.0772247014860212
+United Arab Emirates,MENA,gpt,4.827839814759127
+United Arab Emirates,MENA,claude,5.790113598027105
+Saudi Arabia,MENA,llama,2.718259371947102
+Saudi Arabia,MENA,mistral,1.3172165750647002
+Saudi Arabia,MENA,qwen,2.2415504815015694
+Saudi Arabia,MENA,gemma,2.7531599732051037
+Saudi Arabia,MENA,gpt-oss,2.217547025787663
+Saudi Arabia,MENA,gpt,4.053854810608904
+Saudi Arabia,MENA,claude,4.370828088771487
+Iran,MENA,llama,1.859179588104077
+Iran,MENA,mistral,1.866411078897908
+Iran,MENA,qwen,1.7199206915719578
+Iran,MENA,gemma,1.7395779980951038
+Iran,MENA,gpt-oss,2.369855631663776
+Iran,MENA,gpt,2.0036135330711415
+Iran,MENA,claude,3.53623286893929
+Egypt,MENA,llama,2.348501746970783
+Egypt,MENA,mistral,1.0198047082908832
+Egypt,MENA,qwen,1.1790030726816787
+Egypt,MENA,gemma,1.7911336460198612
+Egypt,MENA,gpt-oss,2.7428897975006077
+Egypt,MENA,gpt,1.2581712920293542
+Egypt,MENA,claude,2.5274388685975997
+Turkey,MENA,llama,1.314778088454929
+Turkey,MENA,mistral,2.698156534885833
+Turkey,MENA,qwen,1.414698588038527
+Turkey,MENA,gemma,1.0273667359012404
+Turkey,MENA,gpt-oss,2.367176766071371
+Turkey,MENA,gpt,1.8748151352946643
+Turkey,MENA,claude,5.0373699294870065
+Morocco,MENA,llama,2.7170257363574035
+Morocco,MENA,mistral,1.3329425345835226
+Morocco,MENA,qwen,2.6361292898555995
+Morocco,MENA,gemma,1.459740631799539
+Morocco,MENA,gpt-oss,0.2939965793161796
+Morocco,MENA,gpt,2.2539476829670186
+Morocco,MENA,claude,5.056044926098658
+Nigeria,Sub-Saharan Africa,llama,2.3823591242947972
+Nigeria,Sub-Saharan Africa,mistral,0.25397040442892754
+Nigeria,Sub-Saharan Africa,qwen,1.3881276353893728
+Nigeria,Sub-Saharan Africa,gemma,1.7036265683110285
+Nigeria,Sub-Saharan Africa,gpt-oss,1.3270427016664874
+Nigeria,Sub-Saharan Africa,gpt,1.6460835861361216
+Nigeria,Sub-Saharan Africa,claude,2.5125817205520717
+Kenya,Sub-Saharan Africa,llama,2.5858960220383076
+Kenya,Sub-Saharan Africa,mistral,-0.3983575216870827
+Kenya,Sub-Saharan Africa,qwen,1.8758009860090556
+Kenya,Sub-Saharan Africa,gemma,1.8663713678124347
+Kenya,Sub-Saharan Africa,gpt-oss,0.5089549553660723
+Kenya,Sub-Saharan Africa,gpt,1.8422618913770616
+Kenya,Sub-Saharan Africa,claude,2.091843823714693
+Ethiopia,Sub-Saharan Africa,llama,1.400233828439984
+Ethiopia,Sub-Saharan Africa,mistral,2.469132669023193
+Ethiopia,Sub-Saharan Africa,qwen,0.050830911747218765
+Ethiopia,Sub-Saharan Africa,gemma,1.2820507304001483
+Ethiopia,Sub-Saharan Africa,gpt-oss,2.2330786635531124
+Ethiopia,Sub-Saharan Africa,gpt,1.6864171563986192
+Ethiopia,Sub-Saharan Africa,claude,1.6335392100715727
+South Africa,Sub-Saharan Africa,llama,1.805095285820874
+South Africa,Sub-Saharan Africa,mistral,2.2321653818446214
+South Africa,Sub-Saharan Africa,qwen,1.0567046388664785
+South Africa,Sub-Saharan Africa,gemma,1.8760077104576824
+South Africa,Sub-Saharan Africa,gpt-oss,-0.0014005108082158675
+South Africa,Sub-Saharan Africa,gpt,1.0322167899905343
+South Africa,Sub-Saharan Africa,claude,2.5156979740859264
+Ghana,Sub-Saharan Africa,llama,2.442498350619026
+Ghana,Sub-Saharan Africa,mistral,1.2565491493119247
+Ghana,Sub-Saharan Africa,qwen,1.8363208474766572
+Ghana,Sub-Saharan Africa,gemma,1.601924648368299
+Ghana,Sub-Saharan Africa,gpt-oss,2.39834368288659
+Ghana,Sub-Saharan Africa,gpt,1.7907153756395282
+Ghana,Sub-Saharan Africa,claude,1.5616756681533603
+India,South Asia,llama,1.6978025230747364
+India,South Asia,mistral,3.074123715065024
+India,South Asia,qwen,1.5924638444498693
+India,South Asia,gemma,1.6374830259858857
+India,South Asia,gpt-oss,0.6670391607820031
+India,South Asia,gpt,2.886472615312817
+India,South Asia,claude,4.371831483395519
+Sri Lanka,South Asia,llama,1.7591033632559345
+Sri Lanka,South Asia,mistral,1.9816655511991008
+Sri Lanka,South Asia,qwen,2.0900611896617165
+Sri Lanka,South Asia,gemma,0.23851499617348915
+Sri Lanka,South Asia,gpt-oss,1.3115788046651156
+Sri Lanka,South Asia,gpt,1.7791890302340299
+Sri Lanka,South Asia,claude,4.574613832056508
+Pakistan,South Asia,llama,1.9948478265358036
+Pakistan,South Asia,mistral,2.2806348640809464
+Pakistan,South Asia,qwen,1.7781663874873568
+Pakistan,South Asia,gemma,1.890516070734266
+Pakistan,South Asia,gpt-oss,2.779027147956871
+Pakistan,South Asia,gpt,2.9664329862822125
+Pakistan,South Asia,claude,3.49283552570885
+Japan,East/SE Asia,llama,2.845242919707193
+Japan,East/SE Asia,mistral,0.8651569254276407
+Japan,East/SE Asia,qwen,3.3814647438059926
+Japan,East/SE Asia,gemma,1.9831709952137244
+Japan,East/SE Asia,gpt-oss,2.4738182490929503
+Japan,East/SE Asia,gpt,1.4821168129690827
+Japan,East/SE Asia,claude,5.650868840082843
+China,East/SE Asia,llama,1.6675907927708515
+China,East/SE Asia,mistral,1.2246730477876153
+China,East/SE Asia,qwen,1.0610169284665039
+China,East/SE Asia,gemma,1.5125469355770813
+China,East/SE Asia,gpt-oss,2.4380792426848394
+China,East/SE Asia,gpt,2.1391369593161
+China,East/SE Asia,claude,4.350114756284484
+South Korea,East/SE Asia,llama,1.8895949921020885
+South Korea,East/SE Asia,mistral,1.1645746729774886
+South Korea,East/SE Asia,qwen,1.7561723559255302
+South Korea,East/SE Asia,gemma,0.8291296280359503
+South Korea,East/SE Asia,gpt-oss,1.5534741865843396
+South Korea,East/SE Asia,gpt,1.5508517069335201
+South Korea,East/SE Asia,claude,2.98667426357321
+Indonesia,East/SE Asia,llama,2.8779648257742
+Indonesia,East/SE Asia,mistral,1.7414504088115565
+Indonesia,East/SE Asia,qwen,2.003235037959382
+Indonesia,East/SE Asia,gemma,1.8846559269512342
+Indonesia,East/SE Asia,gpt-oss,3.642214054514017
+Indonesia,East/SE Asia,gpt,0.4402541570476142
+Indonesia,East/SE Asia,claude,3.8850719314449234
+Thailand,East/SE Asia,llama,0.9939391653800542
+Thailand,East/SE Asia,mistral,0.5642807620731537
+Thailand,East/SE Asia,qwen,1.229768830127336
+Thailand,East/SE Asia,gemma,1.8333853191491174
+Thailand,East/SE Asia,gpt-oss,1.5563305927648836
+Thailand,East/SE Asia,gpt,1.2407038794625056
+Thailand,East/SE Asia,claude,2.748945537747977
+Vietnam,East/SE Asia,llama,1.4585636145558247
+Vietnam,East/SE Asia,mistral,1.7740457854249565
+Vietnam,East/SE Asia,qwen,1.500787181764257
+Vietnam,East/SE Asia,gemma,2.659721228190049
+Vietnam,East/SE Asia,gpt-oss,1.8511153561679266
+Vietnam,East/SE Asia,gpt,1.8842793448721722
+Vietnam,East/SE Asia,claude,2.2116535004392794
+Philippines,East/SE Asia,llama,1.967743234232577
+Philippines,East/SE Asia,mistral,2.1022229782552384
+Philippines,East/SE Asia,qwen,2.2426073045496353
+Philippines,East/SE Asia,gemma,1.4514624441807167
+Philippines,East/SE Asia,gpt-oss,1.3778519145651043
+Philippines,East/SE Asia,gpt,0.9833767964216028
+Philippines,East/SE Asia,claude,4.2120492269684044
+Russia,Europe/Oceania,llama,2.9154561569605892
+Russia,Europe/Oceania,mistral,2.349261780647933
+Russia,Europe/Oceania,qwen,2.6816150540294337
+Russia,Europe/Oceania,gemma,1.6761390540663708
+Russia,Europe/Oceania,gpt-oss,1.3148236741396073
+Russia,Europe/Oceania,gpt,1.1242252622457294
+Russia,Europe/Oceania,claude,1.1269547485990987
+Germany,Europe/Oceania,llama,1.3549427282233324
+Germany,Europe/Oceania,mistral,2.559258787329614
+Germany,Europe/Oceania,qwen,1.8061533394822276
+Germany,Europe/Oceania,gemma,1.818235511327371
+Germany,Europe/Oceania,gpt-oss,5.002367294844851
+Germany,Europe/Oceania,gpt,1.959592448167198
+Germany,Europe/Oceania,claude,4.070119252759765
+Greece,Europe/Oceania,llama,2.287079464293033
+Greece,Europe/Oceania,mistral,2.704954719519366
+Greece,Europe/Oceania,qwen,1.2664379721842276
+Greece,Europe/Oceania,gemma,2.386500893747877
+Greece,Europe/Oceania,gpt-oss,1.3234709387075176
+Greece,Europe/Oceania,gpt,1.5409808085336134
+Greece,Europe/Oceania,claude,3.2750158265940628
+Italy,Europe/Oceania,llama,1.2233256861443467
+Italy,Europe/Oceania,mistral,1.244706335016996
+Italy,Europe/Oceania,qwen,1.6646239310498696
+Italy,Europe/Oceania,gemma,1.387693592575029
+Italy,Europe/Oceania,gpt-oss,1.5402678059293884
+Italy,Europe/Oceania,gpt,1.2136718976983891
+Italy,Europe/Oceania,claude,4.09766261704293
+France,Europe/Oceania,llama,1.6197007281013363
+France,Europe/Oceania,mistral,1.1427829359648045
+France,Europe/Oceania,qwen,1.788979207408888
+France,Europe/Oceania,gemma,1.561438120014709
+France,Europe/Oceania,gpt-oss,2.0322264405092674
+France,Europe/Oceania,gpt,0.9161842550486337
+France,Europe/Oceania,claude,2.42328198676341
+Spain,Europe/Oceania,llama,2.326791218228643
+Spain,Europe/Oceania,mistral,1.431186739377473
+Spain,Europe/Oceania,qwen,1.458408187018528
+Spain,Europe/Oceania,gemma,0.9034167395797329
+Spain,Europe/Oceania,gpt-oss,2.247785375038155
+Spain,Europe/Oceania,gpt,2.0409537319542306
+Spain,Europe/Oceania,claude,2.992392264423328
+Poland,Europe/Oceania,llama,1.104223993066668
+Poland,Europe/Oceania,mistral,3.673522620190749
+Poland,Europe/Oceania,qwen,0.9860729888571202
+Poland,Europe/Oceania,gemma,2.2154301115593302
+Poland,Europe/Oceania,gpt-oss,3.0677913195092157
+Poland,Europe/Oceania,gpt,1.7928969202521277
+Poland,Europe/Oceania,claude,2.841220093428164
+Australia,Europe/Oceania,llama,1.7999336495927374
+Australia,Europe/Oceania,mistral,0.4564468718457366
+Australia,Europe/Oceania,qwen,2.557483416582206
+Australia,Europe/Oceania,gemma,1.2117342928219388
+Australia,Europe/Oceania,gpt-oss,0.8152750039128578
+Australia,Europe/Oceania,gpt,2.068132474586188
+Australia,Europe/Oceania,claude,2.9169303742202715

@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:98c762b0e4a34231d479adba6c71ef3d3ce2cf131ad4780251127f276b542e2b
-size 4899
+metric,region,term,coef,ci_low,ci_high,p_value,r_squared,interaction,p_fdr,sig_fdr
+pmi_role_score,North America (baseline),is_daughter,4.582440266008161,3.8234095399750347,5.341470992041288,3.785858010504173e-32,0.1733157544784032,False,3.975150911029382e-31,True
+pmi_role_score,East/SE Asia,"is_daughter:C(country_region, Treatment('North America'))[T.East/SE Asia]",-1.0909342414931429,-1.9516633705390831,-0.23020511244720265,0.012989594733990579,0.1733157544784032,True,0.022731790784483515,True
+pmi_role_score,Europe/Oceania,"is_daughter:C(country_region, Treatment('North America'))[T.Europe/Oceania]",-1.284618944903229,-2.13320664958833,-0.4360312402181279,0.003009378385714185,0.1733157544784032,True,0.006319694609999789,True
+pmi_role_score,Latin America,"is_daughter:C(country_region, Treatment('North America'))[T.Latin America]",-0.776926114031057,-1.7064395998158548,0.15258737175374082,0.10136844556827071,0.1733157544784032,True,0.11225596628041101,False
+pmi_role_score,MENA,"is_daughter:C(country_region, Treatment('North America'))[T.MENA]",-0.5494566136705106,-1.4259511406646839,0.3270379133236627,0.21917846555662635,0.1733157544784032,True,0.21917846555662635,False
+pmi_role_score,South Asia,"is_daughter:C(country_region, Treatment('North America'))[T.South Asia]",-0.9462234545564557,-1.9252643162017993,0.03281740708888781,0.05818850284397262,0.1733157544784032,True,0.07637240998271407,False
+pmi_role_score,Sub-Saharan Africa,"is_daughter:C(country_region, Treatment('North America'))[T.Sub-Saharan Africa]",-1.2187706439037536,-2.117409331133479,-0.32013195667402783,0.007860073140692805,0.1733157544784032,True,0.015005594177686264,True
+pmi_domain_score,North America (baseline),is_daughter,4.001447958522041,3.3547586551632373,4.648137261880844,1.123425148261825e-33,0.08111744321682712,False,2.3591928113498324e-32,True
+pmi_domain_score,East/SE Asia,"is_daughter:C(country_region, Treatment('North America'))[T.East/SE Asia]",-1.7053409461121305,-2.4386766356334215,-0.9720052565908397,5.204760997055154e-06,0.08111744321682712,True,1.5614282991165464e-05,True
+pmi_domain_score,Europe/Oceania,"is_daughter:C(country_region, Treatment('North America'))[T.Europe/Oceania]",-1.695124885217839,-2.418116159167537,-0.9721336112681414,4.35171012134218e-06,0.08111744321682712,True,1.5230985424697632e-05,True
+pmi_domain_score,Latin America,"is_daughter:C(country_region, Treatment('North America'))[T.Latin America]",-2.1027821251891927,-2.8947216448530515,-1.3108426055253342,1.9728190414992878e-07,0.08111744321682712,True,8.285839974297009e-07,True
+pmi_domain_score,MENA,"is_daughter:C(country_region, Treatment('North America'))[T.MENA]",-1.1450614320275705,-1.891829139340289,-0.398293724714852,0.0026555412597788356,0.08111744321682712,True,0.00619626293948395,True
+pmi_domain_score,South Asia,"is_daughter:C(country_region, Treatment('North America'))[T.South Asia]",-1.3820745247037276,-2.216211050488585,-0.5479379989188704,0.0011661215983797325,0.08111744321682712,True,0.003061069195746798,True
+pmi_domain_score,Sub-Saharan Africa,"is_daughter:C(country_region, Treatment('North America'))[T.Sub-Saharan Africa]",-2.4561218821158883,-3.2217562717183172,-1.6904874925134596,3.315479045963712e-10,0.08111744321682712,True,2.3208353321745984e-09,True
+pmi_trait_score,North America (baseline),is_daughter,0.29115388208739656,0.1968952465087882,0.38541251766600493,1.4451985915942478e-09,0.09766389284467702,False,7.587292605869802e-09,True
+pmi_trait_score,East/SE Asia,"is_daughter:C(country_region, Treatment('North America'))[T.East/SE Asia]",-0.10895914435420129,-0.21584698238764263,-0.0020713063207599414,0.0457232597414667,0.09766389284467702,True,0.06401256363805338,False
+pmi_trait_score,Europe/Oceania,"is_daughter:C(country_region, Treatment('North America'))[T.Europe/Oceania]",-0.12800752271711102,-0.23338760348199666,-0.02262744195222538,0.017278378514625912,0.09766389284467702,True,0.02591756777193887,True
+pmi_trait_score,Latin America,"is_daughter:C(country_region, Treatment('North America'))[T.Latin America]",-0.10791426384880975,-0.22334394267075433,0.007515414973134821,0.06689616255239328,0.09766389284467702,True,0.08263643609413288,False
+pmi_trait_score,MENA,"is_daughter:C(country_region, Treatment('North America'))[T.MENA]",-0.0909254236669822,-0.1997710545130025,0.01792020717903811,0.10156492187275282,0.09766389284467702,True,0.11225596628041101,False
+pmi_trait_score,South Asia,"is_daughter:C(country_region, Treatment('North America'))[T.South Asia]",-0.08320926033303919,-0.20478939224243914,0.03837087157636075,0.17977503755340588,0.09766389284467702,True,0.1887637894310762,False
+pmi_trait_score,Sub-Saharan Africa,"is_daughter:C(country_region, Treatment('North America'))[T.Sub-Saharan Africa]",-0.13893948842793993,-0.2505350452759626,-0.02734393157991724,0.014682745806132469,0.09766389284467702,True,0.023718281686829372,True

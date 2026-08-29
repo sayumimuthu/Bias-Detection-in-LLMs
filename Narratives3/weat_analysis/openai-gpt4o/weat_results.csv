@@ -1,3 +1,4 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:81d6ee2c88d3bf2885591eb4b4d8146476a6abaabf043ee140595a0abb689349
-size 338
+model_key,family,test_key,test_short,layer,layer_idx,d,p,sig,n_X,n_Y,n_A,n_B
+openai-gpt4o,gpt,A_career_family,Career/Family,api,9999,1.387558,0.0,***,25,19,18,16
+openai-gpt4o,gpt,B_agentic_communal,Agentic/Communal,api,9999,0.681799,0.0042,**,25,35,18,16
+openai-gpt4o,gpt,C_traits,Masc/Fem Traits,api,9999,1.2447703,0.0002,***,9,10,18,16

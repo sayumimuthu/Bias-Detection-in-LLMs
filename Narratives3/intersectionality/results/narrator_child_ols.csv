@@ -1,3 +1,2 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:16304a56d0c0e43575587e17df77aba983761c105444da17eec2f14257193267
-size 179
+interaction_coef,interaction_ci_low,interaction_ci_high,interaction_p,r_squared
+0.5152876361148943,0.44054261367140074,0.5900326585583878,3.002443157600717e-41,0.4637013586551454

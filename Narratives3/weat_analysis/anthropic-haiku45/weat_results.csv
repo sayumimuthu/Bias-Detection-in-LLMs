@@ -1,3 +1,4 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:a43d0b6780e716e775465bcaf8f7465b550f451ad4a442eed1c2254cf251281f
-size 364
+model_key,family,test_key,test_short,layer,layer_idx,d,p,sig,n_X,n_Y,n_A,n_B
+anthropic-haiku45,claude,A_career_family,Career/Family,api,9999,1.1863102,0.0,***,25,19,18,16
+anthropic-haiku45,claude,B_agentic_communal,Agentic/Communal,api,9999,-0.005190183,0.5106,,25,35,18,16
+anthropic-haiku45,claude,C_traits,Masc/Fem Traits,api,9999,0.71809757,0.0488,*,9,10,18,16

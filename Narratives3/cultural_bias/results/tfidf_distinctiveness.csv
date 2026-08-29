@@ -1,3 +1,36 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:4878c1893fad8d289dca9f02893dd00d706f1ca7752a6a92bd1f55508bc2ebf7
-size 1433
+country,region,cosine_sim,distinctiveness,n_stories
+China,East/SE Asia,0.7549,0.2451,382
+Ghana,Sub-Saharan Africa,0.8214,0.1786,379
+Vietnam,East/SE Asia,0.8427,0.1573,377
+Russia,Europe/Oceania,0.8459,0.1541,380
+Italy,Europe/Oceania,0.8571,0.1429,381
+South Korea,East/SE Asia,0.8683,0.1317,377
+Saudi Arabia,MENA,0.8704,0.1296,380
+United Arab Emirates,MENA,0.8714,0.1286,378
+Argentina,Latin America,0.872,0.128,382
+Japan,East/SE Asia,0.8721,0.1279,380
+Germany,Europe/Oceania,0.8737,0.1263,375
+Greece,Europe/Oceania,0.8902,0.1098,382
+Poland,Europe/Oceania,0.8905,0.1095,381
+Colombia,Latin America,0.8926,0.1074,381
+Egypt,MENA,0.8928,0.1072,378
+France,Europe/Oceania,0.8975,0.1025,381
+Spain,Europe/Oceania,0.9019,0.0981,379
+India,South Asia,0.9037,0.0963,383
+Turkey,MENA,0.9042,0.0958,382
+Mexico,Latin America,0.9076,0.0924,381
+Thailand,East/SE Asia,0.9109,0.0891,382
+Morocco,MENA,0.9116,0.0884,380
+Brazil,Latin America,0.9129,0.0871,377
+Sri Lanka,South Asia,0.9173,0.0827,382
+Australia,Europe/Oceania,0.9176,0.0824,382
+South Africa,Sub-Saharan Africa,0.9202,0.0798,380
+United States,North America,0.9204,0.0796,381
+Kenya,Sub-Saharan Africa,0.9218,0.0782,375
+Pakistan,South Asia,0.9233,0.0767,380
+Ethiopia,Sub-Saharan Africa,0.931,0.069,380
+Philippines,East/SE Asia,0.9326,0.0674,380
+Iran,MENA,0.9327,0.0673,381
+Indonesia,East/SE Asia,0.9379,0.0621,380
+Canada,North America,0.9391,0.0609,379
+Nigeria,Sub-Saharan Africa,0.9429,0.0571,378

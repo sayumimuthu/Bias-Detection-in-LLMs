@@ -1,3 +1,7 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:9750582691962182caf04ac1c3d96f5d6f9fc8793d368c4d482a0351e0dad1a0
-size 639
+model_key,family,test_key,test_short,layer,layer_idx,d,p,sig,n_X,n_Y,n_A,n_B
+ollama-qwen25-7b,qwen,A_career_family,Career/Family,embedding,0,-0.47418612,0.9352,,25,19,18,16
+ollama-qwen25-7b,qwen,B_agentic_communal,Agentic/Communal,embedding,0,-0.02193991,0.5436,,25,35,18,16
+ollama-qwen25-7b,qwen,C_traits,Masc/Fem Traits,embedding,0,0.584684,0.1112,,9,10,18,16
+ollama-qwen25-7b,qwen,A_career_family,Career/Family,final,28,0.3664844,0.1328,,25,19,18,16
+ollama-qwen25-7b,qwen,B_agentic_communal,Agentic/Communal,final,28,0.7739485,0.0018,**,25,35,18,16
+ollama-qwen25-7b,qwen,C_traits,Masc/Fem Traits,final,28,1.0392407,0.0032,**,9,10,18,16

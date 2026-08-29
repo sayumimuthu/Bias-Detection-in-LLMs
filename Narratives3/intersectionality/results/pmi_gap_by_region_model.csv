@@ -1,3 +1,50 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:3ab5eea14d6c66ca680b932dd26611aa5bacf88d5a3ac8eec142c56b1a1c52ca
-size 2002
+region,model_family,mean_pmi_gap,n_dimensions
+North America,llama,3.0024348345848844,3
+North America,mistral,1.7165268828334248,3
+North America,qwen,3.058676059449974,3
+North America,gemma,2.5607703009306193,3
+North America,gpt-oss,1.582297813639047,3
+North America,gpt,3.147484443194534,3
+North America,claude,5.029877709157547,3
+Latin America,llama,2.000439884997367,3
+Latin America,mistral,1.7056637620889343,3
+Latin America,qwen,1.6907676404268621,3
+Latin America,gemma,1.515325849090189,3
+Latin America,gpt-oss,1.1519591248129568,3
+Latin America,gpt,1.7170150956548305,3
+Latin America,claude,3.671838855909405,3
+Europe/Oceania,llama,1.8270596595795074,3
+Europe/Oceania,mistral,1.945265098736584,3
+Europe/Oceania,qwen,1.7762217620765626,3
+Europe/Oceania,gemma,1.6450735394615448,3
+Europe/Oceania,gpt-oss,2.0992103048472193,3
+Europe/Oceania,gpt,1.5820797248107634,3
+Europe/Oceania,claude,2.967947145478879,3
+MENA,llama,2.2150749987245493,3
+MENA,mistral,1.786621409479718,3
+MENA,qwen,1.9418034897575895,3
+MENA,gemma,1.7935145389579246,3
+MENA,gpt-oss,1.8344105174768017,3
+MENA,gpt,2.712040378121701,3
+MENA,claude,4.386338046653524,3
+Sub-Saharan Africa,llama,2.1167317009968536,3
+Sub-Saharan Africa,mistral,1.162692016584317,3
+Sub-Saharan Africa,qwen,1.2415570038977566,3
+Sub-Saharan Africa,gemma,1.6659962050699184,3
+Sub-Saharan Africa,gpt-oss,1.3182073670141077,3
+Sub-Saharan Africa,gpt,1.5995389599083734,3
+Sub-Saharan Africa,claude,2.0630676793155245,3
+South Asia,llama,1.8175632735835672,3
+South Asia,mistral,2.4454747101150236,3
+South Asia,qwen,1.8202304738663144,3
+South Asia,gemma,1.2555046976312136,3
+South Asia,gpt-oss,1.5182705476701919,3
+South Asia,gpt,2.54403154394302,3
+South Asia,claude,4.146426947053626,3
+East/SE Asia,llama,1.9621771028868829,3
+East/SE Asia,mistral,1.3480577972510932,3
+East/SE Asia,qwen,1.8821503403712336,3
+East/SE Asia,gemma,1.7362960681854105,3
+East/SE Asia,gpt-oss,2.078639346331411,3
+East/SE Asia,gpt,1.388674236717514,3
+East/SE Asia,claude,3.7207682937915894,3

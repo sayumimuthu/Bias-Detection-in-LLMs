@@ -1,3 +1,13 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:8d97d653d51910012fbc1bf910faf44466ac67c0f1907ce7c145fc8df22e2473
-size 1234
+model_key,family,test_key,test_short,layer,layer_idx,d,p,sig,n_X,n_Y,n_A,n_B
+anthropic-haiku45,claude,A_career_family,Career/Family,api,9999,1.1863102,0.0,***,25,19,18,16
+anthropic-haiku45,claude,B_agentic_communal,Agentic/Communal,api,9999,-0.005190183,0.5106,,25,35,18,16
+anthropic-haiku45,claude,C_traits,Masc/Fem Traits,api,9999,0.71809757,0.0488,*,9,10,18,16
+openai-gpt4o,gpt,A_career_family,Career/Family,api,9999,1.3875579833984375,0.0,***,25,19,18,16
+openai-gpt4o,gpt,B_agentic_communal,Agentic/Communal,api,9999,0.6817989945411682,0.0042,**,25,35,18,16
+openai-gpt4o,gpt,C_traits,Masc/Fem Traits,api,9999,1.2447702884674072,0.0002,***,9,10,18,16
+openai-gpt41,gpt,A_career_family,Career/Family,api,9999,1.3875477313995361,0.0,***,25,19,18,16
+openai-gpt41,gpt,B_agentic_communal,Agentic/Communal,api,9999,0.6818104386329651,0.0042,**,25,35,18,16
+openai-gpt41,gpt,C_traits,Masc/Fem Traits,api,9999,1.2457672357559204,0.0002,***,9,10,18,16
+openai-gpt55,gpt,A_career_family,Career/Family,api,9999,1.3875917196273804,0.0,***,25,19,18,16
+openai-gpt55,gpt,B_agentic_communal,Agentic/Communal,api,9999,0.6817477941513062,0.0042,**,25,35,18,16
+openai-gpt55,gpt,C_traits,Masc/Fem Traits,api,9999,1.2458076477050781,0.0002,***,9,10,18,16
