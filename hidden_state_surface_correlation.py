@@ -556,6 +556,148 @@ def plot_model_alignment_bar(combined: pd.DataFrame, out: Path) -> None:
     plt.tight_layout()
     _save(fig, out / "05_model_alignment_bar.png")
 
+# Figure: Hidden-state projection heatmap 
+
+def fig_hs_projection_heatmap(out: Path) -> None:
+    """
+
+    Rows  = models (one per available .npy file).
+    F col (green)  = mean final-layer gender-axis projection for daughter stories.
+    M col (orange) = mean final-layer gender-axis projection for son stories.
+
+    The gender axis is computed per model as:
+        axis = normalise(female_centroid − male_centroid)
+        projection[i] = story_hidden_state[i] · axis
+    By construction daughter projections are positive and son projections are
+    negative; darker cells = larger absolute alignment with that pole.
+    """
+    from matplotlib.patches import Rectangle
+
+    # Collect per-model mean projections 
+    records = []
+    for npy_path in sorted(HS_DIR.glob("hidden_states_*.npy")):
+        mk     = npy_path.stem.replace("hidden_states_", "")
+        result = load_model_hidden_states(mk)
+        if result is None:
+            continue
+        hs, meta = result
+
+        is_female = (meta["protagonist_gender"] == "female").values
+        if is_female.sum() < 2 or (~is_female).sum() < 2:
+            print(f"    [{mk}] skipped — too few stories per gender")
+            continue
+
+        proj = _gender_axis_projection(hs[:, -1, :], is_female)
+        records.append({
+            "model_key": mk,
+            "f_proj":    float(proj[is_female].mean()),
+            "m_proj":    float(proj[~is_female].mean()),
+        })
+
+    if not records:
+        print("  fig_hs_projection_heatmap skipped — no valid models found")
+        return
+
+    df           = pd.DataFrame(records).sort_values("model_key").reset_index(drop=True)
+    models       = df["model_key"].tolist()
+    model_labels = [m.replace("ollama-", "") for m in models]
+    n_models     = len(models)
+
+    fem_vals  = df["f_proj"].values   # positive by construction
+    masc_vals = df["m_proj"].values   # negative by construction
+
+    # Colour normalisation 
+    f_min, f_max = fem_vals.min(),  fem_vals.max()
+    m_min, m_max = masc_vals.min(), masc_vals.max()
+    EPS_loc = 1e-9
+
+    def _nf(v):   # higher positive → darker green
+        return (v - f_min) / (f_max - f_min + EPS_loc)
+
+    def _nm(v):   # more negative → darker orange
+        return 1.0 - (v - m_min) / (m_max - m_min + EPS_loc)
+
+    green_cmap  = plt.cm.Greens
+    orange_cmap = plt.cm.Oranges
+    ILO, IHI    = 0.20, 0.82
+
+    # Layout 
+    cw    = 1.55   # cell width
+    ch    = 0.46   # cell height
+    lm    = 3.00   # left margin for model labels
+    pad_b = 0.18
+    fm_h  = 0.36   # F/M label row height
+    dim_h = 0.44   # dimension title row height
+    pad_t = 0.12
+
+    content_h = n_models * ch
+    fig_h = pad_b + content_h + fm_h + dim_h + pad_t
+    fig_w = lm + 2 * cw + 0.22          # only one F/M pair — no gap needed
+
+    fig, ax = plt.subplots(figsize=(fig_w, fig_h))
+    ax.set_xlim(0, fig_w)
+    ax.set_ylim(0, fig_h)
+    ax.set_aspect("auto")
+    ax.axis("off")
+
+    xf = lm           # x-origin of F column
+    xm = lm + cw      # x-origin of M column
+
+    # Draw cells 
+    for i, mlabel in enumerate(model_labels):
+        y = pad_b + (n_models - 1 - i) * ch   # top model first
+
+        ax.text(lm - 0.10, y + ch / 2, mlabel,
+                ha="right", va="center", fontsize=16)
+
+        # Daughter (F) cell
+        fi  = ILO + (IHI - ILO) * _nf(fem_vals[i])
+        fc  = green_cmap(fi)
+        ax.add_patch(Rectangle((xf, y), cw, ch,
+                               facecolor=fc, edgecolor="white", linewidth=0.5))
+        ax.text(xf + cw / 2, y + ch / 2 - 0.03,
+                f"{fem_vals[i]:.3f}".replace("-", "- "),
+                ha="center", va="center", fontsize=16, fontweight="bold",
+                color="white" if fi > 0.58 else "black")
+
+        # Son (M) cell
+        mi  = ILO + (IHI - ILO) * _nm(masc_vals[i])
+        mc  = orange_cmap(mi)
+        ax.add_patch(Rectangle((xm, y), cw, ch,
+                               facecolor=mc, edgecolor="white", linewidth=0.5))
+        ax.text(xm + cw / 2, y + ch / 2 - 0.03,
+                f"{masc_vals[i]:.3f}".replace("-", "- "),
+                ha="center", va="center", fontsize=16, fontweight="bold",
+                color="white" if mi > 0.58 else "black")
+
+    # F / M labels 
+    y_fm = pad_b + content_h + 0.04
+    ax.text(xf + cw / 2, y_fm + fm_h / 2, "F",
+            ha="center", va="center", fontsize=16, fontweight="bold", color="black")
+    ax.text(xm + cw / 2, y_fm + fm_h / 2, "M",
+            ha="center", va="center", fontsize=16, fontweight="bold", color="black")
+
+    # Dimension header 
+    y_dim  = y_fm + fm_h + 0.04
+    x_mid  = (xf + xm + cw) / 2
+    ax.text(x_mid, y_dim + dim_h / 2, "Gender Projection",
+            ha="center", va="center", fontsize=16, fontweight="bold")
+    ax.plot([xf, xm + cw], [y_dim, y_dim], color="black", linewidth=0.9)
+
+    fig.suptitle(
+        "Hidden-State Gender-Axis Projection by Model\n"
+        "(F = daughter stories · M = son stories · final transformer layer"
+        " · darker = stronger alignment)",
+        fontsize=9.5, fontweight="bold",
+    )
+    fig.subplots_adjust(top=0.94, bottom=0.02, left=0.02, right=0.98)
+
+    stem = out / "fig_hs_projection_heatmap"
+    for ext in ("png", "pdf"):
+        fig.savefig(f"{stem}.{ext}", dpi=FIG_DPI, bbox_inches="tight")
+    plt.close(fig)
+    print("  Saved fig_hs_projection_heatmap.png/.pdf")
+
 
 # Save numeric summary 
 def save_metrics(df_heat: pd.DataFrame, out: Path) -> None:
@@ -597,6 +739,9 @@ def main() -> None:
 
     print("\n Plot 05: Per-model alignment bar chart")
     plot_model_alignment_bar(combined, OUT_DIR)
+
+    print("\n Plot 06: Hidden-state projection heatmap")
+    fig_hs_projection_heatmap(OUT_DIR)
 
     print("\n Saving numeric summary")
     save_metrics(df_heat, OUT_DIR)

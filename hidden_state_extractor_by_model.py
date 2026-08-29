@@ -19,7 +19,7 @@ warnings.filterwarnings("ignore")
 DATA_PATH  = Path("Narratives3/clean_stories_for_analysis.csv")
 OUT_DIR    = Path("Narratives3/hidden_states_by_model")
 
-BATCH_SIZE = 8     # 2 is safe for 7B models; use 1 if OOM persists on 12B+
+BATCH_SIZE = 2     # 2 is safe for 7B models; use 1 if OOM persists on 12B+
 MAX_LENGTH = 512   # stories are ~150 words / ~200 tokens 
 
 # model_key: HuggingFace model ID 
@@ -32,6 +32,7 @@ HF_MODEL_MAP: dict[str, str] = {
     # Gated models (need HF_TOKEN + accepted licence) 
     "ollama-llama32-1b":   "meta-llama/Llama-3.2-1B-Instruct",
     "ollama-llama32-3b":   "meta-llama/Llama-3.2-3B-Instruct",
+    "ollama-llama3-70b":   "meta-llama/Meta-Llama-3-70B-Instruct",
     "ollama-llama31-8b":   "meta-llama/Meta-Llama-3.1-8B-Instruct",
     "ollama-gemma2-2b":    "google/gemma-2-2b-it",
     "ollama-gemma3-12b":   "google/gemma-3-12b-it",
@@ -85,15 +86,33 @@ def extract_for_model(
         tokenizer.pad_token = tokenizer.eos_token
 
     print(f"  Loading model weights …")
-    # bfloat16 has float32-range exponents — avoids overflow that plagues float16 on large models
+    # For 70B+ models use 4-bit quantization to fit in a single A100 80GB.
+    # For smaller models bfloat16 is used directly.
     dtype = torch.bfloat16 if device.type == "cuda" else torch.float32
-    model = AutoModel.from_pretrained(
-        hf_id,
-        token=hf_token,
-        dtype=dtype,
-        device_map="auto",
-        trust_remote_code=True,
-    )
+    is_large = any(tag in hf_id.lower() for tag in ["70b", "65b", "72b", "34b"])
+    if is_large and device.type == "cuda":
+        from transformers import BitsAndBytesConfig
+        bnb_config = BitsAndBytesConfig(
+            load_in_4bit=True,
+            bnb_4bit_compute_dtype=torch.bfloat16,
+            bnb_4bit_use_double_quant=True,
+            bnb_4bit_quant_type="nf4",
+        )
+        model = AutoModel.from_pretrained(
+            hf_id,
+            token=hf_token,
+            quantization_config=bnb_config,
+            device_map="auto",
+            trust_remote_code=True,
+        )
+    else:
+        model = AutoModel.from_pretrained(
+            hf_id,
+            token=hf_token,
+            dtype=dtype,
+            device_map="auto",
+            trust_remote_code=True,
+        )
     model.eval()
 
     # VLMs (e.g. Gemma3) nest text config under text_config

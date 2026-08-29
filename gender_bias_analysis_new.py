@@ -1451,9 +1451,9 @@ def fig_pmi_model_dimension_heatmap(df: pd.DataFrame, fig_dir: Path) -> None:
     orange_cmap = plt.cm.Oranges
     INTENSITY_LO, INTENSITY_HI = 0.20, 0.82   # avoid too-light / too-dark extremes
 
-    # Layout constants (data-units = inches because xlim/ylim match figsize) 
+    # Layout constants (data-units = inches because xlim/ylim match figsize)
     cw      = 1.55   # cell width
-    ch      = 0.46   # cell height
+    ch      = 0.70   # cell height
     lm      = 3.00   # left margin for model labels
     gap     = 0.18   # horizontal gap between dimension groups
     pad_b   = 0.18   # bottom padding
@@ -1479,7 +1479,7 @@ def fig_pmi_model_dimension_heatmap(df: pd.DataFrame, fig_dir: Path) -> None:
         y = pad_b + (n_models - 1 - i) * ch   # top model first
 
         ax.text(lm - 0.10, y + ch / 2, mlabel,
-                ha="right", va="center", fontsize=18, fontweight="bold", color="black")
+                ha="right", va="center", fontsize=20, fontweight="bold", color="black")
 
         for j in range(n_dims):
             xf = _col_x(j, False)
@@ -1492,28 +1492,28 @@ def fig_pmi_model_dimension_heatmap(df: pd.DataFrame, fig_dir: Path) -> None:
                                    facecolor=fc, edgecolor="white", linewidth=0.5))
             txt_c = "white" if fi > 0.58 else "black"
             ax.text(xf + cw / 2, y + ch / 2 - 0.03, f"{fem_mat[i, j]:.2f}".replace("-", "- "),
-                    ha="center", va="center", fontsize=18, fontweight="bold", color=txt_c)
+                    ha="center", va="center", fontsize=20, fontweight="bold", color=txt_c)
 
-            # Masculine cell 
+            # Masculine cell
             mi   = INTENSITY_LO + (INTENSITY_HI - INTENSITY_LO) * _nm(masc_mat[i, j])
             mc   = orange_cmap(mi)
             ax.add_patch(Rectangle((xm, y), cw, ch,
                                    facecolor=mc, edgecolor="white", linewidth=0.5))
             txt_c = "white" if mi > 0.58 else "black"
             ax.text(xm + cw / 2, y + ch / 2 - 0.03, f"{masc_mat[i, j]:.2f}".replace("-", "- "),
-                    ha="center", va="center", fontsize=18, fontweight="bold", color=txt_c)
+                    ha="center", va="center", fontsize=20, fontweight="bold", color=txt_c)
 
-    # F / M labels 
+    # F / M labels
     y_fm = pad_b + content_h + 0.04
     for j in range(n_dims):
         xf = _col_x(j, False)
         xm = _col_x(j, True)
         ax.text(xf + cw / 2, y_fm + fm_h / 2, "F",
-                ha="center", va="center", fontsize=18, fontweight="bold", color="black")
+                ha="center", va="center", fontsize=20, fontweight="bold", color="black")
         ax.text(xm + cw / 2, y_fm + fm_h / 2, "M",
-                ha="center", va="center", fontsize=18, fontweight="bold", color="black")
+                ha="center", va="center", fontsize=20, fontweight="bold", color="black")
 
-    # Dimension title row 
+    # Dimension title row
     y_dim = y_fm + fm_h + 0.04
     for j, (_, _, dlabel) in enumerate(_DIMS):
         xf     = _col_x(j, False)
@@ -1521,29 +1521,31 @@ def fig_pmi_model_dimension_heatmap(df: pd.DataFrame, fig_dir: Path) -> None:
         x_mid  = (xf + xm + cw) / 2
         x_end  = xm + cw
         ax.text(x_mid, y_dim + dim_h / 2, dlabel,
-                ha="center", va="center", fontsize=18, fontweight="bold", color="black")
+                ha="center", va="center", fontsize=20, fontweight="bold", color="black")
         ax.plot([xf, x_end], [y_dim, y_dim], color="black", linewidth=0.9)
 
     fig.suptitle(
         "PMI Scores by Model and Bias Dimension  "
         "(F = feminine lexicon · M = masculine lexicon · darker = stronger signal)",
-        fontsize=9.5, fontweight="bold",
+        fontsize=20, fontweight="bold",
     )
     fig.subplots_adjust(top=0.94, bottom=0.02, left=0.02, right=0.98)
     _save(fig, "fig14_pmi_model_dimension_heatmap", fig_dir)
     print("  Saved fig14_pmi_model_dimension_heatmap")
 
-# Figure 15: Semantic score heatmap: feminine (green) and masculine (orange) per model × dimension 
+
+# Figure 15: Semantic score heatmap — feminine (green) and masculine (orange) per model × dimension ──
 
 def fig_sem_model_dimension_heatmap(df: pd.DataFrame, fig_dir: Path) -> None:
     """
-    Using semantic cosine-similarity scores.
+    Same table-style layout as fig14 but using semantic cosine-similarity scores.
 
     F columns (green):  mean sem_X_feminine per model  (sem_feminine_traits,
                         sem_communal_role, sem_family_domain).
     M columns (orange): mean sem_X_masculine per model (sem_masculine_traits,
                         sem_agentic_role,  sem_career_domain).
-    Positive sem_trait/role/domain_bias -> daughter-stereotyped
+    Positive sem_trait/role/domain_bias → daughter-stereotyped (matches PMI convention
+    after the sidx argument swap).  No colorbar.
     """
     from matplotlib.patches import Rectangle
 
@@ -1585,7 +1587,7 @@ def fig_sem_model_dimension_heatmap(df: pd.DataFrame, fig_dir: Path) -> None:
     INTENSITY_LO, INTENSITY_HI = 0.20, 0.82
 
     cw      = 1.55
-    ch      = 0.46
+    ch      = 0.70
     lm      = 3.00
     gap     = 0.18
     pad_b   = 0.18
@@ -1610,7 +1612,7 @@ def fig_sem_model_dimension_heatmap(df: pd.DataFrame, fig_dir: Path) -> None:
         y = pad_b + (n_models - 1 - i) * ch
 
         ax.text(lm - 0.10, y + ch / 2, mlabel,
-                ha="right", va="center", fontsize=18, fontweight="bold", color="black")
+                ha="right", va="center", fontsize=20, fontweight="bold", color="black")
 
         for j in range(n_dims):
             xf = _col_x(j, False)
@@ -1622,7 +1624,7 @@ def fig_sem_model_dimension_heatmap(df: pd.DataFrame, fig_dir: Path) -> None:
                                    facecolor=fc, edgecolor="white", linewidth=0.5))
             ax.text(xf + cw / 2, y + ch / 2 - 0.03,
                     f"{fem_mat[i, j]:.3f}".replace("-", "- "),
-                    ha="center", va="center", fontsize=18, fontweight="bold",
+                    ha="center", va="center", fontsize=20, fontweight="bold",
                     color="white" if fi > 0.58 else "black")
 
             mi = INTENSITY_LO + (INTENSITY_HI - INTENSITY_LO) * _nm(masc_mat[i, j])
@@ -1631,7 +1633,7 @@ def fig_sem_model_dimension_heatmap(df: pd.DataFrame, fig_dir: Path) -> None:
                                    facecolor=mc, edgecolor="white", linewidth=0.5))
             ax.text(xm + cw / 2, y + ch / 2 - 0.03,
                     f"{masc_mat[i, j]:.3f}".replace("-", "- "),
-                    ha="center", va="center", fontsize=18, fontweight="bold",
+                    ha="center", va="center", fontsize=20, fontweight="bold",
                     color="white" if mi > 0.58 else "black")
 
     y_fm = pad_b + content_h + 0.04
@@ -1639,9 +1641,9 @@ def fig_sem_model_dimension_heatmap(df: pd.DataFrame, fig_dir: Path) -> None:
         xf = _col_x(j, False)
         xm = _col_x(j, True)
         ax.text(xf + cw / 2, y_fm + fm_h / 2, "F",
-                ha="center", va="center", fontsize=18, fontweight="bold", color="black")
+                ha="center", va="center", fontsize=20, fontweight="bold", color="black")
         ax.text(xm + cw / 2, y_fm + fm_h / 2, "M",
-                ha="center", va="center", fontsize=18, fontweight="bold", color="black")
+                ha="center", va="center", fontsize=20, fontweight="bold", color="black")
 
     y_dim = y_fm + fm_h + 0.04
     for j, (_, _, dlabel) in enumerate(_DIMS):
@@ -1649,17 +1651,187 @@ def fig_sem_model_dimension_heatmap(df: pd.DataFrame, fig_dir: Path) -> None:
         xm    = _col_x(j, True)
         x_mid = (xf + xm + cw) / 2
         ax.text(x_mid, y_dim + dim_h / 2, dlabel,
-                ha="center", va="center", fontsize=18, fontweight="bold", color="black")
+                ha="center", va="center", fontsize=20, fontweight="bold")
         ax.plot([xf, xm + cw], [y_dim, y_dim], color="black", linewidth=0.9)
 
     fig.suptitle(
         "Semantic Similarity Scores by Model and Bias Dimension  "
         "(F = feminine prototype · M = masculine prototype · darker = stronger signal)",
-        fontsize=9.5, fontweight="bold",
+        fontsize=20, fontweight="bold",
     )
     fig.subplots_adjust(top=0.94, bottom=0.02, left=0.02, right=0.98)
     _save(fig, "fig15_sem_model_dimension_heatmap", fig_dir)
     print("  Saved fig15_sem_model_dimension_heatmap")
+
+
+# ── Helper: spider / radar chart ─────────────────────────────────────────────
+
+def _draw_radar_chart(
+    values_per_model: dict[str, list[float]],
+    categories: list[str],
+    colors: dict,
+    title: str,
+    fig_dir: Path,
+    fname: str,
+) -> None:
+    """
+    Spider / radar chart with one polygon per model.
+    Each axis is normalised independently to [0, 1]; actual numeric values
+    are annotated at 20 %, 40 %, 60 %, 80 %, 100 % of each spoke's range.
+    """
+    N      = len(categories)
+    angles = np.linspace(0, 2 * np.pi, N, endpoint=False)
+
+    all_vals = np.array(list(values_per_model.values()), dtype=float)
+    a_min    = all_vals.min(axis=0)
+    a_max    = all_vals.max(axis=0)
+    a_rng    = np.where(a_max > a_min, a_max - a_min, 1.0)
+
+    fig, ax = plt.subplots(figsize=(10, 10), subplot_kw=dict(polar=True))
+    fig.patch.set_facecolor("#f8f8f8")
+    ax.set_facecolor("#f2f2f2")
+
+    # Concentric grid rings
+    ring_pts = np.linspace(0, 2 * np.pi, 300)
+    for ring in np.linspace(0.2, 1.0, 5):
+        ax.plot(ring_pts, [ring] * 300, color="gray", alpha=0.25, linewidth=0.7, zorder=1)
+
+    # Spokes
+    for angle in angles:
+        ax.plot([angle, angle], [0, 1.05], color="gray", alpha=0.4, linewidth=0.8, zorder=1)
+
+    # Numeric value labels at 20 %, 40 %, 60 %, 80 %, 100 % of each spoke
+    n_ticks = 5
+    for j, angle in enumerate(angles):
+        for k in range(1, n_ticks + 1):
+            r_frac = k / n_ticks
+            actual = a_min[j] + r_frac * a_rng[j]
+            ax.text(
+                angle, r_frac, f"{actual:.2f}",
+                ha="center", va="center", fontsize=7.5, color="dimgray",
+                bbox=dict(facecolor="white", alpha=0.55, edgecolor="none", pad=0.4),
+                zorder=5,
+            )
+
+    # Model polygons
+    for model_key, vals in values_per_model.items():
+        label = model_key.replace("ollama-", "")
+        color = colors.get(model_key, "gray")
+        norm  = [(v - a_min[j]) / a_rng[j] for j, v in enumerate(vals)]
+        ang_c = list(angles) + [angles[0]]
+        nrm_c = norm + [norm[0]]
+        ax.plot(ang_c, nrm_c, "o-", linewidth=2.2, markersize=7,
+                color=color, label=label, zorder=4)
+        ax.fill(ang_c, nrm_c, alpha=0.12, color=color, zorder=3)
+
+    ax.set_xticks(angles)
+    ax.set_xticklabels(categories, size=14, fontweight="bold")
+    ax.set_yticks([])
+    ax.set_ylim(0, 1.18)
+    ax.set_title(title, size=15, fontweight="bold", pad=30)
+    ax.legend(
+        loc="upper left",
+        bbox_to_anchor=(-0.45, 1.25),
+        fontsize=9.5,
+        framealpha=0.9,
+        title="Model",
+        title_fontsize=10,
+    )
+    fig.tight_layout()
+    _save(fig, fname, fig_dir)
+
+
+# Figure 14 (radar): PMI bias spider charts ────────────────────────────────────
+
+def fig_pmi_radar(df: pd.DataFrame, fig_dir: Path) -> None:
+    """
+    Two spider charts derived from Fig 14 data.
+
+    Daughter chart — axes: PMI Role / Domain / Trait (feminine raw scores).
+    Son chart      — axes: PMI Role / Domain / Trait (masculine raw scores, abs).
+
+    One polygon trace per model; axes normalised independently.
+    """
+    fem_cols  = [("pmi_role_fem_raw",   "PMI\nRole"),
+                 ("pmi_domain_fem_raw", "PMI\nDomain"),
+                 ("pmi_trait_fem_raw",  "PMI\nTrait")]
+    masc_cols = [("pmi_role_masc_raw",   "PMI\nRole"),
+                 ("pmi_domain_masc_raw", "PMI\nDomain"),
+                 ("pmi_trait_masc_raw",  "PMI\nTrait")]
+
+    for col, _ in fem_cols + masc_cols:
+        if col not in df.columns:
+            print(f"  fig_pmi_radar skipped — missing {col!r}")
+            return
+
+    models     = sorted(df["model_key"].unique())
+    cmap_fn    = plt.cm.get_cmap("tab20", len(models))
+    colors     = {m: cmap_fn(i) for i, m in enumerate(models)}
+    categories = [lbl for _, lbl in fem_cols]
+
+    fem_vals  = {m: [df[df["model_key"] == m][c].mean() for c, _ in fem_cols]
+                 for m in models}
+    masc_vals = {m: [abs(df[df["model_key"] == m][c].mean()) for c, _ in masc_cols]
+                 for m in models}
+
+    _draw_radar_chart(
+        fem_vals, categories, colors,
+        "PMI Bias Radar — Feminine Lexicon  (Daughter-Stereotyped Language)",
+        fig_dir, "fig14_pmi_radar_daughter",
+    )
+    _draw_radar_chart(
+        masc_vals, categories, colors,
+        "PMI Bias Radar — Masculine Lexicon  (Son-Stereotyped Language)",
+        fig_dir, "fig14_pmi_radar_son",
+    )
+    print("  Saved fig14_pmi_radar_daughter / fig14_pmi_radar_son")
+
+
+# Figure 15 (radar): Semantic bias spider charts ───────────────────────────────
+
+def fig_sem_radar(df: pd.DataFrame, fig_dir: Path) -> None:
+    """
+    Two spider charts derived from Fig 15 data.
+
+    Daughter chart — axes: Sem Trait / Role / Domain (feminine prototype scores).
+    Son chart      — axes: Sem Trait / Role / Domain (masculine prototype scores).
+
+    One polygon trace per model; axes normalised independently.
+    """
+    fem_cols  = [("sem_feminine_traits", "Sem\nTrait"),
+                 ("sem_communal_role",   "Sem\nRole"),
+                 ("sem_family_domain",   "Sem\nDomain")]
+    masc_cols = [("sem_masculine_traits", "Sem\nTrait"),
+                 ("sem_agentic_role",     "Sem\nRole"),
+                 ("sem_career_domain",    "Sem\nDomain")]
+
+    for col, _ in fem_cols + masc_cols:
+        if col not in df.columns:
+            print(f"  fig_sem_radar skipped — missing {col!r}")
+            return
+
+    models     = sorted(df["model_key"].unique())
+    cmap_fn    = plt.cm.get_cmap("tab20", len(models))
+    colors     = {m: cmap_fn(i) for i, m in enumerate(models)}
+    categories = [lbl for _, lbl in fem_cols]
+
+    fem_vals  = {m: [df[df["model_key"] == m][c].mean() for c, _ in fem_cols]
+                 for m in models}
+    masc_vals = {m: [df[df["model_key"] == m][c].mean() for c, _ in masc_cols]
+                 for m in models}
+
+    _draw_radar_chart(
+        fem_vals, categories, colors,
+        "Semantic Bias Radar — Feminine Prototypes  (Daughter-Stereotyped Language)",
+        fig_dir, "fig15_sem_radar_daughter",
+    )
+    _draw_radar_chart(
+        masc_vals, categories, colors,
+        "Semantic Bias Radar — Masculine Prototypes  (Son-Stereotyped Language)",
+        fig_dir, "fig15_sem_radar_son",
+    )
+    print("  Saved fig15_sem_radar_daughter / fig15_sem_radar_son")
+
 
 # Main
 
