@@ -1,7 +1,6 @@
 # Bias in LLMs
 ### Exploring Bias in Large Language Model-Generated Stories
 
-**Natural Language Processing · Responsible AI · LLM Evaluation**
 
 > When an AI tells a story, what assumptions shape the characters, roles, and possibilities it imagines?
 
